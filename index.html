@@ -1243,45 +1243,62 @@ let timerInterval = null;
 let timerEndTime  = null;  // absolute timestamp when current phase ends
 let timerSecsLeft = PHASES[0].seconds;
 
-// ── AUDIO (Web Audio API — geen externe bestanden nodig) ──
+// ── AUDIO (iOS/Safari compatible) ──
 let audioCtx = null;
+let audioUnlocked = false;
+
 function getAudioCtx() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
   return audioCtx;
+}
+
+// iOS vereist dat audio gestart wordt vanuit een user gesture
+// We maken een stille buffer aan om de context te unlocken
+function unlockAudioiOS(ctx) {
+  return new Promise((resolve) => {
+    if (audioUnlocked) { resolve(); return; }
+    const buf = ctx.createBuffer(1, 1, 22050);
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.connect(ctx.destination);
+    src.start(0);
+    src.onended = () => { audioUnlocked = true; resolve(); };
+    if (ctx.state === 'suspended') {
+      ctx.resume().then(() => { audioUnlocked = true; resolve(); });
+    }
+  });
 }
 
 function playBeep(type) {
   try {
     const ctx = getAudioCtx();
-    if (ctx.state === 'suspended') ctx.resume();
-
-    const configs = {
-      phase: [  // 3 oplopende tonen — fase wissel
-        { freq: 523, start: 0,    dur: 0.15 },
-        { freq: 659, start: 0.18, dur: 0.15 },
-        { freq: 784, start: 0.36, dur: 0.30 },
-      ],
-      finish: [ // 4 tonen — workout klaar!
-        { freq: 523, start: 0,    dur: 0.12 },
-        { freq: 659, start: 0.15, dur: 0.12 },
-        { freq: 784, start: 0.30, dur: 0.12 },
-        { freq: 1047,start: 0.45, dur: 0.40 },
-      ],
+    const doPlay = () => {
+      const configs = {
+        phase:  [{ freq:523,start:0,dur:.15},{freq:659,start:.18,dur:.15},{freq:784,start:.36,dur:.30}],
+        finish: [{ freq:523,start:0,dur:.12},{freq:659,start:.15,dur:.12},{freq:784,start:.30,dur:.12},{freq:1047,start:.45,dur:.40}],
+        beep:   [{ freq:880,start:0,dur:.20}],
+      };
+      const now = ctx.currentTime;
+      (configs[type] || configs.beep).forEach(({freq, start, dur}) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + start);
+        gain.gain.setValueAtTime(0.5, now + start);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + start + dur);
+        osc.start(now + start);
+        osc.stop(now + start + dur + 0.05);
+      });
     };
-
-    const now = ctx.currentTime;
-    (configs[type] || configs.phase).forEach(({ freq, start, dur }) => {
-      const osc  = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, now + start);
-      gain.gain.setValueAtTime(0.4, now + start);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + start + dur);
-      osc.start(now + start);
-      osc.stop(now + start + dur + 0.05);
-    });
+    if (audioUnlocked) {
+      doPlay();
+    } else {
+      unlockAudioiOS(ctx).then(doPlay);
+    }
   } catch(e) { console.warn('Audio error:', e); }
 }
 
@@ -1412,16 +1429,23 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
-// ── SOUND ACTIVATE ──
+// ── SOUND ACTIVATE (iOS Safari fix) ──
 function activateSound() {
   try {
-    const ctx = _getAudioCtx ? _getAudioCtx() : getAudioCtx();
-    ctx.resume().then(() => {
-      playBeep('beep');
-      document.getElementById('soundActivateBtn').textContent = '🔔 Geluid actief ✓';
-      document.getElementById('soundActivateBtn').style.borderColor = '#6BA87A';
-      document.getElementById('soundActivateBtn').style.color = '#6BA87A';
-      document.getElementById('soundActivateBtn').disabled = true;
+    const ctx = getAudioCtx();
+    // iOS: moet vanuit user gesture — resume + unlock + play
+    const resume = ctx.state === 'suspended' ? ctx.resume() : Promise.resolve();
+    resume.then(() => {
+      unlockAudioiOS(ctx).then(() => {
+        playBeep('beep');
+        const btn = document.getElementById('soundActivateBtn');
+        if (btn) {
+          btn.textContent = '🔔 Geluid actief ✓';
+          btn.style.borderColor = '#6BA87A';
+          btn.style.color = '#6BA87A';
+          btn.disabled = true;
+        }
+      });
     });
   } catch(e) { console.warn('Sound activate error:', e); }
 }
