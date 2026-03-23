@@ -815,6 +815,12 @@
       <button class="btn-secondary" onclick="resetTimer()">↺ Reset</button>
       <button class="btn-secondary" onclick="closeTimer()">✕ Sluiten</button>
     </div>
+    <div id="soundActivateWrap" style="margin-top:14px;text-align:center;">
+      <button onclick="activateSound()" id="soundActivateBtn"
+        style="background:transparent;border:1.5px solid var(--rose);color:var(--deep);border-radius:50px;padding:8px 20px;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:300;">
+        🔔 Tik hier om geluid te activeren
+      </button>
+    </div>
   </div>
 
   <!-- PROGRESS -->
@@ -1405,6 +1411,20 @@ document.addEventListener('visibilitychange', () => {
     updateTimerDisplay();
   }
 });
+
+// ── SOUND ACTIVATE ──
+function activateSound() {
+  try {
+    const ctx = _getAudioCtx ? _getAudioCtx() : getAudioCtx();
+    ctx.resume().then(() => {
+      playBeep('beep');
+      document.getElementById('soundActivateBtn').textContent = '🔔 Geluid actief ✓';
+      document.getElementById('soundActivateBtn').style.borderColor = '#6BA87A';
+      document.getElementById('soundActivateBtn').style.color = '#6BA87A';
+      document.getElementById('soundActivateBtn').disabled = true;
+    });
+  } catch(e) { console.warn('Sound activate error:', e); }
+}
 
 // ── TOAST ──
 function showToast(msg) {
