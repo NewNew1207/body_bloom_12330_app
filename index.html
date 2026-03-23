@@ -1226,16 +1226,64 @@ function resetChallenge() {
 
 // ── TIMER ──
 const PHASES = [
-  { name: 'Opwarming', seconds: 5 * 60 },
+  { name: 'Opwarming',           seconds: 5 * 60 },
   { name: '12% Helling Wandelen', seconds: 30 * 60 },
-  { name: 'Cool-down', seconds: 5 * 60 },
+  { name: 'Cool-down',           seconds: 5 * 60 },
 ];
-let timerPhase = 0, timerSec = 0, timerRunning = false, timerInterval = null;
+
+let timerPhase   = 0;
+let timerRunning = false;
+let timerInterval = null;
+let timerEndTime  = null;  // absolute timestamp when current phase ends
+let timerSecsLeft = PHASES[0].seconds;
+
+// ── AUDIO (Web Audio API — geen externe bestanden nodig) ──
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function playBeep(type) {
+  try {
+    const ctx = getAudioCtx();
+    if (ctx.state === 'suspended') ctx.resume();
+
+    const configs = {
+      phase: [  // 3 oplopende tonen — fase wissel
+        { freq: 523, start: 0,    dur: 0.15 },
+        { freq: 659, start: 0.18, dur: 0.15 },
+        { freq: 784, start: 0.36, dur: 0.30 },
+      ],
+      finish: [ // 4 tonen — workout klaar!
+        { freq: 523, start: 0,    dur: 0.12 },
+        { freq: 659, start: 0.15, dur: 0.12 },
+        { freq: 784, start: 0.30, dur: 0.12 },
+        { freq: 1047,start: 0.45, dur: 0.40 },
+      ],
+    };
+
+    const now = ctx.currentTime;
+    (configs[type] || configs.phase).forEach(({ freq, start, dur }) => {
+      const osc  = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now + start);
+      gain.gain.setValueAtTime(0.4, now + start);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + start + dur);
+      osc.start(now + start);
+      osc.stop(now + start + dur + 0.05);
+    });
+  } catch(e) { console.warn('Audio error:', e); }
+}
 
 function openTimer() {
-  timerPhase = 0;
-  timerSec = PHASES[0].seconds;
-  timerRunning = false;
+  timerPhase    = 0;
+  timerSecsLeft = PHASES[0].seconds;
+  timerEndTime  = null;
+  timerRunning  = false;
   clearInterval(timerInterval);
   document.getElementById('timerSection').classList.add('visible');
   document.getElementById('timerBtn').textContent = '▶ Start';
@@ -1246,59 +1294,117 @@ function openTimer() {
 function closeTimer() {
   clearInterval(timerInterval);
   timerRunning = false;
+  timerEndTime = null;
   document.getElementById('timerSection').classList.remove('visible');
 }
 
 function resetTimer() {
   clearInterval(timerInterval);
-  timerRunning = false;
-  timerPhase = 0;
-  timerSec = PHASES[0].seconds;
+  timerRunning  = false;
+  timerEndTime  = null;
+  timerPhase    = 0;
+  timerSecsLeft = PHASES[0].seconds;
   document.getElementById('timerBtn').textContent = '▶ Start';
   updateTimerDisplay();
 }
 
 function toggleTimer() {
+  // Unlock audio on first user interaction
+  try { getAudioCtx().resume(); } catch(e) {}
+
   if (timerRunning) {
+    // PAUSE — save remaining seconds
     clearInterval(timerInterval);
     timerRunning = false;
+    timerEndTime = null;
     document.getElementById('timerBtn').textContent = '▶ Hervat';
   } else {
+    // START / RESUME — set absolute end time
     timerRunning = true;
+    timerEndTime = Date.now() + timerSecsLeft * 1000;
     document.getElementById('timerBtn').textContent = '⏸ Pauze';
+
     timerInterval = setInterval(() => {
-      timerSec--;
-      if (timerSec <= 0) {
+      const remaining = Math.round((timerEndTime - Date.now()) / 1000);
+
+      if (remaining <= 0) {
+        // Phase finished
         timerPhase++;
         if (timerPhase >= PHASES.length) {
+          // All done!
           clearInterval(timerInterval);
-          timerRunning = false;
+          timerRunning  = false;
+          timerSecsLeft = 0;
+          timerEndTime  = null;
           document.getElementById('timerBtn').textContent = '✓ Klaar!';
+          playBeep('finish');
           showToast('Workout voltooid! Geweldig gedaan 🌸');
+          updateTimerDisplay();
           return;
         }
-        timerSec = PHASES[timerPhase].seconds;
-        showToast('Fase: ' + PHASES[timerPhase].name);
+        // Next phase
+        timerSecsLeft = PHASES[timerPhase].seconds;
+        timerEndTime  = Date.now() + timerSecsLeft * 1000;
+        playBeep('phase');
+        showToast('🔔 ' + PHASES[timerPhase].name + ' — start!');
+      } else {
+        timerSecsLeft = remaining;
       }
       updateTimerDisplay();
-    }, 1000);
+    }, 500); // Check every 500ms for accuracy
   }
 }
 
 function updateTimerDisplay() {
-  const ph = PHASES[timerPhase];
+  const ph    = PHASES[Math.min(timerPhase, PHASES.length - 1)];
   const total = ph.seconds;
-  const m = Math.floor(timerSec / 60);
-  const s = timerSec % 60;
+  const secs  = Math.max(timerSecsLeft, 0);
+  const m = Math.floor(secs / 60);
+  const s = secs % 60;
   document.getElementById('timerDisplay').textContent = m + ':' + String(s).padStart(2, '0');
   document.getElementById('timerPhaseSmall').textContent = ph.name.toLowerCase();
-  document.getElementById('timerPhaseName').textContent = ph.name;
+  document.getElementById('timerPhaseName').textContent  = ph.name;
 
-  const circ = 2 * Math.PI * 80; // 502
-  const progress = 1 - (timerSec / total);
-  const offset = circ * (1 - progress);
+  const circ     = 2 * Math.PI * 80;
+  const progress = 1 - (secs / total);
+  const offset   = circ * (1 - progress);
   document.getElementById('timerCircle').style.strokeDashoffset = offset;
 }
+
+// Herstel timer na terugkeer uit achtergrond
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && timerRunning && timerEndTime) {
+    const remaining = Math.round((timerEndTime - Date.now()) / 1000);
+    if (remaining <= 0) {
+      // Fase(s) gemist — spoel door
+      let leftover = Math.abs(remaining);
+      while (leftover >= 0 && timerPhase < PHASES.length) {
+        timerPhase++;
+        if (timerPhase >= PHASES.length) {
+          clearInterval(timerInterval);
+          timerRunning  = false;
+          timerSecsLeft = 0;
+          document.getElementById('timerBtn').textContent = '✓ Klaar!';
+          playBeep('finish');
+          showToast('Workout voltooid! Geweldig gedaan 🌸');
+          updateTimerDisplay();
+          return;
+        }
+        leftover -= PHASES[timerPhase].seconds;
+        if (leftover < 0) {
+          timerSecsLeft = Math.abs(leftover);
+          timerEndTime  = Date.now() + timerSecsLeft * 1000;
+          playBeep('phase');
+          showToast('🔔 ' + PHASES[timerPhase].name + ' — bezig!');
+          break;
+        }
+      }
+    } else {
+      timerSecsLeft = remaining;
+    }
+    updateTimerDisplay();
+  }
+});
 
 // ── TOAST ──
 function showToast(msg) {
