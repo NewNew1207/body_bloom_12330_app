@@ -1271,6 +1271,32 @@ function unlockAudioiOS(ctx) {
   });
 }
 
+function vibrateAndFlash(type) {
+  // Trilsignaal (werkt op iPhone en Android)
+  if (navigator.vibrate) {
+    if (type === 'finish') {
+      navigator.vibrate([300, 100, 300, 100, 500]);
+    } else {
+      navigator.vibrate([200, 100, 200]);
+    }
+  }
+  // Visueel knipperen van timer ring
+  const ring = document.getElementById('timerSection');
+  if (ring) {
+    const flashColor = type === 'finish' ? '#6BA87A' : '#E8879C';
+    const original = ring.style.background || '';
+    let count = 0;
+    const flash = setInterval(() => {
+      ring.style.background = count % 2 === 0 ? flashColor : '';
+      count++;
+      if (count >= 6) {
+        clearInterval(flash);
+        ring.style.background = original;
+      }
+    }, 200);
+  }
+}
+
 function playBeep(type) {
   try {
     const ctx = getAudioCtx();
@@ -1361,7 +1387,8 @@ function toggleTimer() {
           timerEndTime  = null;
           document.getElementById('timerBtn').textContent = '✓ Klaar!';
           playBeep('finish');
-          showToast('Workout voltooid! Geweldig gedaan 🌸');
+          vibrateAndFlash('finish');
+          showToast('🏆 Workout voltooid! Geweldig gedaan 🌸');
           updateTimerDisplay();
           return;
         }
@@ -1369,7 +1396,8 @@ function toggleTimer() {
         timerSecsLeft = PHASES[timerPhase].seconds;
         timerEndTime  = Date.now() + timerSecsLeft * 1000;
         playBeep('phase');
-        showToast('🔔 ' + PHASES[timerPhase].name + ' — start!');
+        vibrateAndFlash('phase');
+        showToast('📳 ' + PHASES[timerPhase].name + ' — start!');
       } else {
         timerSecsLeft = remaining;
       }
@@ -1409,7 +1437,8 @@ document.addEventListener('visibilitychange', () => {
           timerSecsLeft = 0;
           document.getElementById('timerBtn').textContent = '✓ Klaar!';
           playBeep('finish');
-          showToast('Workout voltooid! Geweldig gedaan 🌸');
+          vibrateAndFlash('finish');
+          showToast('🏆 Workout voltooid! Geweldig gedaan 🌸');
           updateTimerDisplay();
           return;
         }
@@ -1418,7 +1447,8 @@ document.addEventListener('visibilitychange', () => {
           timerSecsLeft = Math.abs(leftover);
           timerEndTime  = Date.now() + timerSecsLeft * 1000;
           playBeep('phase');
-          showToast('🔔 ' + PHASES[timerPhase].name + ' — bezig!');
+          vibrateAndFlash('phase');
+          showToast('📳 ' + PHASES[timerPhase].name + ' — bezig!');
           break;
         }
       }
