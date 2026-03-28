@@ -2,6 +2,13 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Body Bloom 12·3·30">
+<meta name="theme-color" content="#C25C76">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23C25C76'/><text y='.9em' font-size='80' x='10'>🌸</text></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Body Bloom — 12·3·30 Challenge</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
@@ -682,8 +689,34 @@
 </head>
 <body>
 
+<!-- TOEGANGSCODE MODAL -->
+<div class="modal-overlay hidden" id="accessModalOverlay">
+  <div class="modal">
+    <div class="modal-logo">Body Bloom by Sofia</div>
+    <h2>Welkom bij<br><em style="color:var(--deep)">12 · 3 · 30</em></h2>
+    <p style="margin-bottom:20px;">Voer jouw persoonlijke toegangscode in om de app te starten. 🌸</p>
+    <div class="modal-input-wrap">
+      <input type="text" class="modal-input" id="accessCodeInput" 
+        placeholder="Jouw code (bv. BB-X7K2-2026)" 
+        maxlength="20"
+        style="text-transform:uppercase;letter-spacing:2px;"
+        oninput="this.value=this.value.toUpperCase()">
+    </div>
+    <div id="accessError" style="color:#c25c76;font-size:11px;margin-top:-10px;margin-bottom:14px;display:none;text-align:center;">
+      ❌ Ongeldige code. Controleer jouw code en probeer opnieuw.
+    </div>
+    <button class="btn-primary" onclick="checkAccessCode()" style="width:100%;justify-content:center;display:block;text-align:center;">
+      Toegang krijgen ✦
+    </button>
+    <p style="font-size:10px;color:var(--taupe);margin-top:16px;text-align:center;font-weight:300;">
+      Nog geen toegangscode? Koop de app via 
+      <a href="https://payhip.com" target="_blank" style="color:var(--deep);">Payhip</a> 🌸
+    </p>
+  </div>
+</div>
+
 <!-- INTRO MODAL -->
-<div class="modal-overlay" id="modalOverlay">
+<div class="modal-overlay hidden" id="modalOverlay">
   <div class="modal">
     <div class="modal-logo">Body Bloom by Sofia</div>
     <h2>Welkom bij jouw<br><em style="color:var(--deep)">30 Dagen Challenge</em></h2>
@@ -710,6 +743,14 @@
 </div>
 
 <!-- HEADER -->
+
+<!-- PWA INSTALL BANNER -->
+<div id="pwaBanner" style="display:none;background:linear-gradient(135deg,var(--deep),var(--mauve));color:white;padding:12px 20px;text-align:center;position:sticky;top:0;z-index:50;">
+  <span style="font-size:12px;font-weight:300;letter-spacing:1px;">📱 Installeer de app op je gsm! </span>
+  <button onclick="installPWA()" style="background:white;color:var(--deep);border:none;border-radius:50px;padding:4px 14px;font-size:11px;font-weight:500;cursor:pointer;margin-left:8px;">Installeer</button>
+  <button onclick="document.getElementById('pwaBanner').style.display='none'" style="background:transparent;border:none;color:rgba(255,255,255,.7);cursor:pointer;margin-left:6px;font-size:16px;">✕</button>
+</div>
+
 <header class="header">
   <div class="header-logo">Body Bloom by Sofia</div>
   <h1>12·3·<span>30</span></h1>
@@ -930,6 +971,60 @@
 <div class="toast" id="toast"></div>
 
 <script>
+
+// ── TOEGANGSCODES ──
+// Voeg hier codes toe voor nieuwe klanten
+const VALID_CODES = [
+  'BB-DEMO-2026',      // Demo code voor testen
+  'BB-TEST-2026',      // Test code
+  // Voeg hier nieuwe klantcodes toe:
+  // 'BB-NAAM-XXXX',
+];
+
+function checkAccessCode() {
+  const input = document.getElementById('accessCodeInput').value.trim().toUpperCase();
+  const errorEl = document.getElementById('accessError');
+  
+  if (VALID_CODES.includes(input)) {
+    // Code correct!
+    localStorage.setItem('bodybloom_access', input);
+    document.getElementById('accessModalOverlay').classList.add('hidden');
+    // Toon welkomstmodal als nog niet eerder ingelogd
+    if (!state.startDate) {
+      document.getElementById('modalOverlay').classList.remove('hidden');
+    }
+    errorEl.style.display = 'none';
+  } else {
+    errorEl.style.display = 'block';
+    document.getElementById('accessCodeInput').style.borderColor = '#c25c76';
+    setTimeout(() => {
+      document.getElementById('accessCodeInput').style.borderColor = '';
+    }, 2000);
+  }
+}
+
+// Enter key support
+document.addEventListener('DOMContentLoaded', () => {
+  const inp = document.getElementById('accessCodeInput');
+  if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') checkAccessCode(); });
+});
+
+function generateCode(name) {
+  // Helper om codes te genereren: generateCode('Sofia') → 'BB-SOFIA-2026'
+  const clean = name.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
+  return 'BB-' + clean + '-2026';
+}
+
+// ── CODE GENERATOR (verborgen tool voor jou als admin) ──
+function showCodeGenerator() {
+  const name = prompt('Naam of code voor klant:');
+  if (name) {
+    const code = generateCode(name);
+    alert('Nieuwe code: ' + code + '\n\nVoeg toe aan VALID_CODES lijst in de app!');
+  }
+}
+
+
 // ── DATA ──
 const TOTAL_DAYS = 30;
 const REST_DAYS  = [7, 14, 21, 28]; // rest days
@@ -1523,24 +1618,85 @@ function showToast(msg) {
 
 // ── INIT ──
 loadState();
-if (state.startDate) {
-  document.getElementById('modalOverlay').classList.add('hidden');
-  render();
-  renderHRZones();
-  // Set startdate input
-  const d = new Date(state.startDate);
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth()+1).padStart(2,'0');
-  const dd = String(d.getDate()).padStart(2,'0');
-  const inp = document.getElementById('startDateInput');
-  if (inp) inp.value = yyyy+'-'+mm+'-'+dd;
+
+// Check toegangscode
+const savedAccess = localStorage.getItem('bodybloom_access');
+if (savedAccess && VALID_CODES.includes(savedAccess)) {
+  // Toegang OK
+  document.getElementById('accessModalOverlay').classList.add('hidden');
+  if (state.startDate) {
+    document.getElementById('modalOverlay').classList.add('hidden');
+    render();
+    renderHRZones();
+    // Set startdate input
+    const d = new Date(state.startDate);
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth()+1).padStart(2,'0');
+    const dd = String(d.getDate()).padStart(2,'0');
+    const inp = document.getElementById('startDateInput');
+    if (inp) inp.value = yyyy+'-'+mm+'-'+dd;
   // sync in-section fitness buttons
   const lvl = state.fitnessLevel || 'beginner';
   const fbtn = document.getElementById('fb-' + lvl);
   if (fbtn) { document.querySelectorAll('#fb-beginner,#fb-gemiddeld,#fb-gevorderd').forEach(b => b.classList.remove('active')); fbtn.classList.add('active'); }
+  } else {
+    document.getElementById('modalOverlay').classList.remove('hidden');
+  }
 } else {
-  // Show modal
+  // Geen toegangscode — toon access modal
+  document.getElementById('accessModalOverlay').classList.remove('hidden');
 }
+
+// ── PWA INSTALL ──
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('pwaBanner').style.display = 'block';
+});
+
+function installPWA() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((result) => {
+      if (result.outcome === 'accepted') {
+        showToast('App geïnstalleerd! 🌸');
+      }
+      deferredPrompt = null;
+      document.getElementById('pwaBanner').style.display = 'none';
+    });
+  }
+}
+
+window.addEventListener('appinstalled', () => {
+  showToast('Body Bloom app geïnstalleerd! 💪🌸');
+  document.getElementById('pwaBanner').style.display = 'none';
+});
+
+// ── iOS INSTALL TIP ──
+function isIOS() {
+  return /iphone|ipad|ipod/i.test(navigator.userAgent);
+}
+function isInStandaloneMode() {
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+}
+
+// Toon iOS installatie tip na 3 seconden
+if (isIOS() && !isInStandaloneMode()) {
+  setTimeout(() => {
+    const tip = document.createElement('div');
+    tip.id = 'iosTip';
+    tip.innerHTML = '<div style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text);color:white;padding:14px 20px;border-radius:16px;font-size:12px;font-weight:300;text-align:center;z-index:100;max-width:280px;box-shadow:0 4px 20px rgba(0,0,0,.3);">' +
+      '<strong>📱 Installeer op iPhone:</strong><br>' +
+      'Tik op <strong>Delen ↑</strong> en kies <strong>Zet op beginscherm</strong>' +
+      '<button onclick="document.getElementById('iosTip').remove()" style="display:block;margin:10px auto 0;background:var(--deep);color:white;border:none;border-radius:50px;padding:6px 16px;cursor:pointer;font-size:11px;">Begrepen ✓</button>' +
+      '</div>';
+    document.body.appendChild(tip);
+    setTimeout(() => { if(document.getElementById('iosTip')) document.getElementById('iosTip').remove(); }, 12000);
+  }, 3000);
+}
+
 </script>
 </body>
 </html>
