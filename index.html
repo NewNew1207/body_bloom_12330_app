@@ -1699,16 +1699,16 @@ function isInStandaloneMode() {
 
 // Toon iOS installatie tip na 3 seconden
 if (isIOS() && !isInStandaloneMode()) {
-  setTimeout(() => {
-    const tip = document.createElement('div');
+  setTimeout(function() {
+    var tip = document.createElement('div');
     tip.id = 'iosTip';
-    tip.innerHTML = '<div style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text);color:white;padding:14px 20px;border-radius:16px;font-size:12px;font-weight:300;text-align:center;z-index:100;max-width:280px;box-shadow:0 4px 20px rgba(0,0,0,.3);">' +
-      '<strong>📱 Installeer op iPhone:</strong><br>' +
-      'Tik op <strong>Delen ↑</strong> en kies <strong>Zet op beginscherm</strong>' +
-      '<button onclick="document.getElementById('iosTip').remove()" style="display:block;margin:10px auto 0;background:var(--deep);color:white;border:none;border-radius:50px;padding:6px 16px;cursor:pointer;font-size:11px;">Begrepen ✓</button>' +
+    tip.innerHTML = '<div style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#3a2430;color:white;padding:14px 20px;border-radius:16px;font-size:12px;text-align:center;z-index:100;max-width:280px;">' +
+      '<strong>Installeer op iPhone:</strong><br>' +
+      'Tik op Delen en kies Zet op beginscherm' +
+      '<br><button onclick="var t=document.getElementById(\"iosTip\");if(t)t.remove()" style="margin-top:10px;background:#c25c76;color:white;border:none;border-radius:50px;padding:6px 16px;cursor:pointer;">Begrepen</button>' +
       '</div>';
     document.body.appendChild(tip);
-    setTimeout(() => { if(document.getElementById('iosTip')) document.getElementById('iosTip').remove(); }, 12000);
+    setTimeout(function() { var t=document.getElementById('iosTip'); if(t) t.remove(); }, 12000);
   }, 3000);
 }
 
