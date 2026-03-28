@@ -904,9 +904,20 @@
     </div>
   </div>
 
-  <!-- RESET -->
-  <div style="text-align:center;margin-bottom:20px">
-    <button class="btn-secondary" onclick="resetChallenge()" style="font-size:9px;padding:8px 18px">↺ Challenge resetten</button>
+  <!-- STARTDATUM & RESET -->
+  <div style="background:var(--white);border-radius:20px;padding:24px;margin-bottom:20px;box-shadow:0 2px 20px rgba(194,92,118,.08);">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--text);margin-bottom:4px;">Instellingen</div>
+    <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;font-weight:300;">Startdatum & Challenge</div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+      <label style="font-size:11px;color:var(--muted);font-weight:300;letter-spacing:1px;text-transform:uppercase;">Startdatum challenge:</label>
+      <input type="date" id="startDateInput"
+        style="padding:8px 14px;border:1.5px solid var(--sand);border-radius:50px;font-family:'Jost',sans-serif;font-size:13px;color:var(--text);outline:none;background:var(--cream);">
+      <button onclick="saveStartDate()" class="btn-primary" style="padding:8px 18px;font-size:10px;">Opslaan ✓</button>
+    </div>
+    <p style="font-size:10px;color:var(--taupe);font-weight:300;font-style:italic;margin-bottom:16px;">Stel je echte startdatum in zodat de app de juiste dag en week toont.</p>
+    <div style="border-top:1px solid var(--sand);padding-top:14px;text-align:center;">
+      <button class="btn-secondary" onclick="resetChallenge()" style="font-size:9px;padding:8px 18px">↺ Challenge volledig resetten</button>
+    </div>
   </div>
 
 </main>
@@ -1233,6 +1244,17 @@ function calcStreak() {
   return streak;
 }
 
+function saveStartDate() {
+  const input = document.getElementById('startDateInput');
+  if (!input.value) { showToast('Kies eerst een datum! 📅'); return; }
+  const chosen = new Date(input.value);
+  chosen.setHours(0, 0, 0, 0);
+  state.startDate = chosen.toISOString();
+  saveState();
+  render();
+  showToast('Startdatum opgeslagen! 🌸');
+}
+
 function resetChallenge() {
   if (!confirm('Wil je de challenge opnieuw starten? Alle voortgang wordt gewist.')) return;
   state = { userName: state.userName, completed: [], startDate: new Date().toISOString(), currentWeek: 1 };
@@ -1505,6 +1527,13 @@ if (state.startDate) {
   document.getElementById('modalOverlay').classList.add('hidden');
   render();
   renderHRZones();
+  // Set startdate input
+  const d = new Date(state.startDate);
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const dd = String(d.getDate()).padStart(2,'0');
+  const inp = document.getElementById('startDateInput');
+  if (inp) inp.value = yyyy+'-'+mm+'-'+dd;
   // sync in-section fitness buttons
   const lvl = state.fitnessLevel || 'beginner';
   const fbtn = document.getElementById('fb-' + lvl);
