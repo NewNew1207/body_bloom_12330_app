@@ -1197,6 +1197,13 @@ function updateHR(val) {
 
 // ── RENDER ──
 function render() {
+  // Veiligheidscheck: render nooit zonder geldige toegangscode
+  const access = localStorage.getItem('bodybloom_access');
+  if (!access || !VALID_CODES.includes(access)) {
+    document.getElementById('accessModalOverlay').classList.remove('hidden');
+    document.getElementById('modalOverlay').classList.add('hidden');
+    return;
+  }
   const done = state.completed.length;
   const streak = calcStreak();
 
