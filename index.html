@@ -1619,33 +1619,41 @@ function showToast(msg) {
 // ── INIT ──
 loadState();
 
-// Check toegangscode
-const savedAccess = localStorage.getItem('bodybloom_access');
-if (savedAccess && VALID_CODES.includes(savedAccess)) {
-  // Toegang OK
+// ── INIT ──
+window.addEventListener('DOMContentLoaded', function() {
+  const savedAccess = localStorage.getItem('bodybloom_access');
+  const accessOK = savedAccess && VALID_CODES.includes(savedAccess);
+
+  // Verberg altijd beide modals eerst
   document.getElementById('accessModalOverlay').classList.add('hidden');
+  document.getElementById('modalOverlay').classList.add('hidden');
+
+  if (!accessOK) {
+    // Geen geldige code — toon toegangsscherm
+    document.getElementById('accessModalOverlay').classList.remove('hidden');
+    return;
+  }
+
+  // Code OK — ga verder
   if (state.startDate) {
-    document.getElementById('modalOverlay').classList.add('hidden');
     render();
     renderHRZones();
-    // Set startdate input
     const d = new Date(state.startDate);
     const yyyy = d.getFullYear();
     const mm = String(d.getMonth()+1).padStart(2,'0');
     const dd = String(d.getDate()).padStart(2,'0');
     const inp = document.getElementById('startDateInput');
     if (inp) inp.value = yyyy+'-'+mm+'-'+dd;
-  // sync in-section fitness buttons
-  const lvl = state.fitnessLevel || 'beginner';
-  const fbtn = document.getElementById('fb-' + lvl);
-  if (fbtn) { document.querySelectorAll('#fb-beginner,#fb-gemiddeld,#fb-gevorderd').forEach(b => b.classList.remove('active')); fbtn.classList.add('active'); }
+    const lvl = state.fitnessLevel || 'beginner';
+    const fbtn = document.getElementById('fb-' + lvl);
+    if (fbtn) {
+      document.querySelectorAll('#fb-beginner,#fb-gemiddeld,#fb-gevorderd').forEach(b => b.classList.remove('active'));
+      fbtn.classList.add('active');
+    }
   } else {
     document.getElementById('modalOverlay').classList.remove('hidden');
   }
-} else {
-  // Geen toegangscode — toon access modal
-  document.getElementById('accessModalOverlay').classList.remove('hidden');
-}
+});
 
 // ── PWA INSTALL ──
 let deferredPrompt = null;
