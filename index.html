@@ -1104,6 +1104,17 @@ function render() {
   document.getElementById('progressLeft').textContent = done + ' / ' + TOTAL_DAYS + ' sessies';
   document.getElementById('progressPct').textContent = pct + '%';
 
+  // Auto-spring naar correcte week op basis van vandaag
+  const todayIdx = getTodayDayIndex();
+  const correctWeek = Math.min(Math.floor(todayIdx / 7) + 1, 5);
+  if (state.currentWeek !== correctWeek) {
+    state.currentWeek = correctWeek;
+    // Sync week tab buttons
+    document.querySelectorAll('.week-tab').forEach((b, i) => {
+      b.classList.toggle('active', i + 1 === correctWeek);
+    });
+  }
+
   renderTodayCard();
   renderGrid(state.currentWeek);
 }
