@@ -809,7 +809,7 @@
       Toegang krijgen ✦
     </button>
     <p style="font-size:10px;color:var(--taupe);margin-top:16px;text-align:center;font-weight:300;">
-      Nog geen code? Koop de app via Instagram DM voor slechts &euro;9,99 🌸
+      Exclusief voor Body&bull;Bloom klanten
     </p>
   </div>
 </div>
@@ -1112,8 +1112,14 @@
 
 <footer>
   <strong>© 2026 Body Bloom by Sofia</strong> — Alle rechten voorbehouden<br>
-  <span style="opacity:.6;margin-top:4px;display:block">12·3·30 Loopband Challenge by Body Bloom</span>
-  <button class="disclaimer-link" onclick="openDisclaimer()" style="margin-top:8px;display:inline-block;">Disclaimer & Gebruiksvoorwaarden</button>
+  <span style="opacity:.6;margin-top:6px;display:block;letter-spacing:2px;font-size:10px;text-transform:uppercase;">Exclusief voor Body&bull;Bloom klanten</span>
+  <div style="margin-top:10px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
+    <button class="disclaimer-link" onclick="openDisclaimer()">Disclaimer</button>
+    <span style="opacity:.3;color:var(--taupe);">·</span>
+    <a href="https://www.instagram.com/body_bloom_be" target="_blank" style="color:var(--deep);font-size:11px;font-weight:300;letter-spacing:1px;text-decoration:none;">
+      📸 Volg mij op IG @body_bloom_be
+    </a>
+  </div>
 </footer>
 
 <div class="toast" id="toast"></div>
@@ -1125,8 +1131,7 @@
 const VALID_CODES = [
   'BB-SOFIA-ADMIN',    // Sofia - admin
   // Voeg hier nieuwe klantcodes toe:
-  // 'BB-FABRICE-2026',    // Fabrice K.
-  // 'BB-PRESSY-2026',    // Preston K.
+  // 'BB-NAAM-2026',
 ];
 
 function checkAccessCode() {
