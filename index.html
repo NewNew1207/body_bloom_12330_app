@@ -1328,11 +1328,15 @@ function markTodayDone() {
 }
 
 function getTodayDayIndex() {
-  if (!state.startDate) return 0;
-  const start = new Date(state.startDate);
-  const now   = new Date();
-  const diff  = Math.floor((now - start) / (1000 * 60 * 60 * 24));
-  return Math.min(Math.max(diff, 0), TOTAL_DAYS - 1);
+  // Toon altijd de eerstvolgende onvoltooide dag
+  for (let i = 0; i < TOTAL_DAYS; i++) {
+    // Sla rustdagen over
+    if (REST_DAYS.includes(i + 1)) continue;
+    // Eerste dag die nog niet voltooid is
+    if (!state.completed.includes(i)) return i;
+  }
+  // Alles voltooid — toon laatste dag
+  return TOTAL_DAYS - 1;
 }
 
 function calcStreak() {
