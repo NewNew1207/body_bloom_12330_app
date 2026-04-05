@@ -785,6 +785,130 @@
   .data-btn:hover { border-color: var(--rose); color: var(--deep); }
   .data-btn.danger:hover { border-color: #e05555; color: #e05555; }
 
+
+  .daily-quote {
+    background: linear-gradient(135deg, var(--blush), var(--sand));
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin-bottom: 28px;
+    border-left: 3px solid var(--rose);
+    text-align: center;
+  }
+  .daily-quote em {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    color: var(--text);
+    font-style: italic;
+    line-height: 1.5;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .quote-author {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 300;
+    font-style: normal;
+  }
+
+
+  /* ── VOORTGANG JOURNAL ── */
+  .journal-section {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 20px rgba(194,92,118,.08);
+  }
+  .journal-tabs {
+    display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .journal-tab {
+    padding: 7px 16px; border-radius: 50px; font-size: 11px;
+    letter-spacing: 1px; text-transform: uppercase;
+    border: 1.5px solid var(--sand); background: transparent;
+    color: var(--muted); cursor: pointer; transition: all .2s;
+    font-family: 'Jost', sans-serif; font-weight: 300;
+  }
+  .journal-tab.active { background: var(--deep); border-color: var(--deep); color: white; }
+  .journal-entry {
+    background: var(--cream); border-radius: 12px;
+    padding: 16px; margin-bottom: 12px;
+    border-left: 3px solid var(--rose);
+  }
+  .journal-entry-date {
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); font-weight: 300; margin-bottom: 6px;
+  }
+  .journal-entry-text {
+    font-size: 13px; color: var(--text); line-height: 1.6; font-weight: 300;
+  }
+  .journal-textarea {
+    width: 100%; padding: 12px 16px;
+    border: 1.5px solid var(--sand); border-radius: 12px;
+    font-family: 'Jost', sans-serif; font-size: 13px;
+    color: var(--text); background: var(--cream);
+    outline: none; resize: vertical; min-height: 80px;
+    transition: border-color .2s; margin-bottom: 10px;
+  }
+  .journal-textarea:focus { border-color: var(--rose); }
+  .journal-measurements {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px; margin-bottom: 14px;
+  }
+  .measure-input-wrap { display: flex; flex-direction: column; gap: 4px; }
+  .measure-label {
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); font-weight: 300;
+  }
+  .measure-input {
+    padding: 8px 12px; border: 1.5px solid var(--sand);
+    border-radius: 50px; font-family: 'Jost', sans-serif;
+    font-size: 13px; color: var(--text); background: var(--cream);
+    outline: none; text-align: center; transition: border-color .2s;
+  }
+  .measure-input:focus { border-color: var(--rose); }
+  .before-after-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;
+  }
+  .ba-card {
+    background: var(--cream); border-radius: 12px; padding: 16px;
+    border: 1.5px solid var(--sand); text-align: center;
+  }
+  .ba-card h4 {
+    font-family: 'Cormorant Garamond', serif; font-size: 16px;
+    color: var(--deep); margin-bottom: 8px;
+  }
+  .ba-card p { font-size: 11px; color: var(--muted); font-weight: 300; line-height: 1.5; }
+  .ba-stat { font-size: 22px; font-weight: 600; color: var(--deep); font-family: 'Cormorant Garamond', serif; }
+
+
+  /* ── PLAYLIST ── */
+  .playlist-item {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--cream); border-radius: 12px;
+    padding: 12px 14px; margin-bottom: 8px;
+    border-left: 3px solid var(--rose);
+    animation: slideIn .3s ease;
+  }
+  @keyframes slideIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+  .playlist-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; color: var(--deep); font-weight: 600;
+    min-width: 24px; text-align: center;
+  }
+  .playlist-info { flex: 1; }
+  .playlist-song { font-size: 13px; color: var(--text); font-weight: 400; }
+  .playlist-artist { font-size: 11px; color: var(--muted); font-weight: 300; }
+  .playlist-vibe { font-size: 16px; }
+  .playlist-delete {
+    background: none; border: none; color: var(--muted);
+    cursor: pointer; font-size: 16px; padding: 4px;
+    transition: color .2s;
+  }
+  .playlist-delete:hover { color: #e05555; }
+
 </style>
 </head>
 <body>
@@ -1004,10 +1128,14 @@
       <button class="btn-secondary" onclick="resetTimer()">↺ Reset</button>
       <button class="btn-secondary" onclick="closeTimer()">✕ Sluiten</button>
     </div>
-    <div id="soundActivateWrap" style="margin-top:14px;text-align:center;">
+    <div id="soundActivateWrap" style="margin-top:14px;text-align:center;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
       <button onclick="activateSound()" id="soundActivateBtn"
         style="background:transparent;border:1.5px solid var(--rose);color:var(--deep);border-radius:50px;padding:8px 20px;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:300;">
-        🔔 Tik hier om geluid te activeren
+        🔔 Activeer geluid
+      </button>
+      <button onclick="requestNotifPermission()" id="notifBtn"
+        style="background:transparent;border:1.5px solid var(--rose);color:var(--deep);border-radius:50px;padding:8px 20px;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:300;">
+        🔔 Activeer meldingen
       </button>
     </div>
   </div>
@@ -1059,6 +1187,11 @@
     <p style="font-size:10px;color:var(--taupe);margin-top:12px;font-weight:300;font-style:italic;">Maximale hartslag berekend op basis van jouw leeftijd (220 − leeftijd). Raadpleeg een arts bij twijfel.</p>
   </div>
 
+  <!-- DAGELIJKSE QUOTE -->
+  <div class="daily-quote">
+    <div id="dailyQuote"><em>Laden...</em></div>
+  </div>
+
   <!-- TIPS -->
   <div class="tips-grid">
     <div class="tip-card">
@@ -1091,6 +1224,144 @@
       <div class="tip-title">Motivatie</div>
       <div class="tip-text">Maak een energieke playlist! 30 min gaat sneller als je meezingt met je favoriete nummers.</div>
     </div>
+  </div>
+
+  <!-- VOORTGANG JOURNAL -->
+  <div class="journal-section">
+    <div class="section-title">Mijn <em style="font-style:italic;color:var(--deep)">Journey</em></div>
+    <div class="section-sub">Notities · Metingen · Before & After</div>
+
+    <div class="journal-tabs">
+      <button class="journal-tab active" onclick="showJournalTab('notities', this)">📝 Notities</button>
+      <button class="journal-tab" onclick="showJournalTab('metingen', this)">📏 Metingen</button>
+      <button class="journal-tab" onclick="showJournalTab('beforeafter', this)">✨ Before & After</button>
+      <button class="journal-tab" onclick="showJournalTab('playlist', this)">🎵 Playlist</button>
+    </div>
+
+    <!-- NOTITIES TAB -->
+    <div id="tab-notities">
+      <textarea class="journal-textarea" id="journalText" placeholder="Hoe voel je je vandaag? Wat merk je aan je lichaam? Noteer je gedachten hier... 🌸"></textarea>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <button class="btn-primary" onclick="saveJournalEntry()" style="padding:10px 24px;font-size:10px;">Opslaan ✓</button>
+        <span id="journalSaved" style="font-size:11px;color:var(--green);display:none;">✓ Opgeslagen!</span>
+      </div>
+      <div id="journalEntries" style="margin-top:20px;"></div>
+    </div>
+
+    <!-- METINGEN TAB -->
+    <div id="tab-metingen" style="display:none;">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:16px;font-weight:300;">Vul je metingen in op dag 1 en dag 30 om je progressie te zien! Weeg jezelf altijd op hetzelfde moment ('s ochtends nuchter).</p>
+      <div style="display:flex;gap:8px;margin-bottom:16px;">
+        <button class="journal-tab active" id="meting-dag1-btn" onclick="showMetingTab('dag1', this)" style="font-size:10px;">Dag 1</button>
+        <button class="journal-tab" id="meting-dag30-btn" onclick="showMetingTab('dag30', this)" style="font-size:10px;">Dag 30</button>
+      </div>
+      <div id="meting-dag1-form">
+        <div class="journal-measurements">
+          <div class="measure-input-wrap">
+            <label class="measure-label">Gewicht (kg)</label>
+            <input type="number" class="measure-input" id="m1-gewicht" placeholder="65" step="0.1">
+          </div>
+          <div class="measure-input-wrap">
+            <label class="measure-label">Taille (cm)</label>
+            <input type="number" class="measure-input" id="m1-taille" placeholder="80">
+          </div>
+          <div class="measure-input-wrap">
+            <label class="measure-label">Heupen (cm)</label>
+            <input type="number" class="measure-input" id="m1-heupen" placeholder="95">
+          </div>
+          <div class="measure-input-wrap">
+            <label class="measure-label">Borst (cm)</label>
+            <input type="number" class="measure-input" id="m1-borst" placeholder="90">
+          </div>
+        </div>
+        <button class="btn-primary" onclick="saveMetingen('dag1')" style="padding:10px 24px;font-size:10px;">Dag 1 opslaan ✓</button>
+      </div>
+      <div id="meting-dag30-form" style="display:none;">
+        <div class="journal-measurements">
+          <div class="measure-input-wrap">
+            <label class="measure-label">Gewicht (kg)</label>
+            <input type="number" class="measure-input" id="m30-gewicht" placeholder="65" step="0.1">
+          </div>
+          <div class="measure-input-wrap">
+            <label class="measure-label">Taille (cm)</label>
+            <input type="number" class="measure-input" id="m30-taille" placeholder="80">
+          </div>
+          <div class="measure-input-wrap">
+            <label class="measure-label">Heupen (cm)</label>
+            <input type="number" class="measure-input" id="m30-heupen" placeholder="95">
+          </div>
+          <div class="measure-input-wrap">
+            <label class="measure-label">Borst (cm)</label>
+            <input type="number" class="measure-input" id="m30-borst" placeholder="90">
+          </div>
+        </div>
+        <button class="btn-primary" onclick="saveMetingen('dag30')" style="padding:10px 24px;font-size:10px;">Dag 30 opslaan ✓</button>
+      </div>
+    </div>
+
+
+    <!-- PLAYLIST TAB -->
+    <div id="tab-playlist" style="display:none;">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:16px;font-weight:300;">
+        Voeg jouw favoriete workout nummers toe! 🎵 Zo heb je altijd je perfecte playlist bij de hand tijdens de 12·3·30 challenge.
+      </p>
+      <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+        <input type="text" id="playlistArtist" placeholder="Artiest" class="journal-textarea"
+          style="min-height:auto;padding:10px 14px;flex:1;min-width:100px;">
+        <input type="text" id="playlistSong" placeholder="Nummer" class="journal-textarea"
+          style="min-height:auto;padding:10px 14px;flex:2;min-width:140px;">
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:20px;align-items:center;flex-wrap:wrap;">
+        <select id="playlistVibe" style="padding:10px 14px;border:1.5px solid var(--sand);border-radius:50px;font-family:'Jost',sans-serif;font-size:12px;color:var(--muted);background:var(--cream);outline:none;flex:1;">
+          <option value="🔥">🔥 Energiek</option>
+          <option value="🌸">🌸 Rustig</option>
+          <option value="💪">💪 Motiverend</option>
+          <option value="✨">✨ Feel Good</option>
+        </select>
+        <button class="btn-primary" onclick="addPlaylistSong()" style="padding:10px 20px;font-size:10px;">+ Toevoegen</button>
+      </div>
+      <div id="playlistItems"></div>
+      <div id="playlistEmpty" style="text-align:center;padding:20px;font-size:12px;color:var(--muted);font-weight:300;">
+        Nog geen nummers toegevoegd. Voeg jouw eerste workout hit toe! 🎵
+      </div>
+    </div>
+
+    <!-- BEFORE & AFTER TAB -->
+    <div id="tab-beforeafter" style="display:none;">
+      <div id="beforeAfterResults" style="margin-bottom:16px;"></div>
+      <div class="before-after-grid">
+        <div class="ba-card">
+          <h4>📸 Dag 1 Foto</h4>
+          <p>Maak een foto op dag 1 en sla hem op in je camera-rol als referentie.</p>
+          <div style="margin-top:10px;font-size:24px;">📷</div>
+        </div>
+        <div class="ba-card">
+          <h4>📸 Dag 30 Foto</h4>
+          <p>Maak een foto op dag 30 en vergelijk! Deel op Instagram met @body_bloom_be 🌸</p>
+          <div style="margin-top:10px;font-size:24px;">🌟</div>
+        </div>
+      </div>
+      <p style="font-size:10px;color:var(--taupe);font-weight:300;font-style:italic;">Tip: zelfde kleding, zelfde licht, zelfde pose voor de beste vergelijking!</p>
+    </div>
+  </div>
+
+  <!-- WEEKRAPPORT -->
+  <div style="background:var(--white);border-radius:20px;padding:28px;margin-bottom:28px;box-shadow:0 2px 20px rgba(194,92,118,.08);">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text);margin-bottom:4px;">Weekrapport <em style="font-style:italic;color:var(--deep)">PDF</em></div>
+    <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;font-weight:300;">Download jouw wekelijkse voortgang</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+      <button class="week-tab active" id="wr-week1" onclick="selectWeekReport(1,this)">Week 1</button>
+      <button class="week-tab" id="wr-week2" onclick="selectWeekReport(2,this)">Week 2</button>
+      <button class="week-tab" id="wr-week3" onclick="selectWeekReport(3,this)">Week 3</button>
+      <button class="week-tab" id="wr-week4" onclick="selectWeekReport(4,this)">Week 4</button>
+      <button class="week-tab" id="wr-week5" onclick="selectWeekReport(5,this)">Week 5</button>
+    </div>
+    <div id="weekReportPreview" style="background:var(--cream);border-radius:12px;padding:16px;margin-bottom:16px;font-size:12px;color:var(--muted);font-weight:300;">
+      Selecteer een week om het rapport te bekijken.
+    </div>
+    <button class="btn-primary" onclick="downloadWeekReport()" style="width:100%;text-align:center;display:block;">
+      ⬇ Download Weekrapport PDF
+    </button>
   </div>
 
   <!-- STARTDATUM & RESET -->
@@ -1140,9 +1411,8 @@
 // Voeg hier codes toe voor nieuwe klanten
 const VALID_CODES = [
   'BB-SOFIA-ADMIN',    // Sofia - admin
-   // Voeg klantcodes toe hieronder:
-  // 'BB-FABRICE-2026',  // Fabrice K.
-  // 'BB-PRESSY-2026',  // Preston K.
+  // Voeg hier nieuwe klantcodes toe:
+  // 'BB-NAAM-2026',
 ];
 
 function checkAccessCode() {
@@ -1422,6 +1692,8 @@ function render() {
 
   renderTodayCard();
   renderGrid(state.currentWeek);
+  renderQuote();
+  checkStreakCelebration();
 }
 
 function renderTodayCard() {
@@ -1688,9 +1960,52 @@ function resetTimer() {
   updateTimerDisplay();
 }
 
+// ── NOTIFICATIES ──
+function requestNotifPermission() {
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+}
+
+function sendNotif(title, body) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    try {
+      new Notification(title, {
+        body: body,
+        icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%23C25C76"/><text y=".9em" font-size="80" x="10">🌸</text></svg>',
+        tag: 'bodybloom-timer',
+        renotify: true,
+      });
+    } catch(e) {}
+  }
+}
+
+function phaseAlert(phaseName, type) {
+  playBeep(type);
+  vibrateAndFlash(type);
+  if (type === 'finish') {
+    sendNotif('🏆 Workout voltooid!', 'Geweldig gedaan! Cool-down is klaar. 🌸');
+    showToast('🏆 Workout voltooid! Geweldig gedaan 🌸');
+    // Auto-voltooi de dag
+    setTimeout(() => {
+      const today = getTodayDayIndex();
+      if (!state.completed.includes(today)) {
+        state.completed.push(today);
+        saveState();
+        render();
+        showToast('✅ Dag automatisch voltooid! 🌸');
+      }
+    }, 1500);
+  } else {
+    sendNotif('⏰ ' + phaseName + ' — start!', 'Body Bloom 12·3·30 Challenge');
+    showToast('📳 ' + phaseName + ' — start!');
+  }
+}
+
 function toggleTimer() {
-  // Unlock audio on first user interaction
+  // Unlock audio + vraag notificatie toestemming
   try { getAudioCtx().resume(); } catch(e) {}
+  requestNotifPermission();
 
   if (timerRunning) {
     // PAUSE — save remaining seconds
@@ -1702,6 +2017,9 @@ function toggleTimer() {
     // START / RESUME — set absolute end time
     timerRunning = true;
     timerEndTime = Date.now() + timerSecsLeft * 1000;
+    // Sla timer state op in localStorage voor extra robuustheid
+    localStorage.setItem('bb_timer_end', timerEndTime.toString());
+    localStorage.setItem('bb_timer_phase', timerPhase.toString());
     document.getElementById('timerBtn').textContent = '⏸ Pauze';
 
     timerInterval = setInterval(() => {
@@ -1716,19 +2034,19 @@ function toggleTimer() {
           timerRunning  = false;
           timerSecsLeft = 0;
           timerEndTime  = null;
+          localStorage.removeItem('bb_timer_end');
+          localStorage.removeItem('bb_timer_phase');
           document.getElementById('timerBtn').textContent = '✓ Klaar!';
-          playBeep('finish');
-          vibrateAndFlash('finish');
-          showToast('🏆 Workout voltooid! Geweldig gedaan 🌸');
+          phaseAlert('Workout', 'finish');
           updateTimerDisplay();
           return;
         }
         // Next phase
         timerSecsLeft = PHASES[timerPhase].seconds;
         timerEndTime  = Date.now() + timerSecsLeft * 1000;
-        playBeep('phase');
-        vibrateAndFlash('phase');
-        showToast('📳 ' + PHASES[timerPhase].name + ' — start!');
+        localStorage.setItem('bb_timer_end', timerEndTime.toString());
+        localStorage.setItem('bb_timer_phase', timerPhase.toString());
+        phaseAlert(PHASES[timerPhase].name, 'phase');
       } else {
         timerSecsLeft = remaining;
       }
@@ -1777,9 +2095,7 @@ document.addEventListener('visibilitychange', () => {
         if (leftover < 0) {
           timerSecsLeft = Math.abs(leftover);
           timerEndTime  = Date.now() + timerSecsLeft * 1000;
-          playBeep('phase');
-          vibrateAndFlash('phase');
-          showToast('📳 ' + PHASES[timerPhase].name + ' — bezig!');
+          phaseAlert(PHASES[timerPhase].name, 'phase');
           break;
         }
       }
@@ -1866,6 +2182,458 @@ function importData() {
     reader.readAsText(file);
   };
   input.click();
+}
+
+
+// ── MOTIVERENDE QUOTES ──
+const QUOTES = [
+  { text: "Je bent sterker dan je denkt.", auteur: "Body Bloom" },
+  { text: "Elke stap telt. Ook de kleine.", auteur: "Body Bloom" },
+  { text: "Consistentie is de sleutel tot succes.", auteur: "Body Bloom" },
+  { text: "Jij kiest elke dag opnieuw voor jezelf.", auteur: "Body Bloom" },
+  { text: "Rust is ook training. Luister naar je lichaam.", auteur: "Body Bloom" },
+  { text: "Trots zijn op jezelf is geen luxe, het is een must.", auteur: "Body Bloom" },
+  { text: "De loopband wacht op jou. Jij bent er klaar voor.", auteur: "Body Bloom" },
+  { text: "Bloom where you are planted. 🌸", auteur: "Body Bloom" },
+  { text: "Kleine overwinningen leiden tot grote resultaten.", auteur: "Body Bloom" },
+  { text: "Je hoeft niet perfect te zijn, je hoeft alleen te beginnen.", auteur: "Body Bloom" },
+  { text: "Vandaag kies jij voor een betere versie van jezelf.", auteur: "Body Bloom" },
+  { text: "30 minuten per dag. Dat is alles. Jij kan dit.", auteur: "Body Bloom" },
+  { text: "Zweet is jouw lichaam dat straalt. 💪", auteur: "Body Bloom" },
+  { text: "Vertrouw het proces. De resultaten komen.", auteur: "Body Bloom" },
+  { text: "Je bent verder dan gisteren. Dat is genoeg.", auteur: "Body Bloom" },
+  { text: "De beste workout is de één die je effectief doet.", auteur: "Body Bloom" },
+  { text: "Jouw lichaam, jouw tempo, jouw journey. 🌸", auteur: "Body Bloom" },
+  { text: "Elke dag is een nieuwe kans om te bloeien.", auteur: "Body Bloom" },
+  { text: "12% helling. 4,8 km/u. 30 minuten. Jij bent een atleet.", auteur: "Body Bloom" },
+  { text: "Beweging is medicijn. Jij neemt elke dag je dosis.", auteur: "Body Bloom" },
+];
+
+function getDailyQuote() {
+  const dayIdx = getTodayDayIndex();
+  return QUOTES[dayIdx % QUOTES.length];
+}
+
+function renderQuote() {
+  const q = getDailyQuote();
+  const el = document.getElementById('dailyQuote');
+  if (el) {
+    el.innerHTML = '<em>"' + q.text + '"</em><span class="quote-author"> — ' + q.auteur + '</span>';
+  }
+}
+
+// ── STREAK BELONING ──
+const STREAK_MILESTONES = [3, 7, 14, 21, 30];
+
+function checkStreakCelebration() {
+  const streak = calcStreak();
+  const lastCelebrated = parseInt(localStorage.getItem('bb_last_streak_celebration') || '0');
+  
+  if (STREAK_MILESTONES.includes(streak) && streak > lastCelebrated) {
+    localStorage.setItem('bb_last_streak_celebration', streak.toString());
+    setTimeout(() => showStreakCelebration(streak), 500);
+  }
+}
+
+function showStreakCelebration(streak) {
+  const messages = {
+    3:  { emoji: '🌱', title: '3 dagen op rij!', msg: 'Je bent op weg! De gewoonte begint te vormen.' },
+    7:  { emoji: '🔥', title: 'Week 1 streak!', msg: 'Een volledige week! Je bent fantastisch!' },
+    14: { emoji: '💪', title: '2 weken streak!', msg: 'Halverwege en onstopbaar! Jij bent een atleet!' },
+    21: { emoji: '⭐', title: '3 weken streak!', msg: 'De gewoonte is gevormd! Jij bloeit! 🌸' },
+    30: { emoji: '🏆', title: '30 dagen challenge voltooid!', msg: 'JIJ HEBT HET GEDAAN! Wat een prestatie!' },
+  };
+  const m = messages[streak] || { emoji: '🎉', title: streak + ' dagen streak!', msg: 'Geweldig!' };
+  
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:linear-gradient(135deg,var(--mauve),var(--deep));z-index:400;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:40px;animation:fadeIn .5s ease;';
+  var reviewBtn = streak === 30 ? '<button onclick="this.parentElement.remove();showReviewPrompt();" style="margin-top:16px;background:white;color:var(--deep);border:none;border-radius:50px;padding:14px 32px;font-family:Jost,sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:500;">Deel jouw resultaat</button>' : '';
+  overlay.innerHTML =
+    '<div style="font-size:80px;margin-bottom:20px;">' + m.emoji + '</div>' +
+    '<div style="font-family:Cormorant Garamond,serif;font-size:36px;font-weight:300;color:white;margin-bottom:12px;">' + m.title + '</div>' +
+    '<div style="font-size:14px;color:rgba(255,255,255,.8);font-weight:300;line-height:1.6;margin-bottom:8px;">' + m.msg + '</div>' +
+    '<div style="font-size:28px;margin:16px 0;">&#x1F338;&#x2728;&#x1F338;</div>' +
+    reviewBtn +
+    '<button onclick="this.parentElement.remove()" style="margin-top:16px;background:transparent;border:1.5px solid rgba(255,255,255,.4);color:white;border-radius:50px;padding:10px 28px;font-family:Jost,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:300;">Verder gaan</button>';
+  document.body.appendChild(overlay);
+}
+
+// ── REVIEW / DEEL RESULTAAT ──
+function showReviewPrompt() {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(58,36,48,.85);backdrop-filter:blur(8px);z-index:400;display:flex;align-items:center;justify-content:center;padding:24px;';
+  overlay.innerHTML =
+    '<div style="background:var(--cream);border-radius:24px;padding:36px 28px;max-width:400px;width:100%;text-align:center;">' +
+    '<div style="font-size:48px;margin-bottom:16px;">&#x1F3C6;</div>' +
+    '<div style="font-family:Cormorant Garamond,serif;font-size:28px;color:var(--text);margin-bottom:8px;">Deel jouw resultaat!</div>' +
+    '<div style="font-size:12px;color:var(--muted);font-weight:300;line-height:1.7;margin-bottom:24px;">Jij hebt de 30 dagen challenge voltooid! &#x1F338;<br>Deel jouw succes op Instagram en tag @body_bloom_be.<br>Inspireer anderen om ook te beginnen!</div>' +
+    '<a href="https://www.instagram.com/body_bloom_be" target="_blank" style="display:block;background:linear-gradient(135deg,var(--rose),var(--deep));color:white;border-radius:50px;padding:14px 28px;font-family:Jost,sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;margin-bottom:12px;">Ga naar Instagram</a>' +
+    '<button onclick="this.parentElement.parentElement.remove()" style="background:transparent;border:1.5px solid var(--sand);color:var(--muted);border-radius:50px;padding:10px 28px;font-family:Jost,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:300;width:100%;">Sluiten</button>' +
+    '</div>';
+  document.body.appendChild(overlay);
+}
+
+
+// ── JOURNEY JOURNAL ──
+function showJournalTab(tab, btn) {
+  ['notities','metingen','beforeafter','playlist'].forEach(t => {
+    document.getElementById('tab-' + t).style.display = t === tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('.journal-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (tab === 'metingen') loadMetingen();
+  if (tab === 'beforeafter') renderBeforeAfter();
+  if (tab === 'playlist') renderPlaylist();
+}
+
+function showMetingTab(tab, btn) {
+  document.getElementById('meting-dag1-form').style.display = tab === 'dag1' ? 'block' : 'none';
+  document.getElementById('meting-dag30-form').style.display = tab === 'dag30' ? 'block' : 'none';
+  document.querySelectorAll('[id^="meting-dag"]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function saveJournalEntry() {
+  const text = document.getElementById('journalText').value.trim();
+  if (!text) return;
+  const entries = JSON.parse(localStorage.getItem('bb_journal') || '[]');
+  const today = getTodayDayIndex();
+  entries.unshift({
+    dag: today + 1,
+    datum: new Date().toLocaleDateString('nl-BE', { day:'numeric', month:'long', year:'numeric' }),
+    tekst: text,
+    id: Date.now()
+  });
+  localStorage.setItem('bb_journal', JSON.stringify(entries.slice(0, 50)));
+  document.getElementById('journalText').value = '';
+  const saved = document.getElementById('journalSaved');
+  saved.style.display = 'inline';
+  setTimeout(() => { saved.style.display = 'none'; }, 2000);
+  renderJournalEntries();
+}
+
+function renderJournalEntries() {
+  const entries = JSON.parse(localStorage.getItem('bb_journal') || '[]');
+  const el = document.getElementById('journalEntries');
+  if (!el) return;
+  if (entries.length === 0) {
+    el.innerHTML = '<p style="font-size:12px;color:var(--muted);font-weight:300;text-align:center;padding:20px;">Nog geen notities. Schrijf je eerste! 🌸</p>';
+    return;
+  }
+  el.innerHTML = entries.map(e =>
+    '<div class="journal-entry">' +
+    '<div class="journal-entry-date">Dag ' + e.dag + ' · ' + e.datum + '</div>' +
+    '<div class="journal-entry-text">' + e.tekst.replace(/</g,'&lt;') + '</div>' +
+    '</div>'
+  ).join('');
+}
+
+function saveMetingen(dag) {
+  const prefix = dag === 'dag1' ? 'm1' : 'm30';
+  const data = {
+    gewicht: document.getElementById(prefix + '-gewicht').value,
+    taille:  document.getElementById(prefix + '-taille').value,
+    heupen:  document.getElementById(prefix + '-heupen').value,
+    borst:   document.getElementById(prefix + '-borst').value,
+    datum:   new Date().toLocaleDateString('nl-BE'),
+  };
+  localStorage.setItem('bb_metingen_' + dag, JSON.stringify(data));
+  showToast('Metingen opgeslagen! 📏🌸');
+}
+
+function loadMetingen() {
+  ['dag1','dag30'].forEach(dag => {
+    const data = JSON.parse(localStorage.getItem('bb_metingen_' + dag) || 'null');
+    if (!data) return;
+    const prefix = dag === 'dag1' ? 'm1' : 'm30';
+    if (data.gewicht) document.getElementById(prefix + '-gewicht').value = data.gewicht;
+    if (data.taille)  document.getElementById(prefix + '-taille').value  = data.taille;
+    if (data.heupen)  document.getElementById(prefix + '-heupen').value  = data.heupen;
+    if (data.borst)   document.getElementById(prefix + '-borst').value   = data.borst;
+  });
+}
+
+function renderBeforeAfter() {
+  const d1 = JSON.parse(localStorage.getItem('bb_metingen_dag1') || 'null');
+  const d30 = JSON.parse(localStorage.getItem('bb_metingen_dag30') || 'null');
+  const el = document.getElementById('beforeAfterResults');
+  if (!el) return;
+
+  if (!d1 && !d30) {
+    el.innerHTML = '<p style="font-size:12px;color:var(--muted);text-align:center;padding:10px;">Vul eerst je metingen in op de Metingen tab! 📏</p>';
+    return;
+  }
+
+  const fields = [
+    { key: 'gewicht', label: 'Gewicht', unit: 'kg' },
+    { key: 'taille',  label: 'Taille',  unit: 'cm' },
+    { key: 'heupen',  label: 'Heupen',  unit: 'cm' },
+    { key: 'borst',   label: 'Borst',   unit: 'cm' },
+  ];
+
+  let html = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px;">';
+  fields.forEach(f => {
+    const v1 = d1 && d1[f.key] ? parseFloat(d1[f.key]) : null;
+    const v30 = d30 && d30[f.key] ? parseFloat(d30[f.key]) : null;
+    const diff = v1 && v30 ? (v30 - v1).toFixed(1) : null;
+    const color = diff && parseFloat(diff) < 0 ? '#6BA87A' : diff && parseFloat(diff) > 0 ? '#e05555' : 'var(--muted)';
+    html += '<div style="background:var(--cream);border-radius:12px;padding:14px;text-align:center;border:1.5px solid var(--sand);">';
+    html += '<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">' + f.label + '</div>';
+    html += '<div style="font-family:Cormorant Garamond,serif;font-size:20px;color:var(--deep);">' + (v1 || '—') + '<span style="font-size:12px;"> ' + f.unit + '</span></div>';
+    if (diff !== null) {
+      html += '<div style="font-size:13px;font-weight:600;color:' + color + ';margin-top:4px;">' + (parseFloat(diff) > 0 ? '+' : '') + diff + ' ' + f.unit + '</div>';
+    }
+    html += '</div>';
+  });
+  html += '</div>';
+
+  if (d1 && d30) {
+    html += '<div style="background:linear-gradient(135deg,var(--blush),var(--sand));border-radius:12px;padding:14px;text-align:center;">';
+    html += '<div style="font-family:Cormorant Garamond,serif;font-size:16px;color:var(--text);">Jouw 30 dagen transformatie 🌸</div>';
+    html += '<div style="font-size:11px;color:var(--muted);margin-top:4px;font-weight:300;">Van ' + (d1.datum||'dag 1') + ' tot ' + (d30.datum||'dag 30') + '</div>';
+    html += '</div>';
+  }
+
+  el.innerHTML = html;
+}
+
+// Load journal entries on init
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(renderJournalEntries, 500);
+});
+
+
+// ── PLAYLIST ──
+function addPlaylistSong() {
+  const artist = document.getElementById('playlistArtist').value.trim();
+  const song   = document.getElementById('playlistSong').value.trim();
+  const vibe   = document.getElementById('playlistVibe').value;
+  if (!song) { showToast('Vul een nummer in! 🎵'); return; }
+
+  const playlist = JSON.parse(localStorage.getItem('bb_playlist') || '[]');
+  playlist.push({ id: Date.now(), artist, song, vibe });
+  localStorage.setItem('bb_playlist', JSON.stringify(playlist));
+
+  document.getElementById('playlistArtist').value = '';
+  document.getElementById('playlistSong').value = '';
+  renderPlaylist();
+  showToast('Nummer toegevoegd! 🎵🌸');
+}
+
+function deletePlaylistSong(id) {
+  const playlist = JSON.parse(localStorage.getItem('bb_playlist') || '[]');
+  const updated = playlist.filter(s => s.id !== id);
+  localStorage.setItem('bb_playlist', JSON.stringify(updated));
+  renderPlaylist();
+}
+
+function renderPlaylist() {
+  const playlist = JSON.parse(localStorage.getItem('bb_playlist') || '[]');
+  const container = document.getElementById('playlistItems');
+  const empty = document.getElementById('playlistEmpty');
+  if (!container) return;
+
+  if (playlist.length === 0) {
+    container.innerHTML = '';
+    if (empty) empty.style.display = 'block';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+
+  container.innerHTML = playlist.map((s, i) =>
+    '<div class="playlist-item">' +
+    '<div class="playlist-num">' + (i + 1) + '</div>' +
+    '<div class="playlist-info">' +
+    '<div class="playlist-song">' + s.song.replace(/</g,'&lt;') + '</div>' +
+    (s.artist ? '<div class="playlist-artist">' + s.artist.replace(/</g,'&lt;') + '</div>' : '') +
+    '</div>' +
+    '<div class="playlist-vibe">' + s.vibe + '</div>' +
+    '<button class="playlist-delete" onclick="deletePlaylistSong(' + s.id + ')">✕</button>' +
+    '</div>'
+  ).join('');
+}
+
+// Load playlist on init
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(renderPlaylist, 600);
+});
+
+
+// ── WEEKRAPPORT PDF ──
+let selectedWeekReport = 1;
+
+function selectWeekReport(week, btn) {
+  selectedWeekReport = week;
+  document.querySelectorAll('[id^="wr-week"]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  updateWeekReportPreview(week);
+}
+
+function updateWeekReportPreview(week) {
+  const start = (week - 1) * 7;
+  const end = Math.min(start + 7, 30);
+  const REST_DAYS_LOCAL = [7, 14, 21, 28];
+  
+  // Count completed days this week
+  const weekDays = [];
+  for (let i = start; i < end; i++) {
+    weekDays.push({
+      dag: i + 1,
+      voltooid: state.completed.includes(i),
+      rust: REST_DAYS_LOCAL.includes(i + 1)
+    });
+  }
+  const voltooid = weekDays.filter(d => d.voltooid).length;
+  const rustdagen = weekDays.filter(d => d.rust).length;
+  const trainingen = weekDays.filter(d => !d.rust);
+  
+  // Get notes for this week
+  const entries = JSON.parse(localStorage.getItem('bb_journal') || '[]');
+  const weekNotes = entries.filter(e => e.dag >= start + 1 && e.dag <= end);
+  
+  // Get playlist
+  const playlist = JSON.parse(localStorage.getItem('bb_playlist') || '[]');
+  
+  // Get metingen
+  const m1 = JSON.parse(localStorage.getItem('bb_metingen_dag1') || 'null');
+  const m30 = JSON.parse(localStorage.getItem('bb_metingen_dag30') || 'null');
+  
+  const preview = document.getElementById('weekReportPreview');
+  preview.innerHTML = 
+    '<div style="font-family:Cormorant Garamond,serif;font-size:16px;color:var(--deep);margin-bottom:8px;">Week ' + week + ' — Dag ' + (start+1) + ' t/m ' + end + '</div>' +
+    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;">' +
+    '<div style="text-align:center;"><div style="font-size:22px;font-family:Cormorant Garamond,serif;color:var(--deep);">' + voltooid + '</div><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Voltooid</div></div>' +
+    '<div style="text-align:center;"><div style="font-size:22px;font-family:Cormorant Garamond,serif;color:var(--deep);">' + (trainingen.length - voltooid + rustdagen) + '</div><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Gemist</div></div>' +
+    '<div style="text-align:center;"><div style="font-size:22px;font-family:Cormorant Garamond,serif;color:var(--deep);">' + weekNotes.length + '</div><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Notities</div></div>' +
+    '</div>' +
+    '<div style="font-size:11px;color:var(--muted);">Playlist: ' + playlist.length + ' nummers | Metingen dag 1: ' + (m1 ? 'aanwezig' : 'niet ingevuld') + '</div>';
+}
+
+function downloadWeekReport() {
+  const week = selectedWeekReport;
+  const start = (week - 1) * 7;
+  const end = Math.min(start + 7, 30);
+  const REST_DAYS_LOCAL = [7, 14, 21, 28];
+  const userName = localStorage.getItem('bodybloom_access_name') || 'Gebruiker';
+  const datum = new Date().toLocaleDateString('nl-BE', { day:'numeric', month:'long', year:'numeric' });
+
+  // Gather data
+  const weekDays = [];
+  for (let i = start; i < end; i++) {
+    weekDays.push({ dag: i+1, voltooid: state.completed.includes(i), rust: REST_DAYS_LOCAL.includes(i+1) });
+  }
+  const voltooid = weekDays.filter(d => d.voltooid || d.rust).length;
+  
+  const entries = JSON.parse(localStorage.getItem('bb_journal') || '[]');
+  const weekNotes = entries.filter(e => e.dag >= start+1 && e.dag <= end);
+  
+  const playlist = JSON.parse(localStorage.getItem('bb_playlist') || '[]');
+  const m1  = JSON.parse(localStorage.getItem('bb_metingen_dag1')  || 'null');
+  const m30 = JSON.parse(localStorage.getItem('bb_metingen_dag30') || 'null');
+
+  // Build HTML for PDF
+  const html = `<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: Georgia, serif; background: #fdf6f0; color: #3a2430; padding: 40px; }
+  .header { background: linear-gradient(135deg, #9b4d6a, #c25c76); color: white; padding: 32px; border-radius: 16px; margin-bottom: 24px; text-align: center; }
+  .header h1 { font-size: 32px; font-weight: 300; letter-spacing: -1px; }
+  .header p { font-size: 12px; opacity: .8; margin-top: 6px; letter-spacing: 2px; text-transform: uppercase; }
+  .section { background: white; border-radius: 12px; padding: 20px; margin-bottom: 16px; border-left: 4px solid #c25c76; }
+  .section h2 { font-size: 16px; color: #c25c76; margin-bottom: 12px; font-weight: 400; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
+  .stat { text-align: center; background: #fdf6f0; border-radius: 8px; padding: 12px; }
+  .stat-num { font-size: 28px; color: #c25c76; font-weight: 300; }
+  .stat-lbl { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #8a6070; margin-top: 2px; }
+  .day-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  .day-cell { text-align: center; padding: 8px 4px; border-radius: 8px; font-size: 11px; }
+  .day-cell.done { background: #c25c76; color: white; }
+  .day-cell.rust { background: #f2c4ce; color: #9b4d6a; }
+  .day-cell.miss { background: #f5e6d8; color: #c9a98a; }
+  .note { background: #fdf6f0; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; border-left: 3px solid #e8879c; }
+  .note-meta { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: #8a6070; margin-bottom: 4px; }
+  .note-text { font-size: 12px; line-height: 1.6; }
+  .playlist-item { display: flex; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid #f5e6d8; }
+  .pl-num { font-size: 16px; color: #c25c76; font-weight: 300; min-width: 24px; }
+  .pl-song { font-size: 12px; font-weight: 500; }
+  .pl-artist { font-size: 11px; color: #8a6070; }
+  .measure-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .measure-item { text-align: center; background: #fdf6f0; border-radius: 8px; padding: 10px; }
+  .measure-val { font-size: 20px; color: #c25c76; font-weight: 300; }
+  .measure-lbl { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: #8a6070; }
+  .footer { text-align: center; margin-top: 24px; font-size: 10px; color: #c9a98a; letter-spacing: 2px; text-transform: uppercase; }
+  @media print { body { padding: 20px; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <p>Body Bloom by Sofia · 12·3·30 Challenge</p>
+  <h1>Week ${week} Rapport</h1>
+  <p>Dag ${start+1} t/m ${end} · ${userName} · ${datum}</p>
+</div>
+
+<div class="section">
+  <h2>Voortgang deze week</h2>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">${weekDays.filter(d=>d.voltooid||d.rust).length}</div><div class="stat-lbl">Afgerond</div></div>
+    <div class="stat"><div class="stat-num">${weekDays.filter(d=>!d.voltooid&&!d.rust).length}</div><div class="stat-lbl">Gemist</div></div>
+    <div class="stat"><div class="stat-num">${Math.round(weekDays.filter(d=>d.voltooid||d.rust).length / weekDays.length * 100)}%</div><div class="stat-lbl">Score</div></div>
+  </div>
+  <div class="day-grid">
+    ${weekDays.map(d => 
+      '<div class="day-cell ' + (d.rust ? 'rust' : d.voltooid ? 'done' : 'miss') + '">' +
+      '<div>Dag ' + d.dag + '</div>' +
+      '<div style="font-size:14px;">' + (d.rust ? '🌸' : d.voltooid ? '✓' : '·') + '</div>' +
+      '</div>'
+    ).join('')}
+  </div>
+</div>
+
+${weekNotes.length > 0 ? `
+<div class="section">
+  <h2>Notities deze week</h2>
+  ${weekNotes.map(n => 
+    '<div class="note"><div class="note-meta">Dag ' + n.dag + ' · ' + n.datum + '</div><div class="note-text">' + n.tekst + '</div></div>'
+  ).join('')}
+</div>` : ''}
+
+${m1 ? `
+<div class="section">
+  <h2>Metingen</h2>
+  <div class="measure-grid">
+    <div class="measure-item"><div class="measure-val">${m1.gewicht||'—'}</div><div class="measure-lbl">Gewicht kg</div></div>
+    <div class="measure-item"><div class="measure-val">${m1.taille||'—'}</div><div class="measure-lbl">Taille cm</div></div>
+    <div class="measure-item"><div class="measure-val">${m1.heupen||'—'}</div><div class="measure-lbl">Heupen cm</div></div>
+    <div class="measure-item"><div class="measure-val">${m1.borst||'—'}</div><div class="measure-lbl">Borst cm</div></div>
+  </div>
+</div>` : ''}
+
+${playlist.length > 0 ? `
+<div class="section">
+  <h2>Mijn Workout Playlist (${playlist.length} nummers)</h2>
+  ${playlist.map((s, i) => 
+    '<div class="playlist-item"><div class="pl-num">' + (i+1) + '</div><div><div class="pl-song">' + s.song + '</div>' + (s.artist ? '<div class="pl-artist">' + s.artist + '</div>' : '') + '</div><div style="margin-left:auto;">' + s.vibe + '</div></div>'
+  ).join('')}
+</div>` : ''}
+
+<div class="footer">
+  © 2026 Body Bloom by Sofia · 12·3·30 Loopband Challenge · Exclusief voor Body Bloom klanten
+</div>
+
+</body>
+</html>`;
+
+  // Open in new window and trigger print/save as PDF
+  const win = window.open('', '_blank');
+  win.document.write(html);
+  win.document.close();
+  setTimeout(() => {
+    win.print();
+  }, 500);
 }
 
 // ── TOAST ──
