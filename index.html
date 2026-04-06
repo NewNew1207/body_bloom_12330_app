@@ -1309,71 +1309,145 @@
     <div class="everest-sub">Elke workout = 295m hoger · 8.849m = Top!</div>
 
     <div class="everest-svg-wrap">
-      <svg id="everestSVG" viewBox="0 0 340 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
-        <!-- Sky gradient -->
+      <svg id="everestSVG" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;border-radius:16px;">
         <defs>
-          <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#c8e6f5"/>
-            <stop offset="100%" stop-color="#f5e6d8"/>
+          <linearGradient id="bbSky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a3a5c"/>
+            <stop offset="40%" stop-color="#2d6a9f"/>
+            <stop offset="100%" stop-color="#7eb8d4"/>
           </linearGradient>
-          <linearGradient id="snowGrad" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id="bbGlow" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#f5c842" stop-opacity="0"/>
+            <stop offset="50%" stop-color="#f5c842" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#f5c842" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="bbRock1" x1="0" y1="0" x2="0.3" y2="1">
+            <stop offset="0%" stop-color="#7a8a9a"/>
+            <stop offset="50%" stop-color="#4a5a6a"/>
+            <stop offset="100%" stop-color="#2a3540"/>
+          </linearGradient>
+          <linearGradient id="bbRock2" x1="1" y1="0" x2="0.7" y2="1">
+            <stop offset="0%" stop-color="#5a6a7a"/>
+            <stop offset="100%" stop-color="#1e2830"/>
+          </linearGradient>
+          <linearGradient id="bbSnow" x1="0.3" y1="0" x2="0.7" y2="1">
             <stop offset="0%" stop-color="#ffffff"/>
-            <stop offset="60%" stop-color="#e8f4f8"/>
-            <stop offset="100%" stop-color="#c9d8e4"/>
+            <stop offset="60%" stop-color="#ddeef8"/>
+            <stop offset="100%" stop-color="#b8d4e8"/>
           </linearGradient>
-          <linearGradient id="rockGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#8a9bb0"/>
-            <stop offset="100%" stop-color="#5a6a7a"/>
+          <linearGradient id="bbSnowSh" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#c8dff0"/>
+            <stop offset="100%" stop-color="#8ab0cc"/>
+          </linearGradient>
+          <linearGradient id="bbFog" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c8dff0" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#c8dff0" stop-opacity="0"/>
           </linearGradient>
         </defs>
 
-        <!-- Sky -->
-        <rect width="340" height="180" fill="url(#skyGrad)"/>
+        <rect width="680" height="340" fill="url(#bbSky)"/>
 
-        <!-- Clouds -->
-        <ellipse cx="40" cy="30" rx="25" ry="10" fill="white" opacity=".7"/>
-        <ellipse cx="290" cy="25" rx="20" ry="8" fill="white" opacity=".6"/>
-        <ellipse cx="160" cy="18" rx="18" ry="7" fill="white" opacity=".5"/>
+        <!-- Stars -->
+        <circle cx="60" cy="25" r="1" fill="white" opacity="0.8"/>
+        <circle cx="120" cy="15" r="1.2" fill="white" opacity="0.9"/>
+        <circle cx="200" cy="30" r="0.8" fill="white" opacity="0.7"/>
+        <circle cx="580" cy="20" r="1" fill="white" opacity="0.8"/>
+        <circle cx="500" cy="15" r="1.2" fill="white" opacity="0.9"/>
+        <circle cx="450" cy="35" r="0.7" fill="white" opacity="0.7"/>
+        <circle cx="30" cy="50" r="0.8" fill="white" opacity="0.6"/>
+        <circle cx="650" cy="35" r="1" fill="white" opacity="0.7"/>
+        <circle cx="620" cy="20" r="0.9" fill="white" opacity="0.8"/>
 
-        <!-- Background mountains -->
-        <polygon points="0,140 60,80 120,140" fill="#b0c4d8" opacity=".5"/>
-        <polygon points="200,140 270,70 340,140" fill="#b0c4d8" opacity=".5"/>
+        <!-- Sun glow -->
+        <ellipse cx="340" cy="48" rx="120" ry="35" fill="url(#bbGlow)"/>
 
-        <!-- Main Everest mountain - rock -->
-        <polygon points="20,170 170,15 320,170" fill="url(#rockGrad)"/>
+        <!-- Far background mountains -->
+        <polygon points="0,260 80,185 160,240 240,165 320,220 400,155 480,215 560,170 640,205 680,185 680,300 0,300" fill="#4a6a8a" opacity="0.35"/>
 
-        <!-- Snow cap -->
-        <polygon points="130,65 170,15 210,65 195,70 170,25 145,70" fill="url(#snowGrad)"/>
+        <!-- Mid range -->
+        <polygon points="0,290 60,240 130,262 200,222 280,248 360,212 440,240 520,220 600,244 680,225 680,310 0,310" fill="#3a5570" opacity="0.5"/>
 
-        <!-- Camp markers -->
-        <!-- Basiskamp dag 7 -->
-        <circle cx="70" cy="148" r="4" fill="#f5c842" stroke="white" stroke-width="1.5"/>
-        <text x="52" y="163" font-size="7" fill="#8a6070" font-family="sans-serif">Basiskamp</text>
+        <!-- Cloud wisps -->
+        <ellipse cx="80" cy="85" rx="55" ry="10" fill="white" opacity="0.22"/>
+        <ellipse cx="580" cy="72" rx="60" ry="10" fill="white" opacity="0.18"/>
+        <ellipse cx="200" cy="98" rx="40" ry="7" fill="white" opacity="0.18"/>
 
-        <!-- Camp 1 dag 14 -->
-        <circle cx="110" cy="118" r="4" fill="#e8879c" stroke="white" stroke-width="1.5"/>
-        <text x="92" y="133" font-size="7" fill="#8a6070" font-family="sans-serif">Camp 1</text>
+        <!-- Main mountain - shadow face -->
+        <polygon points="180,335 340,36 420,128 460,335" fill="url(#bbRock2)" opacity="0.95"/>
+        <!-- Main mountain - lit face -->
+        <polygon points="340,36 510,335 680,335 680,295 560,212" fill="url(#bbRock1)"/>
+        <!-- Left ridgeline -->
+        <polygon points="0,335 160,278 200,298 240,268 280,290 340,255 380,272 340,36 180,335" fill="#2a3a4a" opacity="0.7"/>
 
-        <!-- Camp 2 dag 21 -->
-        <circle cx="145" cy="88" r="4" fill="#c25c76" stroke="white" stroke-width="1.5"/>
-        <text x="127" y="103" font-size="7" fill="#8a6070" font-family="sans-serif">Camp 2</text>
+        <!-- Rock texture -->
+        <line x1="250" y1="185" x2="310" y2="320" stroke="#1e2c3a" stroke-width="1" opacity="0.35"/>
+        <line x1="270" y1="165" x2="330" y2="308" stroke="#1e2c3a" stroke-width="0.8" opacity="0.28"/>
+        <line x1="225" y1="215" x2="288" y2="335" stroke="#1e2c3a" stroke-width="0.8" opacity="0.28"/>
+        <line x1="380" y1="108" x2="450" y2="295" stroke="#5a6a7a" stroke-width="1" opacity="0.35"/>
+        <line x1="415" y1="98" x2="492" y2="278" stroke="#5a6a7a" stroke-width="0.8" opacity="0.28"/>
+        <line x1="440" y1="112" x2="522" y2="290" stroke="#5a6a7a" stroke-width="0.8" opacity="0.28"/>
 
-        <!-- Camp 3 dag 28 -->
-        <circle cx="162" cy="55" r="4" fill="#9b4d6a" stroke="white" stroke-width="1.5"/>
-        <text x="144" y="70" font-size="7" fill="#8a6070" font-family="sans-serif">Camp 3</text>
+        <!-- Snow left shoulder -->
+        <polygon points="230,162 340,36 395,98 350,142 300,128 260,158" fill="url(#bbSnow)" opacity="0.92"/>
+        <!-- Snow right shoulder -->
+        <polygon points="340,36 430,92 405,108 370,88 345,65" fill="url(#bbSnowSh)" opacity="0.85"/>
+        <!-- Snow details -->
+        <polygon points="280,142 310,108 320,122 295,150" fill="white" opacity="0.45"/>
+        <polygon points="320,118 345,78 355,92 330,125" fill="white" opacity="0.38"/>
+        <!-- Summit ice -->
+        <polygon points="330,46 340,36 350,46 345,54 335,54" fill="white" opacity="0.95"/>
 
-        <!-- TOP dag 30 -->
-        <polygon points="170,8 174,18 166,18" fill="#c25c76"/>
-        <text x="175" y="14" font-size="7" fill="#c25c76" font-family="sans-serif" font-weight="bold">TOP!</text>
+        <!-- Fog layer -->
+        <rect x="0" y="198" width="680" height="45" fill="url(#bbFog)"/>
+        <ellipse cx="200" cy="222" rx="180" ry="22" fill="#c8dff0" opacity="0.18"/>
+        <ellipse cx="520" cy="215" rx="160" ry="18" fill="#c8dff0" opacity="0.14"/>
 
-        <!-- Climber (will be positioned by JS) -->
-        <g id="climberGroup" transform="translate(70, 148)">
-          <circle r="6" fill="var(--deep)" stroke="white" stroke-width="1.5"/>
-          <text x="-5" y="4" font-size="9" fill="white">🧗</text>
+        <!-- Foreground rocks -->
+        <polygon points="0,335 0,315 100,290 180,308 260,295 340,305 420,292 500,305 580,290 680,302 680,335" fill="#1a2530"/>
+        <polygon points="0,335 0,328 80,318 160,328 240,318 340,325 440,316 540,325 640,315 680,320 680,335" fill="#111c25"/>
+
+        <!-- Route dots on mountain -->
+        <circle cx="280" cy="292" r="3.5" fill="#f5c842" stroke="white" stroke-width="1.5"/>
+        <circle cx="295" cy="260" r="3.5" fill="#f5c842" stroke="white" stroke-width="1.5"/>
+        <circle cx="308" cy="230" r="3.5" fill="#e8879c" stroke="white" stroke-width="1.5"/>
+        <circle cx="318" cy="200" r="3.5" fill="#e8879c" stroke="white" stroke-width="1.5"/>
+        <circle cx="326" cy="170" r="3.5" fill="#c25c76" stroke="white" stroke-width="1.5"/>
+        <circle cx="332" cy="138" r="3.5" fill="#c25c76" stroke="white" stroke-width="1.5"/>
+        <circle cx="337" cy="100" r="3" fill="#9b4d6a" stroke="white" stroke-width="1.5"/>
+        <circle cx="340" cy="65" r="3" fill="#9b4d6a" stroke="white" stroke-width="1.5"/>
+
+        <!-- Summit flag -->
+        <line x1="340" y1="36" x2="340" y2="22" stroke="white" stroke-width="1.2"/>
+        <polygon points="340,22 352,26 340,30" fill="#c25c76"/>
+
+        <!-- Camp labels -->
+        <rect x="234" y="284" width="62" height="13" rx="3" fill="#f5c842" opacity="0.92"/>
+        <text x="265" y="294" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#2a1a00" font-weight="700">Basiskamp</text>
+        <rect x="322" y="220" width="44" height="13" rx="3" fill="#e8879c" opacity="0.92"/>
+        <text x="344" y="230" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="white" font-weight="700">Camp 1</text>
+        <rect x="332" y="160" width="44" height="13" rx="3" fill="#c25c76" opacity="0.92"/>
+        <text x="354" y="170" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="white" font-weight="700">Camp 2</text>
+        <rect x="342" y="90" width="44" height="13" rx="3" fill="#9b4d6a" opacity="0.92"/>
+        <text x="364" y="100" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="white" font-weight="700">Camp 3</text>
+        <rect x="354" y="30" width="36" height="13" rx="3" fill="white" opacity="0.92"/>
+        <text x="372" y="40" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#c25c76" font-weight="700">TOP!</text>
+
+        <!-- Climber (positioned by JS) -->
+        <g id="bbClimber" transform="translate(265,295)">
+          <circle r="8" fill="#c25c76" stroke="white" stroke-width="2"/>
+          <text x="0" y="4" text-anchor="middle" font-family="sans-serif" font-size="9" fill="white" font-weight="700">BB</text>
         </g>
 
-        <!-- Path line (will be drawn by JS) -->
-        <polyline id="climbPath" points="70,148" fill="none" stroke="var(--rose)" stroke-width="2" stroke-dasharray="4,3" opacity=".8"/>
+        <!-- Path (drawn by JS) -->
+        <polyline id="bbPath" points="265,295" fill="none" stroke="#f5c842" stroke-width="2" stroke-dasharray="5,3" opacity="0.9"/>
+
+        <!-- Stats bar -->
+        <rect x="0" y="312" width="680" height="28" fill="#0d1a24" opacity="0.88"/>
+        <text id="bbMetersText" x="115" y="330" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#f5c842" font-weight="700">0m geklommen</text>
+        <line x1="230" y1="316" x2="230" y2="336" stroke="#2a3a4a" stroke-width="1"/>
+        <text id="bbPctText" x="340" y="330" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="white">0% van Everest (8.849m)</text>
+        <line x1="450" y1="316" x2="450" y2="336" stroke="#2a3a4a" stroke-width="1"/>
+        <text id="bbRemainText" x="565" y="330" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#7eb8d4">8.849m te gaan</text>
       </svg>
     </div>
 
@@ -2830,12 +2904,12 @@ const METERS_PER_WORKOUT = Math.round(EVEREST_HEIGHT / 30);
 
 // Waypoints on the SVG path (x,y per dag milestone)
 const CLIMB_WAYPOINTS = [
-  {dag:0,  x:70,  y:148}, // Start / Basiskamp
-  {dag:7,  x:70,  y:148}, // Basiskamp
-  {dag:14, x:110, y:118}, // Camp 1
-  {dag:21, x:145, y:88},  // Camp 2
-  {dag:28, x:162, y:55},  // Camp 3
-  {dag:30, x:170, y:15},  // TOP
+  {dag:0,  x:265, y:295}, // Start / Basiskamp
+  {dag:7,  x:265, y:295}, // Basiskamp
+  {dag:14, x:308, y:228}, // Camp 1
+  {dag:21, x:326, y:168}, // Camp 2
+  {dag:28, x:337, y:102}, // Camp 3
+  {dag:30, x:340, y:50},  // TOP
 ];
 
 const CAMPS = [
@@ -2885,21 +2959,29 @@ function renderEverest() {
 
   // Move climber on SVG
   const pos = getClimberPosition(done);
-  const climber = document.getElementById('climberGroup');
+  const climber = document.getElementById('bbClimber');
   if (climber) {
-    climber.setAttribute('transform', 'translate(' + pos.x + ',' + pos.y + ')');
+    climber.setAttribute('transform', 'translate(' + pos.x.toFixed(1) + ',' + pos.y.toFixed(1) + ')');
   }
 
   // Draw path
-  const pathEl = document.getElementById('climbPath');
+  const pathEl = document.getElementById('bbPath');
   if (pathEl) {
-    let pts = '70,148';
+    let pts = '265,295';
     for (let d = 1; d <= done; d++) {
       const p = getClimberPosition(d);
       pts += ' ' + p.x.toFixed(1) + ',' + p.y.toFixed(1);
     }
     pathEl.setAttribute('points', pts);
   }
+
+  // Update SVG stats text
+  const mSVG = document.getElementById('bbMetersText');
+  const pSVG = document.getElementById('bbPctText');
+  const rSVG = document.getElementById('bbRemainText');
+  if (mSVG) mSVG.textContent = meters.toLocaleString('nl-BE') + 'm geklommen';
+  if (pSVG) pSVG.textContent = pct + '% van Everest (8.849m)';
+  if (rSVG) rSVG.textContent = remain.toLocaleString('nl-BE') + 'm te gaan';
 
   // Update streak in journey
   const streak = calcStreak();
