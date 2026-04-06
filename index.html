@@ -909,6 +909,82 @@
   }
   .playlist-delete:hover { color: #e05555; }
 
+
+  /* ── EVEREST CLIMB ── */
+  .everest-section {
+    background: linear-gradient(180deg, #e8f4f8 0%, #f5e6d8 100%);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 20px rgba(194,92,118,.08);
+    overflow: hidden;
+    position: relative;
+  }
+  .everest-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; color: var(--text);
+    margin-bottom: 2px;
+  }
+  .everest-sub {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 16px; font-weight: 300;
+  }
+  .everest-svg-wrap {
+    width: 100%; position: relative;
+    margin-bottom: 12px;
+  }
+  .everest-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 8px; margin-top: 12px;
+  }
+  .everest-stat {
+    text-align: center; background: rgba(255,255,255,.7);
+    border-radius: 10px; padding: 10px 6px;
+  }
+  .everest-stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; color: var(--deep); font-weight: 600;
+  }
+  .everest-stat-lbl {
+    font-size: 9px; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--muted); font-weight: 300;
+  }
+  .camp-badge {
+    display: inline-block; background: var(--deep);
+    color: white; border-radius: 50px;
+    padding: 4px 12px; font-size: 10px;
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-top: 8px; font-weight: 300;
+  }
+  /* ── STREAK IN JOURNEY ── */
+  .streak-journey {
+    background: linear-gradient(135deg, var(--blush), var(--sand));
+    border-radius: 16px; padding: 20px;
+    margin-bottom: 16px; text-align: center;
+    border-left: 3px solid var(--rose);
+  }
+  .streak-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px; color: var(--deep); line-height: 1;
+  }
+  .streak-label {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--muted); font-weight: 300; margin-top: 4px;
+  }
+  .streak-milestones {
+    display: flex; gap: 6px; justify-content: center;
+    margin-top: 12px; flex-wrap: wrap;
+  }
+  .streak-milestone {
+    padding: 4px 10px; border-radius: 50px; font-size: 10px;
+    border: 1.5px solid var(--sand); color: var(--muted);
+    font-weight: 300;
+  }
+  .streak-milestone.reached {
+    background: var(--deep); border-color: var(--deep);
+    color: white;
+  }
+
 </style>
 </head>
 <body>
@@ -1036,10 +1112,7 @@
     <div class="stat-number" id="statDone">0</div>
     <div class="stat-label">Voltooid</div>
   </div>
-  <div class="stat-item">
-    <div class="stat-number" id="statStreak">0</div>
-    <div class="stat-label">Streak 🔥</div>
-  </div>
+
   <div class="stat-item">
     <div class="stat-number" id="statRemain">30</div>
     <div class="stat-label">Resterend</div>
@@ -1139,7 +1212,7 @@
       </button>
     </div>
     <p style="font-size:10px;color:var(--taupe);font-weight:300;font-style:italic;margin-top:8px;text-align:center;">
-      * Geluid is niet altijd betrouwbaar op iPhone/iOS — activeer meldingen voor gegarandeerde signalen bij elke fase, ook tijdens YouTube. 🔔
+      * Geluid en trilling werken het best op Android. Op iPhone (iOS) is het beep-signaal niet altijd betrouwbaar door Safari beperkingen — activeer meldingen voor 100% zekerheid bij elke fase, ook tijdens YouTube. 🔔
     </p>
     </div>
   </div>
@@ -1227,6 +1300,113 @@
       <div class="tip-icon">🎵</div>
       <div class="tip-title">Motivatie</div>
       <div class="tip-text">Maak een energieke playlist! 30 min gaat sneller als je meezingt met je favoriete nummers.</div>
+    </div>
+  </div>
+
+  <!-- MOUNT EVEREST BEKLIMMING -->
+  <div class="everest-section">
+    <div class="everest-title">Mount Everest <em style="font-style:italic;color:var(--deep)">Beklimming</em></div>
+    <div class="everest-sub">Elke workout = 295m hoger · 8.849m = Top!</div>
+
+    <div class="everest-svg-wrap">
+      <svg id="everestSVG" viewBox="0 0 340 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <!-- Sky gradient -->
+        <defs>
+          <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c8e6f5"/>
+            <stop offset="100%" stop-color="#f5e6d8"/>
+          </linearGradient>
+          <linearGradient id="snowGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="60%" stop-color="#e8f4f8"/>
+            <stop offset="100%" stop-color="#c9d8e4"/>
+          </linearGradient>
+          <linearGradient id="rockGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#8a9bb0"/>
+            <stop offset="100%" stop-color="#5a6a7a"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Sky -->
+        <rect width="340" height="180" fill="url(#skyGrad)"/>
+
+        <!-- Clouds -->
+        <ellipse cx="40" cy="30" rx="25" ry="10" fill="white" opacity=".7"/>
+        <ellipse cx="290" cy="25" rx="20" ry="8" fill="white" opacity=".6"/>
+        <ellipse cx="160" cy="18" rx="18" ry="7" fill="white" opacity=".5"/>
+
+        <!-- Background mountains -->
+        <polygon points="0,140 60,80 120,140" fill="#b0c4d8" opacity=".5"/>
+        <polygon points="200,140 270,70 340,140" fill="#b0c4d8" opacity=".5"/>
+
+        <!-- Main Everest mountain - rock -->
+        <polygon points="20,170 170,15 320,170" fill="url(#rockGrad)"/>
+
+        <!-- Snow cap -->
+        <polygon points="130,65 170,15 210,65 195,70 170,25 145,70" fill="url(#snowGrad)"/>
+
+        <!-- Camp markers -->
+        <!-- Basiskamp dag 7 -->
+        <circle cx="70" cy="148" r="4" fill="#f5c842" stroke="white" stroke-width="1.5"/>
+        <text x="52" y="163" font-size="7" fill="#8a6070" font-family="sans-serif">Basiskamp</text>
+
+        <!-- Camp 1 dag 14 -->
+        <circle cx="110" cy="118" r="4" fill="#e8879c" stroke="white" stroke-width="1.5"/>
+        <text x="92" y="133" font-size="7" fill="#8a6070" font-family="sans-serif">Camp 1</text>
+
+        <!-- Camp 2 dag 21 -->
+        <circle cx="145" cy="88" r="4" fill="#c25c76" stroke="white" stroke-width="1.5"/>
+        <text x="127" y="103" font-size="7" fill="#8a6070" font-family="sans-serif">Camp 2</text>
+
+        <!-- Camp 3 dag 28 -->
+        <circle cx="162" cy="55" r="4" fill="#9b4d6a" stroke="white" stroke-width="1.5"/>
+        <text x="144" y="70" font-size="7" fill="#8a6070" font-family="sans-serif">Camp 3</text>
+
+        <!-- TOP dag 30 -->
+        <polygon points="170,8 174,18 166,18" fill="#c25c76"/>
+        <text x="175" y="14" font-size="7" fill="#c25c76" font-family="sans-serif" font-weight="bold">TOP!</text>
+
+        <!-- Climber (will be positioned by JS) -->
+        <g id="climberGroup" transform="translate(70, 148)">
+          <circle r="6" fill="var(--deep)" stroke="white" stroke-width="1.5"/>
+          <text x="-5" y="4" font-size="9" fill="white">🧗</text>
+        </g>
+
+        <!-- Path line (will be drawn by JS) -->
+        <polyline id="climbPath" points="70,148" fill="none" stroke="var(--rose)" stroke-width="2" stroke-dasharray="4,3" opacity=".8"/>
+      </svg>
+    </div>
+
+    <div id="everestCampLabel" style="text-align:center;">
+      <span class="camp-badge" id="campBadge">Basiskamp — Start! 🏕️</span>
+    </div>
+
+    <div class="everest-stats">
+      <div class="everest-stat">
+        <div class="everest-stat-num" id="everestMeters">0m</div>
+        <div class="everest-stat-lbl">Geklommen</div>
+      </div>
+      <div class="everest-stat">
+        <div class="everest-stat-num" id="everestPct">0%</div>
+        <div class="everest-stat-lbl">Van Everest</div>
+      </div>
+      <div class="everest-stat">
+        <div class="everest-stat-num" id="everestRemain">8849m</div>
+        <div class="everest-stat-lbl">Te gaan</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STREAK IN JOURNEY -->
+  <div class="streak-journey" id="streakJourney">
+    <div class="streak-number" id="streakJourneyNum">0 🔥</div>
+    <div class="streak-label">Dagen op rij</div>
+    <div class="streak-milestones">
+      <span class="streak-milestone" id="sm3">3 dagen</span>
+      <span class="streak-milestone" id="sm7">1 week</span>
+      <span class="streak-milestone" id="sm14">2 weken</span>
+      <span class="streak-milestone" id="sm21">3 weken</span>
+      <span class="streak-milestone" id="sm30">30 dagen 🏆</span>
     </div>
   </div>
 
@@ -1699,6 +1879,7 @@ function render() {
   renderTodayCard();
   renderGrid(state.currentWeek);
   renderQuote();
+  renderEverest();
   checkStreakCelebration();
 }
 
@@ -2640,6 +2821,100 @@ ${playlist.length > 0 ? `
   setTimeout(() => {
     win.print();
   }, 500);
+}
+
+
+// ── MOUNT EVEREST BEKLIMMING ──
+const EVEREST_HEIGHT = 8849;
+const METERS_PER_WORKOUT = Math.round(EVEREST_HEIGHT / 30);
+
+// Waypoints on the SVG path (x,y per dag milestone)
+const CLIMB_WAYPOINTS = [
+  {dag:0,  x:70,  y:148}, // Start / Basiskamp
+  {dag:7,  x:70,  y:148}, // Basiskamp
+  {dag:14, x:110, y:118}, // Camp 1
+  {dag:21, x:145, y:88},  // Camp 2
+  {dag:28, x:162, y:55},  // Camp 3
+  {dag:30, x:170, y:15},  // TOP
+];
+
+const CAMPS = [
+  { dag: 0,  label: 'Start — Lace up! 👟' },
+  { dag: 1,  label: 'Op weg naar Basiskamp! 🏕️' },
+  { dag: 7,  label: 'Basiskamp bereikt! 🏕️' },
+  { dag: 14, label: 'Camp 1 bereikt! ⛺' },
+  { dag: 21, label: 'Camp 2 bereikt! 🧗' },
+  { dag: 28, label: 'Camp 3 bereikt! 🏔️' },
+  { dag: 30, label: 'EVEREST TOP! 🏆🎉' },
+];
+
+function getClimberPosition(done) {
+  // Find which segment we're in
+  for (let i = 0; i < CLIMB_WAYPOINTS.length - 1; i++) {
+    const from = CLIMB_WAYPOINTS[i];
+    const to   = CLIMB_WAYPOINTS[i + 1];
+    if (done >= from.dag && done <= to.dag) {
+      const pct = (done - from.dag) / (to.dag - from.dag);
+      return {
+        x: from.x + (to.x - from.x) * pct,
+        y: from.y + (to.y - from.y) * pct,
+      };
+    }
+  }
+  return CLIMB_WAYPOINTS[CLIMB_WAYPOINTS.length - 1];
+}
+
+function renderEverest() {
+  const done = state.completed.length;
+  const meters = done * METERS_PER_WORKOUT;
+  const pct = Math.min(Math.round(done / 30 * 100), 100);
+  const remain = Math.max(EVEREST_HEIGHT - meters, 0);
+
+  // Update stats
+  const mEl = document.getElementById('everestMeters');
+  const pEl = document.getElementById('everestPct');
+  const rEl = document.getElementById('everestRemain');
+  if (mEl) mEl.textContent = meters.toLocaleString('nl-BE') + 'm';
+  if (pEl) pEl.textContent = pct + '%';
+  if (rEl) rEl.textContent = remain.toLocaleString('nl-BE') + 'm';
+
+  // Update camp badge
+  const camp = CAMPS.filter(c => done >= c.dag).pop() || CAMPS[0];
+  const badge = document.getElementById('campBadge');
+  if (badge) badge.textContent = camp.label;
+
+  // Move climber on SVG
+  const pos = getClimberPosition(done);
+  const climber = document.getElementById('climberGroup');
+  if (climber) {
+    climber.setAttribute('transform', 'translate(' + pos.x + ',' + pos.y + ')');
+  }
+
+  // Draw path
+  const pathEl = document.getElementById('climbPath');
+  if (pathEl) {
+    let pts = '70,148';
+    for (let d = 1; d <= done; d++) {
+      const p = getClimberPosition(d);
+      pts += ' ' + p.x.toFixed(1) + ',' + p.y.toFixed(1);
+    }
+    pathEl.setAttribute('points', pts);
+  }
+
+  // Update streak in journey
+  const streak = calcStreak();
+  const snEl = document.getElementById('streakJourneyNum');
+  if (snEl) snEl.textContent = streak + ' 🔥';
+
+  // Update milestone badges
+  const milestones = [3, 7, 14, 21, 30];
+  milestones.forEach(m => {
+    const el = document.getElementById('sm' + m);
+    if (el) {
+      if (streak >= m) el.classList.add('reached');
+      else el.classList.remove('reached');
+    }
+  });
 }
 
 // ── TOAST ──
