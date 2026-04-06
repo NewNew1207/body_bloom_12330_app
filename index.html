@@ -985,6 +985,37 @@
     color: white;
   }
 
+
+  /* ── MINI EVEREST IN TIMER ── */
+  .mini-everest-wrap {
+    margin: 16px 0 8px;
+    background: linear-gradient(180deg, #1a3a5c 0%, #7eb8d4 60%, #f5e6d8 100%);
+    border-radius: 16px;
+    padding: 10px 16px 6px;
+    position: relative;
+    overflow: hidden;
+  }
+  .mini-everest-label {
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,255,255,.7); font-weight: 300; margin-bottom: 4px;
+    text-align: center;
+  }
+  .mini-everest-stats {
+    display: flex; justify-content: space-between;
+    margin-top: 4px;
+  }
+  .mini-everest-stat {
+    text-align: center; flex: 1;
+  }
+  .mini-everest-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px; color: white; font-weight: 600;
+  }
+  .mini-everest-lbl {
+    font-size: 8px; color: rgba(255,255,255,.65);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+
 </style>
 </head>
 <body>
@@ -1201,6 +1232,65 @@
       <button class="btn-secondary" onclick="resetTimer()">↺ Reset</button>
       <button class="btn-secondary" onclick="closeTimer()">✕ Sluiten</button>
     </div>
+    <!-- MINI EVEREST IN TIMER -->
+    <div class="mini-everest-wrap">
+      <div class="mini-everest-label">🏔️ Jouw Everest Beklimming</div>
+      <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <defs>
+          <linearGradient id="meSky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a3a5c" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#1a3a5c" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="meRock" x1="0" y1="0" x2="0.3" y2="1">
+            <stop offset="0%" stop-color="#8a9aaa"/>
+            <stop offset="100%" stop-color="#3a4a5a"/>
+          </linearGradient>
+          <linearGradient id="meSnow" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="100%" stop-color="#c8e0f0"/>
+          </linearGradient>
+        </defs>
+        <!-- Background mountains -->
+        <polygon points="0,75 40,45 80,75" fill="#4a6a8a" opacity="0.4"/>
+        <polygon points="220,75 265,38 300,75" fill="#4a6a8a" opacity="0.4"/>
+        <!-- Main Everest -->
+        <polygon points="80,75 150,8 220,75" fill="url(#meRock)"/>
+        <!-- Snow cap -->
+        <polygon points="132,32 150,8 168,32 158,36 150,14 142,36" fill="url(#meSnow)" opacity="0.9"/>
+        <!-- Summit flag -->
+        <line x1="150" y1="8" x2="150" y2="2" stroke="white" stroke-width="0.8"/>
+        <polygon points="150,2 157,4 150,7" fill="#c25c76"/>
+        <!-- Camp dots -->
+        <circle cx="108" cy="60" r="2.5" fill="#f5c842" stroke="white" stroke-width="1"/>
+        <circle cx="124" cy="46" r="2.5" fill="#e8879c" stroke="white" stroke-width="1"/>
+        <circle cx="138" cy="32" r="2.5" fill="#c25c76" stroke="white" stroke-width="1"/>
+        <circle cx="146" cy="20" r="2" fill="#9b4d6a" stroke="white" stroke-width="1"/>
+        <!-- Foreground -->
+        <rect x="0" y="72" width="300" height="8" fill="#1a2530"/>
+        <!-- Climber (positioned by JS) -->
+        <g id="miniClimber" transform="translate(108,60)">
+          <circle r="4.5" fill="#c25c76" stroke="white" stroke-width="1.5"/>
+          <text x="0" y="3" text-anchor="middle" font-family="sans-serif" font-size="5" fill="white" font-weight="700">BB</text>
+        </g>
+        <!-- Path (drawn by JS) -->
+        <polyline id="miniPath" points="108,60" fill="none" stroke="#f5c842" stroke-width="1.5" stroke-dasharray="3,2" opacity="0.9"/>
+      </svg>
+      <div class="mini-everest-stats">
+        <div class="mini-everest-stat">
+          <div class="mini-everest-num" id="miniMeters">0m</div>
+          <div class="mini-everest-lbl">Geklommen</div>
+        </div>
+        <div class="mini-everest-stat">
+          <div class="mini-everest-num" id="miniCamp">Start</div>
+          <div class="mini-everest-lbl">Positie</div>
+        </div>
+        <div class="mini-everest-stat">
+          <div class="mini-everest-num" id="miniPct">0%</div>
+          <div class="mini-everest-lbl">Van top</div>
+        </div>
+      </div>
+    </div>
+
     <div id="soundActivateWrap" style="margin-top:14px;text-align:center;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
       <button onclick="activateSound()" id="soundActivateBtn"
         style="background:transparent;border:1.5px solid var(--rose);color:var(--deep);border-radius:50px;padding:8px 20px;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:300;">
@@ -1316,11 +1406,6 @@
             <stop offset="40%" stop-color="#2d6a9f"/>
             <stop offset="100%" stop-color="#7eb8d4"/>
           </linearGradient>
-          <linearGradient id="bbGlow" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#f5c842" stop-opacity="0"/>
-            <stop offset="50%" stop-color="#f5c842" stop-opacity="0.18"/>
-            <stop offset="100%" stop-color="#f5c842" stop-opacity="0"/>
-          </linearGradient>
           <linearGradient id="bbRock1" x1="0" y1="0" x2="0.3" y2="1">
             <stop offset="0%" stop-color="#7a8a9a"/>
             <stop offset="50%" stop-color="#4a5a6a"/>
@@ -1345,6 +1430,7 @@
           </linearGradient>
         </defs>
 
+        <!-- Sky -->
         <rect width="680" height="340" fill="url(#bbSky)"/>
 
         <!-- Stars -->
@@ -1359,95 +1445,160 @@
         <circle cx="620" cy="20" r="0.9" fill="white" opacity="0.8"/>
 
         <!-- Sun glow -->
-        <ellipse cx="340" cy="48" rx="120" ry="35" fill="url(#bbGlow)"/>
+        <ellipse cx="340" cy="48" rx="120" ry="35" fill="#f5c842" opacity="0.1"/>
 
-        <!-- Far background mountains -->
+        <!-- Cloud ellipses -->
+        <ellipse cx="95" cy="148" rx="70" ry="16" fill="#5a8ab0" opacity="0.4"/>
+        <ellipse cx="75" cy="145" rx="48" ry="11" fill="#6a9ac0" opacity="0.3"/>
+        <ellipse cx="588" cy="135" rx="62" ry="14" fill="#5a8ab0" opacity="0.38"/>
+
+        <!-- Far background ranges -->
         <polygon points="0,260 80,185 160,240 240,165 320,220 400,155 480,215 560,170 640,205 680,185 680,300 0,300" fill="#4a6a8a" opacity="0.35"/>
-
-        <!-- Mid range -->
         <polygon points="0,290 60,240 130,262 200,222 280,248 360,212 440,240 520,220 600,244 680,225 680,310 0,310" fill="#3a5570" opacity="0.5"/>
 
-        <!-- Cloud wisps -->
-        <ellipse cx="80" cy="85" rx="55" ry="10" fill="white" opacity="0.22"/>
-        <ellipse cx="580" cy="72" rx="60" ry="10" fill="white" opacity="0.18"/>
-        <ellipse cx="200" cy="98" rx="40" ry="7" fill="white" opacity="0.18"/>
+        <!-- NUPTSE - simple triangle mountain -->
+        <polygon points="565,308 618,148 672,308" fill="#3a5a7a" opacity="0.75"/>
+        <polygon points="565,308 618,148 592,308" fill="#2a4060" opacity="0.65"/>
+        <polygon points="605,162 618,148 632,162 625,168 618,152 611,168" fill="#c8e0f0" opacity="0.82"/>
+        <text x="648" y="138" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#c8e0f0" font-style="italic" opacity="0.85">Nuptse</text>
 
-        <!-- Main mountain - shadow face -->
+        <!-- LHOTSE - simple background peak, right of center -->
+        <polygon points="462,198 488,122 515,198 545,198 545,310 462,310" fill="#3a5875" opacity="0.8"/>
+        <polygon points="462,198 488,122 475,198" fill="#28404a" opacity="0.65"/>
+        <polygon points="476,135 488,122 500,135 494,143 488,126 482,143" fill="white" opacity="0.92"/>
+        <polygon points="465,158 476,135 482,143 488,126 494,143 488,155 470,162" fill="#ddeeff" opacity="0.85"/>
+        <text x="520" y="112" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#c8e0f0" font-style="italic" opacity="0.85">Lhotse</text>
+
+        <!-- EVEREST MAIN - EXACT original shapes -->
         <polygon points="180,335 340,36 420,128 460,335" fill="url(#bbRock2)" opacity="0.95"/>
-        <!-- Main mountain - lit face -->
         <polygon points="340,36 510,335 680,335 680,295 560,212" fill="url(#bbRock1)"/>
-        <!-- Left ridgeline -->
         <polygon points="0,335 160,278 200,298 240,268 280,290 340,255 380,272 340,36 180,335" fill="#2a3a4a" opacity="0.7"/>
 
         <!-- Rock texture -->
         <line x1="250" y1="185" x2="310" y2="320" stroke="#1e2c3a" stroke-width="1" opacity="0.35"/>
         <line x1="270" y1="165" x2="330" y2="308" stroke="#1e2c3a" stroke-width="0.8" opacity="0.28"/>
-        <line x1="225" y1="215" x2="288" y2="335" stroke="#1e2c3a" stroke-width="0.8" opacity="0.28"/>
         <line x1="380" y1="108" x2="450" y2="295" stroke="#5a6a7a" stroke-width="1" opacity="0.35"/>
         <line x1="415" y1="98" x2="492" y2="278" stroke="#5a6a7a" stroke-width="0.8" opacity="0.28"/>
-        <line x1="440" y1="112" x2="522" y2="290" stroke="#5a6a7a" stroke-width="0.8" opacity="0.28"/>
 
-        <!-- Snow left shoulder -->
+        <!-- Snow - EXACT original -->
         <polygon points="230,162 340,36 395,98 350,142 300,128 260,158" fill="url(#bbSnow)" opacity="0.92"/>
-        <!-- Snow right shoulder -->
         <polygon points="340,36 430,92 405,108 370,88 345,65" fill="url(#bbSnowSh)" opacity="0.85"/>
-        <!-- Snow details -->
         <polygon points="280,142 310,108 320,122 295,150" fill="white" opacity="0.45"/>
         <polygon points="320,118 345,78 355,92 330,125" fill="white" opacity="0.38"/>
-        <!-- Summit ice -->
         <polygon points="330,46 340,36 350,46 345,54 335,54" fill="white" opacity="0.95"/>
+
+        <!-- Khumbu Icefall - white triangle -->
+        <polygon points="448,258 470,232 492,258 485,270 470,240 455,270" fill="white" opacity="0.82"/>
+        <polygon points="455,268 470,248 485,268" fill="#ddeeff" opacity="0.7"/>
 
         <!-- Fog layer -->
         <rect x="0" y="198" width="680" height="45" fill="url(#bbFog)"/>
-        <ellipse cx="200" cy="222" rx="180" ry="22" fill="#c8dff0" opacity="0.18"/>
-        <ellipse cx="520" cy="215" rx="160" ry="18" fill="#c8dff0" opacity="0.14"/>
 
         <!-- Foreground rocks -->
         <polygon points="0,335 0,315 100,290 180,308 260,295 340,305 420,292 500,305 580,290 680,302 680,335" fill="#1a2530"/>
         <polygon points="0,335 0,328 80,318 160,328 240,318 340,325 440,316 540,325 640,315 680,320 680,335" fill="#111c25"/>
 
-        <!-- Route dots on mountain -->
-        <circle cx="280" cy="292" r="3.5" fill="#f5c842" stroke="white" stroke-width="1.5"/>
-        <circle cx="295" cy="260" r="3.5" fill="#f5c842" stroke="white" stroke-width="1.5"/>
-        <circle cx="308" cy="230" r="3.5" fill="#e8879c" stroke="white" stroke-width="1.5"/>
-        <circle cx="318" cy="200" r="3.5" fill="#e8879c" stroke="white" stroke-width="1.5"/>
-        <circle cx="326" cy="170" r="3.5" fill="#c25c76" stroke="white" stroke-width="1.5"/>
-        <circle cx="332" cy="138" r="3.5" fill="#c25c76" stroke="white" stroke-width="1.5"/>
-        <circle cx="337" cy="100" r="3" fill="#9b4d6a" stroke="white" stroke-width="1.5"/>
-        <circle cx="340" cy="65" r="3" fill="#9b4d6a" stroke="white" stroke-width="1.5"/>
+        <!-- ═══ SOUTH COL ROUTE - bottom right zigzag up ═══ -->
+        <!-- Base Camp to Khumbu -->
+        <polyline points="488,328 484,312 478,296 472,280 465,265 457,252"
+          fill="none" stroke="#ee2222" stroke-width="2.8" stroke-linecap="round" stroke-dasharray="6,3.5" opacity="0.95"/>
+        <!-- Khumbu zigzag -->
+        <polyline points="457,252 463,238 455,225 449,212"
+          fill="none" stroke="#ee2222" stroke-width="2.8" stroke-linecap="round" stroke-dasharray="6,3.5" opacity="0.95"/>
+        <!-- Across to Camp 2 -->
+        <polyline points="449,212 436,205 422,198 408,192 394,188"
+          fill="none" stroke="#ee2222" stroke-width="2.8" stroke-linecap="round" stroke-dasharray="6,3.5" opacity="0.95"/>
+        <!-- Up Lhotse Face to Camp 3 -->
+        <polyline points="394,188 382,175 370,160 360,145 352,132"
+          fill="none" stroke="#ee2222" stroke-width="2.8" stroke-linecap="round" stroke-dasharray="6,3.5" opacity="0.95"/>
+        <!-- Camp 3 to South Col -->
+        <polyline points="352,132 342,120 330,108 320,98 310,90"
+          fill="none" stroke="#ee2222" stroke-width="2.8" stroke-linecap="round" stroke-dasharray="6,3.5" opacity="0.95"/>
+        <!-- C4 → Hillary Step → Summit straight up snow ridge -->
+        <polyline points="310,90 308,80 306,70 305,60 305,52 306,44 308,38 316,37 328,36 340,36"
+          fill="none" stroke="#ee2222" stroke-width="2.8" stroke-linecap="round" opacity="0.95"/>
 
-        <!-- Summit flag -->
-        <line x1="340" y1="36" x2="340" y2="22" stroke="white" stroke-width="1.2"/>
-        <polygon points="340,22 352,26 340,30" fill="#c25c76"/>
+        <!-- Summit flag on mountain peak -->
+        <line x1="340" y1="36" x2="340" y2="22" stroke="white" stroke-width="1.5"/>
+        <polygon points="340,22 354,26 340,30" fill="#ee2222"/>
 
-        <!-- Camp labels -->
-        <rect x="234" y="284" width="62" height="13" rx="3" fill="#f5c842" opacity="0.92"/>
-        <text x="265" y="294" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#2a1a00" font-weight="700">Basiskamp</text>
-        <rect x="322" y="220" width="44" height="13" rx="3" fill="#e8879c" opacity="0.92"/>
-        <text x="344" y="230" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="white" font-weight="700">Camp 1</text>
-        <rect x="332" y="160" width="44" height="13" rx="3" fill="#c25c76" opacity="0.92"/>
-        <text x="354" y="170" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="white" font-weight="700">Camp 2</text>
-        <rect x="342" y="90" width="44" height="13" rx="3" fill="#9b4d6a" opacity="0.92"/>
-        <text x="364" y="100" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="white" font-weight="700">Camp 3</text>
-        <rect x="354" y="30" width="36" height="13" rx="3" fill="white" opacity="0.92"/>
-        <text x="372" y="40" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#c25c76" font-weight="700">TOP!</text>
+        <!-- ═══ CAMP MARKERS ═══ -->
+        <circle cx="488" cy="328" r="8" fill="#f5c842" stroke="white" stroke-width="2.5"/>
+        <text x="488" y="332" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#1a0e00" font-weight="700">BC</text>
 
-        <!-- Climber (positioned by JS) -->
-        <g id="bbClimber" transform="translate(265,295)">
-          <circle r="8" fill="#c25c76" stroke="white" stroke-width="2"/>
-          <text x="0" y="4" text-anchor="middle" font-family="sans-serif" font-size="9" fill="white" font-weight="700">BB</text>
+        <circle cx="457" cy="252" r="5" fill="#88ccee" stroke="white" stroke-width="1.8"/>
+
+        <circle cx="449" cy="212" r="7" fill="#7eb8d4" stroke="white" stroke-width="2.2"/>
+        <text x="449" y="216" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="white" font-weight="700">C1</text>
+
+        <circle cx="394" cy="188" r="7" fill="#e8879c" stroke="white" stroke-width="2.2"/>
+        <text x="394" y="192" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="white" font-weight="700">C2</text>
+
+        <circle cx="352" cy="132" r="7" fill="#c25c76" stroke="white" stroke-width="2.2"/>
+        <text x="352" y="136" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="white" font-weight="700">C3</text>
+
+        <circle cx="310" cy="90" r="7" fill="#9b4d6a" stroke="white" stroke-width="2.2"/>
+        <text x="310" y="94" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="white" font-weight="700">C4</text>
+
+        <circle cx="305" cy="52" r="5.5" fill="white" stroke="#ee2222" stroke-width="2.2"/>
+
+        <!-- LABELS -->
+        <rect x="352" y="14" width="110" height="15" rx="3" fill="#0a1825" opacity="0.92"/>
+        <text x="407" y="25" text-anchor="middle" font-family="sans-serif" font-size="9" fill="white" font-weight="700">Summit 8.849m</text>
+        <line x1="352" y1="21" x2="343" y2="28" stroke="white" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.7"/>
+
+        <rect x="168" y="45" width="108" height="14" rx="3" fill="#0a1825" opacity="0.88"/>
+        <text x="222" y="55" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="white" font-weight="600">Hillary Step 8.790m</text>
+        <line x1="276" y1="52" x2="305" y2="52" stroke="white" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.6"/>
+
+        <rect x="165" y="83" width="138" height="14" rx="3" fill="#0a1825" opacity="0.88"/>
+        <text x="234" y="93" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#c8a0b8" font-weight="700">Camp 4 / South Col</text>
+        <line x1="303" y1="90" x2="310" y2="90" stroke="#c8a0b8" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.7"/>
+
+        <rect x="360" y="124" width="96" height="14" rx="3" fill="#0a1825" opacity="0.88"/>
+        <text x="408" y="134" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#e8879c" font-weight="700">Camp 3  7.162m</text>
+        <line x1="360" y1="131" x2="352" y2="132" stroke="#e8879c" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.7"/>
+
+        <rect x="258" y="180" width="129" height="14" rx="3" fill="#0a1825" opacity="0.88"/>
+        <text x="322" y="190" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#e8879c" font-weight="700">Camp 2  6.400m</text>
+        <line x1="387" y1="187" x2="394" y2="188" stroke="#e8879c" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.7"/>
+
+        <rect x="460" y="204" width="96" height="14" rx="3" fill="#0a1825" opacity="0.88"/>
+        <text x="508" y="214" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#7eb8d4" font-weight="700">Camp 1  6.065m</text>
+
+        <rect x="320" y="242" width="108" height="14" rx="3" fill="#0a1825" opacity="0.85"/>
+        <text x="374" y="252" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#88ccee" font-weight="700">Khumbu Icefall</text>
+        <line x1="428" y1="249" x2="457" y2="252" stroke="#88ccee" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.6"/>
+
+        <rect x="500" y="320" width="122" height="14" rx="3" fill="#0a1825" opacity="0.9"/>
+        <text x="561" y="330" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#f5c842" font-weight="700">Base Camp  5.182m</text>
+        <!-- Base Camp label clearly above stats bar -->
+        <rect x="418" y="286" width="140" height="16" rx="4" fill="#f5c842" opacity="0.95"/>
+        <text x="488" y="297" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1a0e00" font-weight="700">Base Camp — 5.182m</text>
+
+        <!-- Death Zone -->
+        <rect x="8" y="65" width="70" height="42" rx="4" fill="#aa1111" opacity="0.9"/>
+        <text x="43" y="79" text-anchor="middle" font-family="sans-serif" font-size="8" fill="white" font-weight="700">DEATH</text>
+        <text x="43" y="90" text-anchor="middle" font-family="sans-serif" font-size="8" fill="white" font-weight="700">ZONE</text>
+        <text x="43" y="101" text-anchor="middle" font-family="sans-serif" font-size="7" fill="rgba(255,255,255,0.85)">boven 8.000m</text>
+        <line x1="78" y1="86" x2="162" y2="88" stroke="#aa1111" stroke-width="1" stroke-dasharray="4,3" opacity="0.55"/>
+
+        <!-- Climber -->
+        <g id="bbClimber" transform="translate(488,328)">
+          <circle r="8" fill="#c25c76" stroke="white" stroke-width="2.5"/>
+          <text x="0" y="4" text-anchor="middle" font-family="sans-serif" font-size="8" fill="white" font-weight="700">BB</text>
         </g>
 
-        <!-- Path (drawn by JS) -->
-        <polyline id="bbPath" points="265,295" fill="none" stroke="#f5c842" stroke-width="2" stroke-dasharray="5,3" opacity="0.9"/>
+        <!-- Path -->
+        <polyline id="bbPath" points="488,328" fill="none" stroke="#f5c842" stroke-width="2" stroke-dasharray="5,3" opacity="0.9"/>
 
         <!-- Stats bar -->
-        <rect x="0" y="312" width="680" height="28" fill="#0d1a24" opacity="0.88"/>
-        <text id="bbMetersText" x="115" y="330" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#f5c842" font-weight="700">0m geklommen</text>
-        <line x1="230" y1="316" x2="230" y2="336" stroke="#2a3a4a" stroke-width="1"/>
-        <text id="bbPctText" x="340" y="330" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="white">0% van Everest (8.849m)</text>
-        <line x1="450" y1="316" x2="450" y2="336" stroke="#2a3a4a" stroke-width="1"/>
-        <text id="bbRemainText" x="565" y="330" text-anchor="middle" font-family="sans-serif" font-size="10.5" fill="#7eb8d4">8.849m te gaan</text>
+        <rect x="0" y="308" width="680" height="32" fill="#050e18" opacity="0.95"/>
+        <text id="bbMetersText" x="115" y="328" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#f5c842" font-weight="700">0m geklommen</text>
+        <line x1="230" y1="312" x2="230" y2="332" stroke="#1a2a3a" stroke-width="1"/>
+        <text id="bbPctText" x="340" y="328" text-anchor="middle" font-family="sans-serif" font-size="11" fill="white">0% van Everest (8.849m)</text>
+        <line x1="450" y1="312" x2="450" y2="332" stroke="#1a2a3a" stroke-width="1"/>
+        <text id="bbRemainText" x="565" y="328" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#7eb8d4">8.849m te gaan</text>
       </svg>
     </div>
 
@@ -1622,18 +1773,11 @@
     </button>
   </div>
 
-  <!-- STARTDATUM & RESET -->
+  <!-- RESET -->
   <div style="background:var(--white);border-radius:20px;padding:24px;margin-bottom:20px;box-shadow:0 2px 20px rgba(194,92,118,.08);">
     <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--text);margin-bottom:4px;">Instellingen</div>
-    <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;font-weight:300;">Startdatum & Challenge</div>
-    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
-      <label style="font-size:11px;color:var(--muted);font-weight:300;letter-spacing:1px;text-transform:uppercase;">Startdatum challenge:</label>
-      <input type="date" id="startDateInput"
-        style="padding:8px 14px;border:1.5px solid var(--sand);border-radius:50px;font-family:'Jost',sans-serif;font-size:13px;color:var(--text);outline:none;background:var(--cream);">
-      <button onclick="saveStartDate()" class="btn-primary" style="padding:8px 18px;font-size:10px;">Opslaan ✓</button>
-    </div>
-    <p style="font-size:10px;color:var(--taupe);font-weight:300;font-style:italic;margin-bottom:16px;">Stel je echte startdatum in zodat de app de juiste dag en week toont.</p>
-    <div style="border-top:1px solid var(--sand);padding-top:14px;text-align:center;">
+    <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;font-weight:300;">Challenge</div>
+    <div style="text-align:center;">
       <button class="btn-secondary" onclick="resetChallenge()" style="font-size:9px;padding:8px 18px">↺ Challenge volledig resetten</button>
     </div>
   </div>
@@ -1670,7 +1814,7 @@
 const VALID_CODES = [
   'BB-SOFIA-ADMIN',    // Sofia - admin
   // Voeg hier nieuwe klantcodes toe:
-   // 'BB-FABRICE-2026',  // Fabrice K.
+  // 'BB-FABRICE-2026',  // Fabrice K.
   // 'BB-PRESSY-2026',  // Preston K.
 
 ];
@@ -1910,9 +2054,12 @@ function updateHR(val) {
     if (pct >= 100) { zone = HR_ZONES[HR_ZONES.length - 1]; break; }
   }
 
-  document.getElementById('hrIcon').textContent     = zone.icon;
-  document.getElementById('hrZoneName').textContent = `${bpm} bpm — ${zone.name}`;
-  document.getElementById('hrZoneTip').textContent  = zone.tip;
+  var elHrI = document.getElementById('hrIcon');
+  var elHrN = document.getElementById('hrZoneName');
+  var elHrT = document.getElementById('hrZoneTip');
+  if (elHrI) elHrI.textContent = zone.icon;
+  if (elHrN) elHrN.textContent = bpm + ' bpm — ' + zone.name;
+  if (elHrT) elHrT.textContent = zone.tip;
   document.getElementById('hrFeedback').classList.add('visible');
   renderHRZones(bpm);
 }
@@ -1929,15 +2076,19 @@ function render() {
   const done = state.completed.length;
   const streak = calcStreak();
 
-  document.getElementById('statDone').textContent = done;
-  document.getElementById('statStreak').textContent = streak;
-  document.getElementById('statRemain').textContent = TOTAL_DAYS - done;
-  document.getElementById('statCal').textContent = Math.round(done * 250);
+  var elDone = document.getElementById('statDone');
+  var elRemain = document.getElementById('statRemain');
+  var elCal = document.getElementById('statCal');
+  if (elDone) elDone.textContent = done;
+  if (elRemain) elRemain.textContent = TOTAL_DAYS - done;
+  if (elCal) elCal.textContent = Math.round(done * 250);
 
   const pct = Math.round((done / TOTAL_DAYS) * 100);
   document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressLeft').textContent = done + ' / ' + TOTAL_DAYS + ' sessies';
-  document.getElementById('progressPct').textContent = pct + '%';
+  var elLeft = document.getElementById('progressLeft');
+  var elPct = document.getElementById('progressPct');
+  if (elLeft) elLeft.textContent = done + ' / ' + TOTAL_DAYS + ' sessies';
+  if (elPct) elPct.textContent = pct + '%';
 
   // Auto-spring naar correcte week op basis van vandaag
   const todayIdx = getTodayDayIndex();
@@ -1960,8 +2111,10 @@ function render() {
 function renderTodayCard() {
   const today = getTodayDayIndex();
   const d = DAY_DATA[today] || DAY_DATA[TOTAL_DAYS - 1];
-  document.getElementById('todayDayNum').textContent = today + 1;
-  document.getElementById('todayTitle').textContent = 'Dag ' + (today + 1) + ' — ' + d.title;
+  var elDayNum = document.getElementById('todayDayNum');
+  var elDayTitle = document.getElementById('todayTitle');
+  if (elDayNum) elDayNum.textContent = today + 1;
+  if (elDayTitle) elDayTitle.textContent = 'Dag ' + (today + 1) + ' — ' + d.title;
 
   const isDone = state.completed.includes(today);
   const isRest = REST_DAYS.includes(today + 1);
@@ -2200,6 +2353,7 @@ function openTimer() {
   clearInterval(timerInterval);
   document.getElementById('timerSection').classList.add('visible');
   document.getElementById('timerBtn').textContent = '▶ Start';
+  renderMiniEverest();
   updateTimerDisplay();
   document.getElementById('timerSection').scrollIntoView({ behavior: 'smooth' });
 }
@@ -2323,8 +2477,8 @@ function updateTimerDisplay() {
   const m = Math.floor(secs / 60);
   const s = secs % 60;
   document.getElementById('timerDisplay').textContent = m + ':' + String(s).padStart(2, '0');
-  document.getElementById('timerPhaseSmall').textContent = ph.name.toLowerCase();
-  document.getElementById('timerPhaseName').textContent  = ph.name;
+  var elPhS = document.getElementById('timerPhaseSmall'); if (elPhS) elPhS.textContent = ph.name.toLowerCase();
+  var elPhN = document.getElementById('timerPhaseName'); if (elPhN) elPhN.textContent = ph.name;
 
   const circ     = 2 * Math.PI * 80;
   const progress = 1 - (secs / total);
@@ -2471,16 +2625,18 @@ const QUOTES = [
 ];
 
 function getDailyQuote() {
-  const dayIdx = getTodayDayIndex();
-  return QUOTES[dayIdx % QUOTES.length];
+  // Gebruik datum voor rotatie zodat het altijd werkt, ook zonder startdatum
+  const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+  const completed = state.completed ? state.completed.length : 0;
+  const idx = (dayOfYear + completed) % QUOTES.length;
+  return QUOTES[idx];
 }
 
 function renderQuote() {
   const q = getDailyQuote();
   const el = document.getElementById('dailyQuote');
-  if (el) {
-    el.innerHTML = '<em>"' + q.text + '"</em><span class="quote-author"> — ' + q.auteur + '</span>';
-  }
+  if (!el) return;
+  el.innerHTML = '<em>"' + q.text + '"</em><span class="quote-author"> — ' + q.auteur + '</span>';
 }
 
 // ── STREAK BELONING ──
@@ -2778,148 +2934,145 @@ function downloadWeekReport() {
   const userName = localStorage.getItem('bodybloom_access_name') || 'Gebruiker';
   const datum = new Date().toLocaleDateString('nl-BE', { day:'numeric', month:'long', year:'numeric' });
 
-  // Gather data
   const weekDays = [];
   for (let i = start; i < end; i++) {
     weekDays.push({ dag: i+1, voltooid: state.completed.includes(i), rust: REST_DAYS_LOCAL.includes(i+1) });
   }
   const voltooid = weekDays.filter(d => d.voltooid || d.rust).length;
-  
-  const entries = JSON.parse(localStorage.getItem('bb_journal') || '[]');
-  const weekNotes = entries.filter(e => e.dag >= start+1 && e.dag <= end);
-  
+  const gemist   = weekDays.filter(d => !d.voltooid && !d.rust).length;
+  const score    = Math.round(voltooid / weekDays.length * 100);
+
+  const entries  = JSON.parse(localStorage.getItem('bb_journal') || '[]');
+  const weekNotes = entries.filter(function(e) { return e.dag >= start+1 && e.dag <= end; });
   const playlist = JSON.parse(localStorage.getItem('bb_playlist') || '[]');
   const m1  = JSON.parse(localStorage.getItem('bb_metingen_dag1')  || 'null');
   const m30 = JSON.parse(localStorage.getItem('bb_metingen_dag30') || 'null');
 
-  // Build HTML for PDF
-  const html = `<!DOCTYPE html>
-<html lang="nl">
-<head>
-<meta charset="UTF-8">
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family: Georgia, serif; background: #fdf6f0; color: #3a2430; padding: 40px; }
-  .header { background: linear-gradient(135deg, #9b4d6a, #c25c76); color: white; padding: 32px; border-radius: 16px; margin-bottom: 24px; text-align: center; }
-  .header h1 { font-size: 32px; font-weight: 300; letter-spacing: -1px; }
-  .header p { font-size: 12px; opacity: .8; margin-top: 6px; letter-spacing: 2px; text-transform: uppercase; }
-  .section { background: white; border-radius: 12px; padding: 20px; margin-bottom: 16px; border-left: 4px solid #c25c76; }
-  .section h2 { font-size: 16px; color: #c25c76; margin-bottom: 12px; font-weight: 400; }
-  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
-  .stat { text-align: center; background: #fdf6f0; border-radius: 8px; padding: 12px; }
-  .stat-num { font-size: 28px; color: #c25c76; font-weight: 300; }
-  .stat-lbl { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #8a6070; margin-top: 2px; }
-  .day-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-  .day-cell { text-align: center; padding: 8px 4px; border-radius: 8px; font-size: 11px; }
-  .day-cell.done { background: #c25c76; color: white; }
-  .day-cell.rust { background: #f2c4ce; color: #9b4d6a; }
-  .day-cell.miss { background: #f5e6d8; color: #c9a98a; }
-  .note { background: #fdf6f0; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; border-left: 3px solid #e8879c; }
-  .note-meta { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: #8a6070; margin-bottom: 4px; }
-  .note-text { font-size: 12px; line-height: 1.6; }
-  .playlist-item { display: flex; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid #f5e6d8; }
-  .pl-num { font-size: 16px; color: #c25c76; font-weight: 300; min-width: 24px; }
-  .pl-song { font-size: 12px; font-weight: 500; }
-  .pl-artist { font-size: 11px; color: #8a6070; }
-  .measure-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-  .measure-item { text-align: center; background: #fdf6f0; border-radius: 8px; padding: 10px; }
-  .measure-val { font-size: 20px; color: #c25c76; font-weight: 300; }
-  .measure-lbl { font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: #8a6070; }
-  .footer { text-align: center; margin-top: 24px; font-size: 10px; color: #c9a98a; letter-spacing: 2px; text-transform: uppercase; }
-  @media print { body { padding: 20px; } }
-</style>
-</head>
-<body>
+  // Build day grid HTML
+  var dagGrid = '';
+  weekDays.forEach(function(d) {
+    var cls = d.rust ? 'rust' : d.voltooid ? 'done' : 'miss';
+    var icon = d.rust ? 'Rust' : d.voltooid ? 'V' : '-';
+    dagGrid += '<div class="day-cell ' + cls + '"><div>Dag ' + d.dag + '</div><div style="font-size:14px;">' + icon + '</div></div>';
+  });
 
-<div class="header">
-  <p>Body Bloom by Sofia · 12·3·30 Challenge</p>
-  <h1>Week ${week} Rapport</h1>
-  <p>Dag ${start+1} t/m ${end} · ${userName} · ${datum}</p>
-</div>
+  // Build notes HTML
+  var notesHTML = '';
+  if (weekNotes.length > 0) {
+    notesHTML = '<div class="section"><h2>Notities deze week</h2>';
+    weekNotes.forEach(function(n) {
+      notesHTML += '<div class="note"><div class="note-meta">Dag ' + n.dag + ' · ' + n.datum + '</div>';
+      notesHTML += '<div class="note-text">' + n.tekst.replace(/</g,'&lt;') + '</div></div>';
+    });
+    notesHTML += '</div>';
+  }
 
-<div class="section">
-  <h2>Voortgang deze week</h2>
-  <div class="stats">
-    <div class="stat"><div class="stat-num">${weekDays.filter(d=>d.voltooid||d.rust).length}</div><div class="stat-lbl">Afgerond</div></div>
-    <div class="stat"><div class="stat-num">${weekDays.filter(d=>!d.voltooid&&!d.rust).length}</div><div class="stat-lbl">Gemist</div></div>
-    <div class="stat"><div class="stat-num">${Math.round(weekDays.filter(d=>d.voltooid||d.rust).length / weekDays.length * 100)}%</div><div class="stat-lbl">Score</div></div>
-  </div>
-  <div class="day-grid">
-    ${weekDays.map(d => 
-      '<div class="day-cell ' + (d.rust ? 'rust' : d.voltooid ? 'done' : 'miss') + '">' +
-      '<div>Dag ' + d.dag + '</div>' +
-      '<div style="font-size:14px;">' + (d.rust ? '🌸' : d.voltooid ? '✓' : '·') + '</div>' +
-      '</div>'
-    ).join('')}
-  </div>
-</div>
+  // Build metingen HTML
+  var metingenHTML = '';
+  if (m1) {
+    metingenHTML = '<div class="section"><h2>Metingen Dag 1</h2><div class="measure-grid">';
+    metingenHTML += '<div class="measure-item"><div class="measure-val">' + (m1.gewicht||'&mdash;') + '</div><div class="measure-lbl">Gewicht kg</div></div>';
+    metingenHTML += '<div class="measure-item"><div class="measure-val">' + (m1.taille||'&mdash;') + '</div><div class="measure-lbl">Taille cm</div></div>';
+    metingenHTML += '<div class="measure-item"><div class="measure-val">' + (m1.heupen||'&mdash;') + '</div><div class="measure-lbl">Heupen cm</div></div>';
+    metingenHTML += '<div class="measure-item"><div class="measure-val">' + (m1.borst||'&mdash;') + '</div><div class="measure-lbl">Borst cm</div></div>';
+    metingenHTML += '</div></div>';
+  }
 
-${weekNotes.length > 0 ? `
-<div class="section">
-  <h2>Notities deze week</h2>
-  ${weekNotes.map(n => 
-    '<div class="note"><div class="note-meta">Dag ' + n.dag + ' · ' + n.datum + '</div><div class="note-text">' + n.tekst + '</div></div>'
-  ).join('')}
-</div>` : ''}
+  // Build playlist HTML
+  var playlistHTML = '';
+  if (playlist.length > 0) {
+    playlistHTML = '<div class="section"><h2>Mijn Workout Playlist (' + playlist.length + ' nummers)</h2>';
+    playlist.forEach(function(s, i) {
+      playlistHTML += '<div class="playlist-item">';
+      playlistHTML += '<div class="pl-num">' + (i+1) + '</div>';
+      playlistHTML += '<div><div class="pl-song">' + s.song.replace(/</g,'&lt;') + '</div>';
+      if (s.artist) playlistHTML += '<div class="pl-artist">' + s.artist.replace(/</g,'&lt;') + '</div>';
+      playlistHTML += '</div><div style="margin-left:auto;">' + s.vibe + '</div></div>';
+    });
+    playlistHTML += '</div>';
+  }
 
-${m1 ? `
-<div class="section">
-  <h2>Metingen</h2>
-  <div class="measure-grid">
-    <div class="measure-item"><div class="measure-val">${m1.gewicht||'—'}</div><div class="measure-lbl">Gewicht kg</div></div>
-    <div class="measure-item"><div class="measure-val">${m1.taille||'—'}</div><div class="measure-lbl">Taille cm</div></div>
-    <div class="measure-item"><div class="measure-val">${m1.heupen||'—'}</div><div class="measure-lbl">Heupen cm</div></div>
-    <div class="measure-item"><div class="measure-val">${m1.borst||'—'}</div><div class="measure-lbl">Borst cm</div></div>
-  </div>
-</div>` : ''}
+  var html = '<!DOCTYPE html><html lang="nl"><head><meta charset="UTF-8">' +
+    '<style>' +
+    '* { margin:0; padding:0; box-sizing:border-box; }' +
+    'body { font-family: Georgia, serif; background: #fdf6f0; color: #3a2430; padding: 40px; }' +
+    '.header { background: linear-gradient(135deg,#9b4d6a,#c25c76); color:white; padding:32px; border-radius:16px; margin-bottom:24px; text-align:center; }' +
+    '.header h1 { font-size:32px; font-weight:300; letter-spacing:-1px; }' +
+    '.header p { font-size:12px; opacity:.8; margin-top:6px; letter-spacing:2px; text-transform:uppercase; }' +
+    '.section { background:white; border-radius:12px; padding:20px; margin-bottom:16px; border-left:4px solid #c25c76; }' +
+    '.section h2 { font-size:16px; color:#c25c76; margin-bottom:12px; font-weight:400; }' +
+    '.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:12px; }' +
+    '.stat { text-align:center; background:#fdf6f0; border-radius:8px; padding:12px; }' +
+    '.stat-num { font-size:28px; color:#c25c76; font-weight:300; }' +
+    '.stat-lbl { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#8a6070; margin-top:2px; }' +
+    '.day-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }' +
+    '.day-cell { text-align:center; padding:8px 4px; border-radius:8px; font-size:11px; }' +
+    '.day-cell.done { background:#c25c76; color:white; }' +
+    '.day-cell.rust { background:#f2c4ce; color:#9b4d6a; }' +
+    '.day-cell.miss { background:#f5e6d8; color:#c9a98a; }' +
+    '.note { background:#fdf6f0; border-radius:8px; padding:10px 12px; margin-bottom:8px; border-left:3px solid #e8879c; }' +
+    '.note-meta { font-size:9px; letter-spacing:1px; text-transform:uppercase; color:#8a6070; margin-bottom:4px; }' +
+    '.note-text { font-size:12px; line-height:1.6; }' +
+    '.playlist-item { display:flex; gap:10px; align-items:center; padding:8px 0; border-bottom:1px solid #f5e6d8; }' +
+    '.pl-num { font-size:16px; color:#c25c76; font-weight:300; min-width:24px; }' +
+    '.pl-song { font-size:12px; font-weight:500; }' +
+    '.pl-artist { font-size:11px; color:#8a6070; }' +
+    '.measure-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }' +
+    '.measure-item { text-align:center; background:#fdf6f0; border-radius:8px; padding:10px; }' +
+    '.measure-val { font-size:20px; color:#c25c76; font-weight:300; }' +
+    '.measure-lbl { font-size:9px; letter-spacing:1px; text-transform:uppercase; color:#8a6070; }' +
+    '.footer { text-align:center; margin-top:24px; font-size:10px; color:#c9a98a; letter-spacing:2px; text-transform:uppercase; }' +
+    '@media print { body { padding:20px; } }' +
+    '</style></head><body>' +
+    '<div class="header">' +
+    '<p>Body Bloom by Sofia &middot; 12&middot;3&middot;30 Challenge</p>' +
+    '<h1>Week ' + week + ' Rapport</h1>' +
+    '<p>Dag ' + (start+1) + ' t/m ' + end + ' &middot; ' + userName + ' &middot; ' + datum + '</p>' +
+    '</div>' +
+    '<div class="section"><h2>Voortgang deze week</h2>' +
+    '<div class="stats">' +
+    '<div class="stat"><div class="stat-num">' + voltooid + '</div><div class="stat-lbl">Afgerond</div></div>' +
+    '<div class="stat"><div class="stat-num">' + gemist + '</div><div class="stat-lbl">Gemist</div></div>' +
+    '<div class="stat"><div class="stat-num">' + score + '%</div><div class="stat-lbl">Score</div></div>' +
+    '</div>' +
+    '<div class="day-grid">' + dagGrid + '</div>' +
+    '</div>' +
+    notesHTML + metingenHTML + playlistHTML +
+    '<div class="footer">&copy; 2026 Body Bloom by Sofia &middot; 12&middot;3&middot;30 Loopband Challenge &middot; Exclusief voor Body Bloom klanten</div>' +
+    '</body></html>';
 
-${playlist.length > 0 ? `
-<div class="section">
-  <h2>Mijn Workout Playlist (${playlist.length} nummers)</h2>
-  ${playlist.map((s, i) => 
-    '<div class="playlist-item"><div class="pl-num">' + (i+1) + '</div><div><div class="pl-song">' + s.song + '</div>' + (s.artist ? '<div class="pl-artist">' + s.artist + '</div>' : '') + '</div><div style="margin-left:auto;">' + s.vibe + '</div></div>'
-  ).join('')}
-</div>` : ''}
-
-<div class="footer">
-  © 2026 Body Bloom by Sofia · 12·3·30 Loopband Challenge · Exclusief voor Body Bloom klanten
-</div>
-
-</body>
-</html>`;
-
-  // Open in new window and trigger print/save as PDF
-  const win = window.open('', '_blank');
+  var win = window.open('', '_blank');
+  if (!win) { showToast('Pop-up geblokkeerd! Sta pop-ups toe in Safari. 🌸'); return; }
   win.document.write(html);
   win.document.close();
-  setTimeout(() => {
-    win.print();
-  }, 500);
+  setTimeout(function() { win.print(); }, 600);
 }
 
 
-// ── MOUNT EVEREST BEKLIMMING ──
+// ── MOUNT EVEREST CONSTANTEN ──
 const EVEREST_HEIGHT = 8849;
-const METERS_PER_WORKOUT = Math.round(EVEREST_HEIGHT / 30);
+const METERS_PER_WORKOUT = Math.round(EVEREST_HEIGHT / 30); // ~295m per dag
 
-// Waypoints on the SVG path (x,y per dag milestone)
 const CLIMB_WAYPOINTS = [
-  {dag:0,  x:265, y:295}, // Start / Basiskamp
-  {dag:7,  x:265, y:295}, // Basiskamp
-  {dag:14, x:308, y:228}, // Camp 1
-  {dag:21, x:326, y:168}, // Camp 2
-  {dag:28, x:337, y:102}, // Camp 3
-  {dag:30, x:340, y:50},  // TOP
+  {dag:0,  x:488, y:328}, // Base Camp
+  {dag:6,  x:488, y:328}, // Base Camp
+  {dag:12, x:449, y:212}, // Camp 1
+  {dag:18, x:394, y:188}, // Camp 2
+  {dag:24, x:352, y:132}, // Camp 3
+  {dag:27, x:310, y:90},  // Camp 4 South Col
+  {dag:29, x:305, y:52},  // Hillary Step
+  {dag:30, x:340, y:36},  // Summit
 ];
 
 const CAMPS = [
-  { dag: 0,  label: 'Start — Lace up! 👟' },
-  { dag: 1,  label: 'Op weg naar Basiskamp! 🏕️' },
-  { dag: 7,  label: 'Basiskamp bereikt! 🏕️' },
-  { dag: 14, label: 'Camp 1 bereikt! ⛺' },
-  { dag: 21, label: 'Camp 2 bereikt! 🧗' },
-  { dag: 28, label: 'Camp 3 bereikt! 🏔️' },
-  { dag: 30, label: 'EVEREST TOP! 🏆🎉' },
+  { dag: 0,  label: 'Base Camp — Lace up! Jij kan dit!' },
+  { dag: 6,  label: 'Base Camp 5.182m — Op weg!' },
+  { dag: 12, label: 'Camp 1 bereikt! 6.065m' },
+  { dag: 18, label: 'Camp 2 bereikt! 6.400m' },
+  { dag: 24, label: 'Camp 3 bereikt! 7.162m' },
+  { dag: 27, label: 'South Col bereikt! 7.906m' },
+  { dag: 29, label: 'Hillary Step! 8.790m' },
+  { dag: 30, label: 'EVEREST SUMMIT! 8.849m' },
 ];
 
 function getClimberPosition(done) {
@@ -2967,7 +3120,7 @@ function renderEverest() {
   // Draw path
   const pathEl = document.getElementById('bbPath');
   if (pathEl) {
-    let pts = '265,295';
+    let pts = '488,328';
     for (let d = 1; d <= done; d++) {
       const p = getClimberPosition(d);
       pts += ' ' + p.x.toFixed(1) + ',' + p.y.toFixed(1);
@@ -2999,6 +3152,65 @@ function renderEverest() {
   });
 }
 
+
+// ── MINI EVEREST IN TIMER ──
+const MINI_WAYPOINTS = [
+  {dag:0,  x:180, y:65}, // Base Camp
+  {dag:6,  x:180, y:65}, // Base Camp
+  {dag:12, x:158, y:52}, // Camp 1
+  {dag:18, x:140, y:40}, // Camp 2
+  {dag:24, x:128, y:28}, // Camp 3
+  {dag:27, x:118, y:18}, // South Col
+  {dag:29, x:112, y:11}, // Hillary Step
+  {dag:30, x:106, y:5},  // Summit
+];
+
+function getMiniClimberPos(done) {
+  for (var i = 0; i < MINI_WAYPOINTS.length - 1; i++) {
+    var from = MINI_WAYPOINTS[i];
+    var to   = MINI_WAYPOINTS[i + 1];
+    if (done >= from.dag && done <= to.dag) {
+      var pct = (done - from.dag) / (to.dag - from.dag);
+      return {
+        x: from.x + (to.x - from.x) * pct,
+        y: from.y + (to.y - from.y) * pct,
+      };
+    }
+  }
+  return MINI_WAYPOINTS[MINI_WAYPOINTS.length - 1];
+}
+
+function renderMiniEverest() {
+  var done    = state.completed ? state.completed.length : 0;
+  var meters  = done * METERS_PER_WORKOUT;
+  var pct     = Math.min(Math.round(done / 30 * 100), 100);
+  var camp    = CAMPS.filter(function(c) { return done >= c.dag; }).pop() || CAMPS[0];
+  var campShort = camp.label.replace('bereikt!','').replace('Lace up!','Start').replace('EVEREST TOP! Jij hebt het gedaan!','TOP!').trim();
+
+  var elM = document.getElementById('miniMeters');
+  var elC = document.getElementById('miniCamp');
+  var elP = document.getElementById('miniPct');
+  if (elM) elM.textContent = meters.toLocaleString('nl-BE') + 'm';
+  if (elC) elC.textContent = campShort;
+  if (elP) elP.textContent = pct + '%';
+
+  // Move climber
+  var pos = getMiniClimberPos(done);
+  var climber = document.getElementById('miniClimber');
+  if (climber) climber.setAttribute('transform', 'translate(' + pos.x.toFixed(1) + ',' + pos.y.toFixed(1) + ')');
+
+  // Draw path
+  var pathEl = document.getElementById('miniPath');
+  if (pathEl) {
+    var pts = '180,65';
+    for (var d = 1; d <= done; d++) {
+      var p = getMiniClimberPos(d);
+      pts += ' ' + p.x.toFixed(1) + ',' + p.y.toFixed(1);
+    }
+    pathEl.setAttribute('points', pts);
+  }
+}
+
 // ── TOAST ──
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -3012,6 +3224,8 @@ loadState();
 
 // ── INIT ──
 window.addEventListener('DOMContentLoaded', function() {
+  // Render quote direct bij laden — onafhankelijk van toegangscode
+  setTimeout(renderQuote, 100);
   const savedAccess = localStorage.getItem('bodybloom_access');
   const expiry = parseInt(localStorage.getItem('bodybloom_access_expiry') || '0');
   const notExpired = expiry > Date.now();
