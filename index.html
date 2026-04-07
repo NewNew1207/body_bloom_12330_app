@@ -3116,7 +3116,7 @@ function downloadWeekReport() {
   weekDays.forEach(function(d) {
     var cls = d.rust ? 'rust' : d.voltooid ? 'done' : 'miss';
     var icon = d.rust ? 'Rust' : d.voltooid ? 'V' : '-';
-    dagGrid += '<div class="day-cell ' + cls + '"><div>Dag ' + d.dag + '</div><div style="font-size:14px;">' + icon + '</div></div>';
+    dagGrid += '<div class="day-cell ' + cls + '"><div class="day-n">' + d.dag + '</div><div class="day-l">' + icon + '</div></div>';
   });
 
   // Build notes HTML
@@ -3155,61 +3155,96 @@ function downloadWeekReport() {
     playlistHTML += '</div>';
   }
 
+  var totalDone = state.completed.length;
+  var totalKcal = Math.round(totalDone * 250);
+  var totalMeters = totalDone * 295;
+  var everestPct = Math.min(Math.round(totalDone / 30 * 100), 100);
+  var streak = 0;
+  for (var si = totalDone - 1; si >= 0; si--) {
+    if (REST_DAYS_LOCAL.includes(si + 1) || state.completed.includes(si)) streak++;
+    else break;
+  }
+
+  // Motiverende boodschap op basis van score
+  var motivatie = '';
+  if (score >= 100) motivatie = 'Perfecte week! Jij bent ongelooflijk. Blijf zo doorgaan! 💪🌸';
+  else if (score >= 80) motivatie = 'Sterke week! Je bent goed op weg. Fier op jezelf zijn! 🌸';
+  else if (score >= 50) motivatie = 'Halverwege! Elke sessie telt. Morgen weer een nieuwe kans. 🌸';
+  else motivatie = 'Elke stap telt, ook de kleine. Volgende week wordt jouw week! 🌸';
+
   var html = '<!DOCTYPE html><html lang="nl"><head><meta charset="UTF-8">' +
     '<title>Body Bloom — Week ' + week + ' Rapport</title>' +
     '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">' +
     '<style>' +
     '* { margin:0; padding:0; box-sizing:border-box; }' +
-    'body { font-family: Jost, sans-serif; background: #fdf6f0; color: #3a2430; padding: 40px; font-weight: 300; max-width: 800px; margin: 0 auto; }' +
-    '.header { background: linear-gradient(135deg,#9b4d6a,#c25c76,#e8879c); color:white; padding:40px 32px; border-radius:20px; margin-bottom:28px; text-align:center; position:relative; overflow:hidden; }' +
-    '.header::before { content:""; position:absolute; inset:0; background:radial-gradient(ellipse at 70% 30%,rgba(255,255,255,.12) 0%,transparent 60%); }' +
-    '.header-logo { font-family:Cormorant Garamond,serif; font-size:11px; font-weight:300; letter-spacing:6px; text-transform:uppercase; color:rgba(255,255,255,.7); margin-bottom:12px; position:relative; }' +
-    '.header h1 { font-family:Cormorant Garamond,serif; font-size:36px; font-weight:300; letter-spacing:-1px; position:relative; }' +
-    '.header h1 em { font-style:italic; color:#f2c4ce; }' +
-    '.header p { font-size:11px; letter-spacing:3px; text-transform:uppercase; opacity:.8; margin-top:10px; position:relative; }' +
-    '.section { background:white; border-radius:16px; padding:24px; margin-bottom:16px; box-shadow:0 2px 20px rgba(194,92,118,.08); }' +
-    '.section h2 { font-family:Cormorant Garamond,serif; font-size:20px; color:#3a2430; margin-bottom:4px; font-weight:400; }' +
-    '.section-sub { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#8a6070; margin-bottom:16px; font-weight:300; }' +
-    '.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }' +
-    '.stat { text-align:center; background:#fdf6f0; border-radius:12px; padding:14px; }' +
-    '.stat-num { font-family:Cormorant Garamond,serif; font-size:32px; color:#c25c76; font-weight:600; line-height:1; }' +
-    '.stat-lbl { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#8a6070; margin-top:4px; font-weight:300; }' +
-    '.day-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:8px; }' +
-    '.day-cell { text-align:center; padding:10px 4px; border-radius:10px; font-size:11px; font-weight:300; }' +
-    '.day-cell.done { background:linear-gradient(135deg,#e8879c,#c25c76); color:white; }' +
+    'body { font-family: Jost, sans-serif; background: #fdf6f0; color: #3a2430; padding: 32px 24px; font-weight: 300; max-width: 700px; margin: 0 auto; }' +
+    '.header { background: #fdf6f0; text-align:center; padding:24px 20px 28px; margin-bottom:24px; border-bottom:2px solid #f2c4ce; }' +
+    '.header-logo { font-family:Cormorant Garamond,serif; font-size:11px; font-weight:300; letter-spacing:6px; text-transform:uppercase; color:#c25c76; margin-bottom:8px; }' +
+    '.header h1 { font-family:Cormorant Garamond,serif; font-size:32px; font-weight:300; color:#3a2430; letter-spacing:-1px; }' +
+    '.header h1 em { font-style:italic; color:#c25c76; }' +
+    '.header-info { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#8a6070; margin-top:8px; font-weight:300; }' +
+    '.header-line { width:60px; height:2px; background:linear-gradient(90deg,#e8879c,#c25c76); margin:16px auto 0; border-radius:2px; }' +
+    '.section { background:white; border-radius:16px; padding:20px; margin-bottom:14px; border:1px solid #f5e6d8; }' +
+    '.section h2 { font-family:Cormorant Garamond,serif; font-size:18px; color:#3a2430; margin-bottom:4px; font-weight:400; }' +
+    '.section-sub { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#8a6070; margin-bottom:14px; font-weight:300; }' +
+    '.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:14px; }' +
+    '.stat { text-align:center; background:#fdf6f0; border-radius:10px; padding:12px 8px; }' +
+    '.stat-num { font-family:Cormorant Garamond,serif; font-size:28px; color:#c25c76; font-weight:600; line-height:1; }' +
+    '.stat-lbl { font-size:8px; letter-spacing:2px; text-transform:uppercase; color:#8a6070; margin-top:3px; font-weight:300; }' +
+    '.day-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }' +
+    '.day-cell { text-align:center; padding:8px 2px; border-radius:8px; font-size:10px; font-weight:300; }' +
+    '.day-cell .day-n { font-family:Cormorant Garamond,serif; font-size:16px; font-weight:600; line-height:1; }' +
+    '.day-cell .day-l { font-size:8px; letter-spacing:1px; text-transform:uppercase; margin-top:2px; }' +
+    '.day-cell.done { background:#c25c76; color:white; }' +
+    '.day-cell.done .day-n { color:white; }' +
     '.day-cell.rust { background:#f2c4ce; color:#9b4d6a; }' +
     '.day-cell.miss { background:#f5e6d8; color:#c9a98a; }' +
-    '.note { background:#fdf6f0; border-radius:10px; padding:12px 14px; margin-bottom:8px; border-left:3px solid #e8879c; }' +
-    '.note-meta { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#8a6070; margin-bottom:4px; font-weight:300; }' +
-    '.note-text { font-size:12px; line-height:1.6; font-weight:300; }' +
-    '.playlist-item { display:flex; gap:10px; align-items:center; padding:8px 0; border-bottom:1px solid #f5e6d8; font-weight:300; }' +
-    '.pl-num { font-family:Cormorant Garamond,serif; font-size:18px; color:#c25c76; font-weight:600; min-width:24px; text-align:center; }' +
-    '.pl-song { font-size:12px; font-weight:400; }' +
-    '.pl-artist { font-size:11px; color:#8a6070; font-weight:300; }' +
-    '.measure-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }' +
-    '.measure-item { text-align:center; background:#fdf6f0; border-radius:10px; padding:12px; }' +
-    '.measure-val { font-family:Cormorant Garamond,serif; font-size:24px; color:#c25c76; font-weight:600; }' +
-    '.measure-lbl { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#8a6070; font-weight:300; margin-top:2px; }' +
-    '.footer { text-align:center; margin-top:28px; padding-top:20px; border-top:1px solid #f5e6d8; }' +
-    '.footer p { font-size:10px; color:#c9a98a; letter-spacing:2px; text-transform:uppercase; font-weight:300; }' +
-    '.footer .bloom { font-family:Cormorant Garamond,serif; font-size:14px; color:#c25c76; font-style:italic; margin-top:6px; }' +
-    '.print-btn { position:fixed; bottom:20px; right:20px; background:linear-gradient(135deg,#e8879c,#c25c76); color:white; border:none; border-radius:50px; padding:14px 28px; font-family:Jost,sans-serif; font-size:12px; letter-spacing:3px; text-transform:uppercase; cursor:pointer; box-shadow:0 8px 24px rgba(194,92,118,.4); z-index:10; }' +
-    '@media print { .print-btn { display:none !important; } body { padding:20px; } .section { box-shadow:none; border:1px solid #f5e6d8; } .header { -webkit-print-color-adjust:exact; print-color-adjust:exact; } .day-cell.done,.stat { -webkit-print-color-adjust:exact; print-color-adjust:exact; } }' +
+    '.totals { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }' +
+    '.total-item { text-align:center; background:#fdf6f0; border-radius:10px; padding:10px 6px; }' +
+    '.total-num { font-family:Cormorant Garamond,serif; font-size:20px; color:#c25c76; font-weight:600; line-height:1; }' +
+    '.total-lbl { font-size:8px; letter-spacing:1px; text-transform:uppercase; color:#8a6070; margin-top:3px; font-weight:300; }' +
+    '.motivatie { background:linear-gradient(135deg,#f2c4ce,#f5e6d8); border-radius:12px; padding:16px; text-align:center; margin-top:14px; }' +
+    '.motivatie p { font-family:Cormorant Garamond,serif; font-size:16px; color:#3a2430; font-style:italic; line-height:1.5; }' +
+    '.note { background:#fdf6f0; border-radius:8px; padding:10px 12px; margin-bottom:6px; border-left:3px solid #e8879c; }' +
+    '.note-meta { font-size:8px; letter-spacing:2px; text-transform:uppercase; color:#8a6070; margin-bottom:3px; font-weight:300; }' +
+    '.note-text { font-size:11px; line-height:1.5; font-weight:300; }' +
+    '.measure-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }' +
+    '.measure-item { text-align:center; background:#fdf6f0; border-radius:8px; padding:10px; }' +
+    '.measure-val { font-family:Cormorant Garamond,serif; font-size:20px; color:#c25c76; font-weight:600; }' +
+    '.measure-lbl { font-size:8px; letter-spacing:1px; text-transform:uppercase; color:#8a6070; font-weight:300; margin-top:2px; }' +
+    '.playlist-item { display:flex; gap:8px; align-items:center; padding:6px 0; border-bottom:1px solid #f5e6d8; font-weight:300; }' +
+    '.pl-num { font-family:Cormorant Garamond,serif; font-size:16px; color:#c25c76; font-weight:600; min-width:20px; text-align:center; }' +
+    '.pl-song { font-size:11px; font-weight:400; }' +
+    '.pl-artist { font-size:10px; color:#8a6070; font-weight:300; }' +
+    '.footer { text-align:center; margin-top:24px; padding-top:16px; border-top:2px solid #f2c4ce; }' +
+    '.footer p { font-size:9px; color:#c9a98a; letter-spacing:2px; text-transform:uppercase; font-weight:300; }' +
+    '.footer .bloom { font-family:Cormorant Garamond,serif; font-size:13px; color:#c25c76; font-style:italic; margin-top:4px; }' +
+    '.print-btn { position:fixed; bottom:16px; right:16px; background:#c25c76; color:white; border:none; border-radius:50px; padding:12px 24px; font-family:Jost,sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; cursor:pointer; box-shadow:0 4px 16px rgba(194,92,118,.3); z-index:10; }' +
+    '@media print { .print-btn{display:none!important} body{padding:16px} .section{border:1px solid #f5e6d8;box-shadow:none} .day-cell.done,.stat,.total-item,.motivatie{-webkit-print-color-adjust:exact;print-color-adjust:exact} }' +
     '</style></head><body>' +
-    '<button class="print-btn" onclick="window.print()">🖨️ Print / Save als PDF</button>' +
+    '<button class="print-btn" onclick="window.print()">Opslaan als PDF</button>' +
     '<div class="header">' +
     '<div class="header-logo">Body Bloom by Sofia</div>' +
     '<h1>Week ' + week + ' <em>Rapport</em></h1>' +
-    '<p>Dag ' + (start+1) + ' t/m ' + end + ' &middot; ' + userName + ' &middot; ' + datum + '</p>' +
+    '<div class="header-info">' + userName + ' &middot; ' + datum + ' &middot; Dag ' + (start+1) + ' t/m ' + end + '</div>' +
+    '<div class="header-line"></div>' +
     '</div>' +
-    '<div class="section"><h2>Voortgang deze week</h2><div class="section-sub">12&middot;3&middot;30 Loopband Challenge</div>' +
+    '<div class="section"><h2>Voortgang week ' + week + '</h2><div class="section-sub">Sessies deze week</div>' +
     '<div class="stats">' +
     '<div class="stat"><div class="stat-num">' + voltooid + '</div><div class="stat-lbl">Afgerond</div></div>' +
     '<div class="stat"><div class="stat-num">' + gemist + '</div><div class="stat-lbl">Gemist</div></div>' +
     '<div class="stat"><div class="stat-num">' + score + '%</div><div class="stat-lbl">Score</div></div>' +
     '</div>' +
     '<div class="day-grid">' + dagGrid + '</div>' +
+    '<div class="motivatie"><p>' + motivatie + '</p></div>' +
     '</div>' +
+    '<div class="section"><h2>Totale voortgang</h2><div class="section-sub">Challenge overzicht</div>' +
+    '<div class="totals">' +
+    '<div class="total-item"><div class="total-num">' + totalDone + '/30</div><div class="total-lbl">Sessies</div></div>' +
+    '<div class="total-item"><div class="total-num">' + totalKcal + '</div><div class="total-lbl">kcal ~</div></div>' +
+    '<div class="total-item"><div class="total-num">' + totalMeters + 'm</div><div class="total-lbl">Everest</div></div>' +
+    '<div class="total-item"><div class="total-num">' + everestPct + '%</div><div class="total-lbl">Van top</div></div>' +
+    '</div></div>' +
     notesHTML + metingenHTML + playlistHTML +
     '<div class="footer"><p>&copy; 2026 Body Bloom by Sofia &middot; Exclusief voor Body Bloom klanten</p>' +
     '<p class="bloom">Bloom where you are planted. 🌸</p></div>' +
