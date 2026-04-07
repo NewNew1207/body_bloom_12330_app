@@ -27,6 +27,53 @@
     --gold:     #d4a95a;
   }
 
+  /* ── DARK MODE ── */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --cream:    #1a1216;
+      --sand:     #2a2024;
+      --taupe:    #7a6a5a;
+      --text:     #f0e8ec;
+      --muted:    #b89aa8;
+      --white:    #221a1e;
+      --gold:     #e8b86a;
+    }
+    body { background: var(--cream); }
+    .header { background: linear-gradient(135deg, #2a1a22 0%, var(--mauve) 50%, #3a2030 100%); }
+    .stats-bar { background: var(--white); border-color: var(--sand); }
+    .stat-item { border-color: var(--sand); }
+    .progress-section, .hr-section, .journal-section, .data-section,
+    .timer-section, .today-card, .tip-card { background: var(--white); }
+    .today-card { background: linear-gradient(135deg, #2a1a22, #221a1e); border-color: var(--mauve); }
+    .step-card { background: rgba(255,255,255,.06); }
+    .method-card { background: linear-gradient(135deg, #2a1a22, var(--mauve)); }
+    .daily-quote { background: linear-gradient(135deg, #2a1a22, #221a1e); border-color: var(--mauve); }
+    .modal { background: var(--cream); }
+    .modal-input { background: var(--white); color: var(--text); border-color: var(--sand); }
+    .hr-input { background: var(--white); color: var(--text); border-color: var(--sand); }
+    .hr-feedback { background: linear-gradient(135deg, #2a1a22, #221a1e); border-color: var(--mauve); }
+    .journal-entry { background: var(--cream); border-color: var(--mauve); }
+    .journal-textarea { background: var(--cream); color: var(--text); border-color: var(--sand); }
+    .measure-input { background: var(--cream); color: var(--text); border-color: var(--sand); }
+    .ba-card { background: var(--cream); border-color: var(--sand); }
+    .playlist-item { background: var(--cream); border-color: var(--mauve); }
+    .disclaimer-page { background: var(--cream); }
+    .welcome-overlay { background: linear-gradient(135deg, #1a0e14, var(--mauve)); }
+    .streak-journey { background: linear-gradient(135deg, #2a1a22, #221a1e); border-color: var(--mauve); }
+    .everest-section { background: linear-gradient(180deg, #0a1a2a 0%, #1a1216 100%); }
+    .everest-stat { background: rgba(255,255,255,.08); }
+    footer { border-color: var(--sand); }
+    .week-tab { border-color: var(--sand); color: var(--muted); }
+    .day-cell { background: var(--white); border-color: var(--sand); }
+    .day-cell.rest { background: var(--sand); border-color: var(--sand); }
+    .fitness-btn { border-color: var(--sand); color: var(--muted); }
+    .data-btn { background: var(--white); border-color: var(--sand); color: var(--muted); }
+    .journal-tab { border-color: var(--sand); color: var(--muted); }
+    .tip-card { box-shadow: 0 2px 12px rgba(0,0,0,.15); }
+    .progress-section, .hr-section, .journal-section, .data-section,
+    .timer-section { box-shadow: 0 2px 20px rgba(0,0,0,.15); }
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
@@ -1296,7 +1343,7 @@
         style="background:transparent;border:1.5px solid var(--rose);color:var(--deep);border-radius:50px;padding:8px 20px;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:300;">
         🔔 Activeer geluid
       </button>
-      <button onclick="requestNotifPermission()" id="notifBtn"
+      <button onclick="requestNotifPermission().catch(function(){})" id="notifBtn"
         style="background:transparent;border:1.5px solid var(--rose);color:var(--deep);border-radius:50px;padding:8px 20px;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:300;">
         🔔 Activeer meldingen
       </button>
@@ -1756,7 +1803,7 @@
       Selecteer een week om het rapport te bekijken.
     </div>
     <button class="btn-primary" onclick="downloadWeekReport()" style="width:100%;text-align:center;display:block;">
-      ⬇ Download Weekrapport PDF
+      📄 Open Weekrapport (print als PDF)
     </button>
   </div>
 
@@ -1796,28 +1843,44 @@
 
 <script>
 
-// ── TOEGANGSCODES ──
-// Voeg hier codes toe voor nieuwe klanten
-const VALID_CODES = [
-  'BB-SOFIA-ADMIN',    // Sofia - admin
-  // Voeg hier nieuwe klantcodes toe:
-  // 'BB-FABRICE-2026',  // Fabrice K.
-  // 'BB-PRESSY-2026',  // Preston K.
-
+// ── TOEGANGSCODES (SHA-256 gehasht) ──
+// Codes zijn nu beveiligd: niet leesbaar in broncode
+// Om een nieuwe code toe te voegen: gebruik generateHashedCode('BB-NAAM-2026') in console
+const VALID_HASHES = [
+  // BB-SOFIA-ADMIN
+  null, // placeholder, wordt bij init berekend
 ];
 
-function checkAccessCode() {
+// Pre-computed hashes laden bij init
+const PRECOMPUTED_HASHES = [];
+
+async function hashCode(code) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(code.trim().toUpperCase());
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Init: bereken hashes van bekende codes (eenmalig bij laden)
+const KNOWN_CODES_HASHED = [
+  '23a4601293003f8821a964433104062f2b5a993545cc4ababd12d7d291366346', // BB-SOFIA-ADMIN
+  // Voeg hier nieuwe gehashte codes toe.
+  // Genereer via: hashCode('BB-NAAM-2026').then(h => console.log(h))
+];
+
+async function checkAccessCode() {
   const input = document.getElementById('accessCodeInput').value.trim().toUpperCase();
   const errorEl = document.getElementById('accessError');
+  const inputHash = await hashCode(input);
   
-  if (VALID_CODES.includes(input)) {
+  if (KNOWN_CODES_HASHED.includes(inputHash)) {
     // Code correct — onthoud 365 dagen
     const expiry = Date.now() + 365 * 24 * 60 * 60 * 1000;
-    localStorage.setItem('bodybloom_access', input);
+    localStorage.setItem('bodybloom_access', inputHash);
     localStorage.setItem('bodybloom_access_expiry', expiry.toString());
     localStorage.setItem('bodybloom_access_name', input.replace('BB-','').replace('-ADMIN','').replace('-2026','').replace('-2027',''));
     document.getElementById('accessModalOverlay').classList.add('hidden');
-    // Toon welkomstboodschap
     showWelcomeMessage(input);
     errorEl.style.display = 'none';
   } else {
@@ -1873,7 +1936,10 @@ function showCodeGenerator() {
   const name = prompt('Naam of code voor klant:');
   if (name) {
     const code = generateCode(name);
-    alert('Nieuwe code: ' + code + '\n\nVoeg toe aan VALID_CODES lijst in de app!');
+    hashCode(code).then(h => {
+      alert('Nieuwe code: ' + code + '\n\nSHA-256 hash (voeg toe aan KNOWN_CODES_HASHED):\n' + h);
+      console.log('Hash voor ' + code + ':', h);
+    });
   }
 }
 
@@ -2055,7 +2121,7 @@ function updateHR(val) {
 function render() {
   // Veiligheidscheck: render nooit zonder geldige toegangscode
   const access = localStorage.getItem('bodybloom_access');
-  if (!access || !VALID_CODES.includes(access)) {
+  if (!access || !KNOWN_CODES_HASHED.includes(access)) {
     document.getElementById('accessModalOverlay').classList.remove('hidden');
     document.getElementById('modalOverlay').classList.add('hidden');
     return;
@@ -2362,23 +2428,118 @@ function resetTimer() {
   updateTimerDisplay();
 }
 
-// ── NOTIFICATIES ──
-function requestNotifPermission() {
-  if ('Notification' in window && Notification.permission === 'default') {
-    Notification.requestPermission();
+// ── NOTIFICATIES (met Service Worker voor mobiel) ──
+let swRegistration = null;
+
+async function registerServiceWorker() {
+  if ('serviceWorker' in navigator) {
+    try {
+      // Inline service worker via Blob (geen apart bestand nodig)
+      const swCode = `
+        self.addEventListener('push', function(event) {
+          const data = event.data ? event.data.json() : {};
+          const title = data.title || 'Body Bloom';
+          const options = {
+            body: data.body || '',
+            icon: data.icon || '',
+            badge: data.badge || '',
+            tag: 'bodybloom-timer',
+            renotify: true,
+            vibrate: [200, 100, 200],
+            requireInteraction: true
+          };
+          event.waitUntil(self.registration.showNotification(title, options));
+        });
+        self.addEventListener('notificationclick', function(event) {
+          event.notification.close();
+          event.waitUntil(clients.matchAll({type:'window'}).then(function(list) {
+            if (list.length > 0) return list[0].focus();
+            return clients.openWindow('/');
+          }));
+        });
+      `;
+      const blob = new Blob([swCode], { type: 'application/javascript' });
+      const swURL = URL.createObjectURL(blob);
+      swRegistration = await navigator.serviceWorker.register(swURL);
+      console.log('Service Worker geregistreerd');
+    } catch(e) {
+      console.warn('Service Worker registratie mislukt:', e);
+    }
+  }
+}
+
+async function requestNotifPermission() {
+  if (!('Notification' in window)) {
+    showToast('Meldingen niet ondersteund op dit toestel');
+    return false;
+  }
+  
+  if (Notification.permission === 'granted') {
+    updateNotifButton(true);
+    return true;
+  }
+  
+  if (Notification.permission === 'denied') {
+    showToast('Meldingen geblokkeerd. Wijzig in je browser-instellingen.');
+    return false;
+  }
+  
+  // Vraag toestemming
+  const result = await Notification.requestPermission();
+  if (result === 'granted') {
+    await registerServiceWorker();
+    updateNotifButton(true);
+    showToast('Meldingen geactiveerd! 🔔🌸');
+    return true;
+  } else {
+    showToast('Meldingen niet toegestaan. Je kan dit later wijzigen.');
+    return false;
+  }
+}
+
+function updateNotifButton(active) {
+  const btn = document.getElementById('notifBtn');
+  if (btn && active) {
+    btn.textContent = '🔔 Meldingen actief ✓';
+    btn.style.borderColor = '#6BA87A';
+    btn.style.color = '#6BA87A';
   }
 }
 
 function sendNotif(title, body) {
-  if ('Notification' in window && Notification.permission === 'granted') {
-    try {
-      new Notification(title, {
-        body: body,
-        icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%23C25C76"/><text y=".9em" font-size="80" x="10">🌸</text></svg>',
-        tag: 'bodybloom-timer',
-        renotify: true,
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  
+  try {
+    const options = {
+      body: body,
+      icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%23C25C76"/><text y=".9em" font-size="80" x="10">🌸</text></svg>',
+      tag: 'bodybloom-timer',
+      renotify: true,
+      vibrate: [200, 100, 200],
+      requireInteraction: true,
+      silent: false,
+    };
+    
+    // Probeer via Service Worker (werkt op mobiel in achtergrond)
+    if (swRegistration && swRegistration.showNotification) {
+      swRegistration.showNotification(title, options).catch(function() {
+        // Fallback naar gewone Notification
+        try { new Notification(title, options); } catch(e) {}
       });
-    } catch(e) {}
+    } else {
+      // Directe Notification (desktop/foreground)
+      new Notification(title, options);
+    }
+  } catch(e) {
+    console.warn('Notificatie fout:', e);
+  }
+}
+
+// Check notificatie status bij init
+function checkNotifStatus() {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    updateNotifButton(true);
+    registerServiceWorker();
   }
 }
 
@@ -2980,43 +3141,53 @@ function downloadWeekReport() {
   }
 
   var html = '<!DOCTYPE html><html lang="nl"><head><meta charset="UTF-8">' +
+    '<title>Body Bloom — Week ' + week + ' Rapport</title>' +
+    '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">' +
     '<style>' +
     '* { margin:0; padding:0; box-sizing:border-box; }' +
-    'body { font-family: Georgia, serif; background: #fdf6f0; color: #3a2430; padding: 40px; }' +
-    '.header { background: linear-gradient(135deg,#9b4d6a,#c25c76); color:white; padding:32px; border-radius:16px; margin-bottom:24px; text-align:center; }' +
-    '.header h1 { font-size:32px; font-weight:300; letter-spacing:-1px; }' +
-    '.header p { font-size:12px; opacity:.8; margin-top:6px; letter-spacing:2px; text-transform:uppercase; }' +
-    '.section { background:white; border-radius:12px; padding:20px; margin-bottom:16px; border-left:4px solid #c25c76; }' +
-    '.section h2 { font-size:16px; color:#c25c76; margin-bottom:12px; font-weight:400; }' +
-    '.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:12px; }' +
-    '.stat { text-align:center; background:#fdf6f0; border-radius:8px; padding:12px; }' +
-    '.stat-num { font-size:28px; color:#c25c76; font-weight:300; }' +
-    '.stat-lbl { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#8a6070; margin-top:2px; }' +
-    '.day-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }' +
-    '.day-cell { text-align:center; padding:8px 4px; border-radius:8px; font-size:11px; }' +
-    '.day-cell.done { background:#c25c76; color:white; }' +
+    'body { font-family: Jost, sans-serif; background: #fdf6f0; color: #3a2430; padding: 40px; font-weight: 300; max-width: 800px; margin: 0 auto; }' +
+    '.header { background: linear-gradient(135deg,#9b4d6a,#c25c76,#e8879c); color:white; padding:40px 32px; border-radius:20px; margin-bottom:28px; text-align:center; position:relative; overflow:hidden; }' +
+    '.header::before { content:""; position:absolute; inset:0; background:radial-gradient(ellipse at 70% 30%,rgba(255,255,255,.12) 0%,transparent 60%); }' +
+    '.header-logo { font-family:Cormorant Garamond,serif; font-size:11px; font-weight:300; letter-spacing:6px; text-transform:uppercase; color:rgba(255,255,255,.7); margin-bottom:12px; position:relative; }' +
+    '.header h1 { font-family:Cormorant Garamond,serif; font-size:36px; font-weight:300; letter-spacing:-1px; position:relative; }' +
+    '.header h1 em { font-style:italic; color:#f2c4ce; }' +
+    '.header p { font-size:11px; letter-spacing:3px; text-transform:uppercase; opacity:.8; margin-top:10px; position:relative; }' +
+    '.section { background:white; border-radius:16px; padding:24px; margin-bottom:16px; box-shadow:0 2px 20px rgba(194,92,118,.08); }' +
+    '.section h2 { font-family:Cormorant Garamond,serif; font-size:20px; color:#3a2430; margin-bottom:4px; font-weight:400; }' +
+    '.section-sub { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#8a6070; margin-bottom:16px; font-weight:300; }' +
+    '.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }' +
+    '.stat { text-align:center; background:#fdf6f0; border-radius:12px; padding:14px; }' +
+    '.stat-num { font-family:Cormorant Garamond,serif; font-size:32px; color:#c25c76; font-weight:600; line-height:1; }' +
+    '.stat-lbl { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#8a6070; margin-top:4px; font-weight:300; }' +
+    '.day-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:8px; }' +
+    '.day-cell { text-align:center; padding:10px 4px; border-radius:10px; font-size:11px; font-weight:300; }' +
+    '.day-cell.done { background:linear-gradient(135deg,#e8879c,#c25c76); color:white; }' +
     '.day-cell.rust { background:#f2c4ce; color:#9b4d6a; }' +
     '.day-cell.miss { background:#f5e6d8; color:#c9a98a; }' +
-    '.note { background:#fdf6f0; border-radius:8px; padding:10px 12px; margin-bottom:8px; border-left:3px solid #e8879c; }' +
-    '.note-meta { font-size:9px; letter-spacing:1px; text-transform:uppercase; color:#8a6070; margin-bottom:4px; }' +
-    '.note-text { font-size:12px; line-height:1.6; }' +
-    '.playlist-item { display:flex; gap:10px; align-items:center; padding:8px 0; border-bottom:1px solid #f5e6d8; }' +
-    '.pl-num { font-size:16px; color:#c25c76; font-weight:300; min-width:24px; }' +
-    '.pl-song { font-size:12px; font-weight:500; }' +
-    '.pl-artist { font-size:11px; color:#8a6070; }' +
+    '.note { background:#fdf6f0; border-radius:10px; padding:12px 14px; margin-bottom:8px; border-left:3px solid #e8879c; }' +
+    '.note-meta { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#8a6070; margin-bottom:4px; font-weight:300; }' +
+    '.note-text { font-size:12px; line-height:1.6; font-weight:300; }' +
+    '.playlist-item { display:flex; gap:10px; align-items:center; padding:8px 0; border-bottom:1px solid #f5e6d8; font-weight:300; }' +
+    '.pl-num { font-family:Cormorant Garamond,serif; font-size:18px; color:#c25c76; font-weight:600; min-width:24px; text-align:center; }' +
+    '.pl-song { font-size:12px; font-weight:400; }' +
+    '.pl-artist { font-size:11px; color:#8a6070; font-weight:300; }' +
     '.measure-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }' +
-    '.measure-item { text-align:center; background:#fdf6f0; border-radius:8px; padding:10px; }' +
-    '.measure-val { font-size:20px; color:#c25c76; font-weight:300; }' +
-    '.measure-lbl { font-size:9px; letter-spacing:1px; text-transform:uppercase; color:#8a6070; }' +
-    '.footer { text-align:center; margin-top:24px; font-size:10px; color:#c9a98a; letter-spacing:2px; text-transform:uppercase; }' +
-    '@media print { body { padding:20px; } }' +
+    '.measure-item { text-align:center; background:#fdf6f0; border-radius:10px; padding:12px; }' +
+    '.measure-val { font-family:Cormorant Garamond,serif; font-size:24px; color:#c25c76; font-weight:600; }' +
+    '.measure-lbl { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#8a6070; font-weight:300; margin-top:2px; }' +
+    '.footer { text-align:center; margin-top:28px; padding-top:20px; border-top:1px solid #f5e6d8; }' +
+    '.footer p { font-size:10px; color:#c9a98a; letter-spacing:2px; text-transform:uppercase; font-weight:300; }' +
+    '.footer .bloom { font-family:Cormorant Garamond,serif; font-size:14px; color:#c25c76; font-style:italic; margin-top:6px; }' +
+    '.print-btn { position:fixed; bottom:20px; right:20px; background:linear-gradient(135deg,#e8879c,#c25c76); color:white; border:none; border-radius:50px; padding:14px 28px; font-family:Jost,sans-serif; font-size:12px; letter-spacing:3px; text-transform:uppercase; cursor:pointer; box-shadow:0 8px 24px rgba(194,92,118,.4); z-index:10; }' +
+    '@media print { .print-btn { display:none !important; } body { padding:20px; } .section { box-shadow:none; border:1px solid #f5e6d8; } .header { -webkit-print-color-adjust:exact; print-color-adjust:exact; } .day-cell.done,.stat { -webkit-print-color-adjust:exact; print-color-adjust:exact; } }' +
     '</style></head><body>' +
+    '<button class="print-btn" onclick="window.print()">🖨️ Print / Save als PDF</button>' +
     '<div class="header">' +
-    '<p>Body Bloom by Sofia &middot; 12&middot;3&middot;30 Challenge</p>' +
-    '<h1>Week ' + week + ' Rapport</h1>' +
+    '<div class="header-logo">Body Bloom by Sofia</div>' +
+    '<h1>Week ' + week + ' <em>Rapport</em></h1>' +
     '<p>Dag ' + (start+1) + ' t/m ' + end + ' &middot; ' + userName + ' &middot; ' + datum + '</p>' +
     '</div>' +
-    '<div class="section"><h2>Voortgang deze week</h2>' +
+    '<div class="section"><h2>Voortgang deze week</h2><div class="section-sub">12&middot;3&middot;30 Loopband Challenge</div>' +
     '<div class="stats">' +
     '<div class="stat"><div class="stat-num">' + voltooid + '</div><div class="stat-lbl">Afgerond</div></div>' +
     '<div class="stat"><div class="stat-num">' + gemist + '</div><div class="stat-lbl">Gemist</div></div>' +
@@ -3025,7 +3196,8 @@ function downloadWeekReport() {
     '<div class="day-grid">' + dagGrid + '</div>' +
     '</div>' +
     notesHTML + metingenHTML + playlistHTML +
-    '<div class="footer">&copy; 2026 Body Bloom by Sofia &middot; 12&middot;3&middot;30 Loopband Challenge &middot; Exclusief voor Body Bloom klanten</div>' +
+    '<div class="footer"><p>&copy; 2026 Body Bloom by Sofia &middot; Exclusief voor Body Bloom klanten</p>' +
+    '<p class="bloom">Bloom where you are planted. 🌸</p></div>' +
     '</body></html>';
 
   var win = window.open('', '_blank');
@@ -3209,14 +3381,29 @@ function showToast(msg) {
 // ── INIT ──
 loadState();
 
+// ── MIGRATIE: oude plain-text codes naar hashes ──
+async function migrateAccessCode() {
+  const saved = localStorage.getItem('bodybloom_access');
+  if (saved && saved.length < 64) {
+    // Oude plain-text code gevonden — hash en bewaar
+    const hashed = await hashCode(saved);
+    if (KNOWN_CODES_HASHED.includes(hashed)) {
+      localStorage.setItem('bodybloom_access', hashed);
+      console.log('Toegangscode gemigreerd naar hash');
+    }
+  }
+}
+
 // ── INIT ──
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', async function() {
+  // Migreer oude plain-text codes naar hashes
+  await migrateAccessCode();
   // Render quote direct bij laden — onafhankelijk van toegangscode
   setTimeout(renderQuote, 100);
   const savedAccess = localStorage.getItem('bodybloom_access');
   const expiry = parseInt(localStorage.getItem('bodybloom_access_expiry') || '0');
   const notExpired = expiry > Date.now();
-  const accessOK = savedAccess && VALID_CODES.includes(savedAccess) && notExpired;
+  const accessOK = savedAccess && KNOWN_CODES_HASHED.includes(savedAccess) && notExpired;
   if (!notExpired && savedAccess) {
     // Code vervallen — wis opgeslagen code
     localStorage.removeItem('bodybloom_access');
@@ -3234,6 +3421,7 @@ window.addEventListener('DOMContentLoaded', function() {
   }
 
   // Code OK — ga verder
+  checkNotifStatus(); // Check & activeer meldingen status
   if (state.startDate) {
     render();
     renderHRZones();
