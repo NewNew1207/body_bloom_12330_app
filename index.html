@@ -1866,10 +1866,9 @@ async function hashCode(code) {
 // Init: bereken hashes van bekende codes (eenmalig bij laden)
 const KNOWN_CODES_HASHED = [
   '23a4601293003f8821a964433104062f2b5a993545cc4ababd12d7d291366346', // BB-SOFIA-ADMIN
-  // Voeg hier nieuwe gehashte codes toe.
-  // Genereer via: hashCode('BB-NAAM-2026').then(h => console.log(h))
+  '5647dd4c33639a36cba3673cd515bae5b403acb195af7864ac81f743cbe38611', // BB-FABRICE-2026
+  'c4cc3f64573a342732c0ed47f2278146edf0a6c1ab181556637cd195bfb4ea1c', // BB-PRESSY-2026
 ];
-
 async function checkAccessCode() {
   const input = document.getElementById('accessCodeInput').value.trim().toUpperCase();
   const errorEl = document.getElementById('accessError');
