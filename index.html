@@ -1441,6 +1441,203 @@
     </div>
   </div>
 
+  <!-- 12-3-30 PROGRAMMA -->
+  <div style="background:var(--white);border-radius:20px;padding:28px;margin-bottom:28px;box-shadow:0 2px 20px rgba(194,92,118,.08);">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text);margin-bottom:4px;">Jouw <em style="font-style:italic;color:var(--deep)">Programma</em></div>
+    <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;font-weight:300;">Sessie flow · Progressie · Stretching</div>
+
+    <!-- PROGRAMMA TABS -->
+    <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;margin-top:14px;">
+      <button class="journal-tab active" onclick="showProgramTab('sessie',this)">Sessie Flow</button>
+      <button class="journal-tab" onclick="showProgramTab('progressie',this)">Progressie</button>
+      <button class="journal-tab" onclick="showProgramTab('stretching',this)">Stretching</button>
+      <button class="journal-tab" onclick="showProgramTab('belangrijk',this)">Belangrijk</button>
+    </div>
+
+    <!-- SESSIE FLOW TAB -->
+    <div id="prog-sessie">
+      <div style="background:linear-gradient(135deg,var(--blush),var(--sand));border-radius:14px;padding:18px;margin-bottom:14px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--text);margin-bottom:10px;">De volledige sessie: 40 minuten</div>
+        <div style="display:grid;gap:10px;">
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.6);border-radius:10px;padding:12px 14px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">1</div>
+            <div><div style="font-size:13px;font-weight:400;color:var(--text);">Opwarming</div><div style="font-size:11px;color:var(--muted);font-weight:300;">5 min · 0% helling · rustig opbouwen naar sessietempo</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.6);border-radius:10px;padding:12px 14px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--rose),var(--deep));display:flex;align-items:center;justify-content:center;font-size:15px;color:white;flex-shrink:0;">2</div>
+            <div><div style="font-size:13px;font-weight:400;color:var(--text);">12·3·30 Helling</div><div style="font-size:11px;color:var(--muted);font-weight:300;">30 min · jouw hellingsniveau · 4,8 km/u · rug recht, armen los</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.6);border-radius:10px;padding:12px 14px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">3</div>
+            <div><div style="font-size:13px;font-weight:400;color:var(--text);">Cool-down</div><div style="font-size:11px;color:var(--muted);font-weight:300;">5 min · 0% helling · tempo rustig afbouwen · niet meteen stoppen</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.6);border-radius:10px;padding:12px 14px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">4</div>
+            <div><div style="font-size:13px;font-weight:400;color:var(--text);">Stretching</div><div style="font-size:11px;color:var(--muted);font-weight:300;">4 min · 4 oefeningen · zie de Stretching tab</div></div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--muted);font-weight:300;font-style:italic;line-height:1.6;">Houding check: sta recht, schouders naar achteren en naar beneden, armen los. Probeer de rails niet vast te houden. Als je kuiten protesteren, ga een stap terug in helling.</p>
+    </div>
+
+    <!-- PROGRESSIE TAB -->
+    <div id="prog-progressie" style="display:none;">
+      <div style="font-size:13px;color:var(--muted);font-weight:300;margin-bottom:16px;line-height:1.6;">Maand 1 is de challenge. Vanaf maand 2 is het de gewoonte. Bouw op zoals het programma aangeeft. Niet sneller.</div>
+      <div style="display:grid;gap:10px;">
+        <div style="background:var(--cream);border-radius:12px;padding:14px 16px;border-left:3px solid var(--sand);">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div><div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--text);">Week 1</div><div style="font-size:11px;color:var(--muted);font-weight:300;margin-top:2px;">Dit is waar het begint. Zes procent is meer dan het klinkt.</div></div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--deep);font-weight:600;">6%</div>
+          </div>
+        </div>
+        <div style="background:var(--cream);border-radius:12px;padding:14px 16px;border-left:3px solid var(--rose);">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div><div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--text);">Week 2</div><div style="font-size:11px;color:var(--muted);font-weight:300;margin-top:2px;">Je lichaam begint mee te werken. Dat is geen toeval.</div></div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--deep);font-weight:600;">8%</div>
+          </div>
+        </div>
+        <div style="background:var(--cream);border-radius:12px;padding:14px 16px;border-left:3px solid var(--deep);">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div><div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--text);">Week 3</div><div style="font-size:11px;color:var(--muted);font-weight:300;margin-top:2px;">Je benen zijn sterker. Je ademhaling ook. Eén week nog.</div></div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--deep);font-weight:600;">10%</div>
+          </div>
+        </div>
+        <div style="background:linear-gradient(135deg,var(--blush),var(--sand));border-radius:12px;padding:14px 16px;border-left:3px solid var(--mauve);">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div><div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--text);">Week 4</div><div style="font-size:11px;color:var(--muted);font-weight:300;margin-top:2px;">De echte 12·3·30. Niet als eindpunt, maar als startpunt.</div></div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--mauve);font-weight:600;">12%</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:linear-gradient(135deg,var(--blush),var(--sand));border-radius:12px;padding:14px;margin-top:14px;text-align:center;border-left:3px solid var(--rose);">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--text);font-style:italic;">Na de challenge: 2x per week naast je infraligne training is genoeg. Meer mag altijd.</div>
+      </div>
+    </div>
+
+    <!-- STRETCHING TAB -->
+    <div id="prog-stretching" style="display:none;">
+      <div style="font-size:13px;color:var(--muted);font-weight:300;margin-bottom:16px;line-height:1.6;">Vier oefeningen. Vier minuten. Je lichaam verdient dit na elke sessie.</div>
+
+      <!-- STRETCH 1: KUITREK -->
+      <div style="background:var(--cream);border-radius:14px;padding:16px;margin-bottom:12px;">
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+          <svg viewBox="0 0 120 160" width="90" style="flex-shrink:0;" xmlns="http://www.w3.org/2000/svg">
+            <rect x="85" y="20" width="30" height="140" rx="2" fill="#f5e6d8" stroke="#c9a98a" stroke-width="1"/>
+            <circle cx="52" cy="22" r="10" fill="#e8879c"/>
+            <line x1="52" y1="32" x2="52" y2="75" stroke="#c25c76" stroke-width="3" stroke-linecap="round"/>
+            <line x1="52" y1="45" x2="80" y2="55" stroke="#c25c76" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="52" y1="45" x2="30" y2="60" stroke="#c25c76" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="52" y1="75" x2="65" y2="120" stroke="#c25c76" stroke-width="3" stroke-linecap="round"/>
+            <line x1="52" y1="75" x2="30" y2="130" stroke="#c25c76" stroke-width="3" stroke-linecap="round"/>
+            <line x1="30" y1="130" x2="18" y2="130" stroke="#c25c76" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="65" y1="120" x2="72" y2="120" stroke="#c25c76" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M28 128 L18 128 L18 132" stroke="#d4a95a" stroke-width="1.5" fill="none" stroke-dasharray="3,2"/>
+            <text x="12" y="145" font-size="7" fill="#8a6070" font-family="sans-serif">30s</text>
+          </svg>
+          <div style="flex:1;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--text);margin-bottom:4px;">1. Kuitrek</div>
+            <div style="font-size:11px;color:var(--muted);font-weight:300;line-height:1.6;">Ga staan voor een muur. Zet een voet naar achteren, hiel op de grond. Leun licht voorover tot je de rek voelt in je kuit. 30 seconden. Wissel van been.</div>
+            <div style="font-size:10px;color:var(--deep);font-weight:400;margin-top:6px;">De belangrijkste van de vier. Je kuiten hebben hard gewerkt.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STRETCH 2: HAMSTRINGREK -->
+      <div style="background:var(--cream);border-radius:14px;padding:16px;margin-bottom:12px;">
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+          <svg viewBox="0 0 120 160" width="90" style="flex-shrink:0;" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="55" cy="30" r="10" fill="#e8879c"/>
+            <line x1="55" y1="40" x2="55" y2="85" stroke="#c25c76" stroke-width="3" stroke-linecap="round"/>
+            <path d="M55 85 Q55 95 48 105 L42 130" stroke="#c25c76" stroke-width="3" stroke-linecap="round" fill="none"/>
+            <line x1="55" y1="85" x2="75" y2="130" stroke="#c25c76" stroke-width="3" stroke-linecap="round"/>
+            <line x1="42" y1="130" x2="32" y2="130" stroke="#c25c76" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="75" y1="130" x2="85" y2="130" stroke="#c25c76" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M55 50 Q65 55 78 48" stroke="#c25c76" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path d="M55 50 Q40 58 30 52" stroke="#c25c76" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <path d="M85 128 L95 128" stroke="#d4a95a" stroke-width="1.5" stroke-dasharray="3,2"/>
+            <text x="65" y="148" font-size="7" fill="#8a6070" font-family="sans-serif">30s</text>
+            <path d="M80 128 Q80 118 90 118" stroke="#d4a95a" stroke-width="1" fill="none"/>
+          </svg>
+          <div style="flex:1;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--text);margin-bottom:4px;">2. Hamstringrek</div>
+            <div style="font-size:11px;color:var(--muted);font-weight:300;line-height:1.6;">Zet een voet iets voor je uit, teen omhoog. Buig licht vanuit je heup naar voren, rug recht. 30 seconden. Wissel.</div>
+            <div style="font-size:10px;color:var(--deep);font-weight:400;margin-top:6px;">Niet forceren. De rek voelen is genoeg.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STRETCH 3: HEUPBUIGERREK -->
+      <div style="background:var(--cream);border-radius:14px;padding:16px;margin-bottom:12px;">
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+          <svg viewBox="0 0 120 160" width="90" style="flex-shrink:0;" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="55" cy="28" r="10" fill="#e8879c"/>
+            <line x1="55" y1="38" x2="55" y2="80" stroke="#c25c76" stroke-width="3" stroke-linecap="round"/>
+            <line x1="55" y1="80" x2="75" y2="120" stroke="#c25c76" stroke-width="3" stroke-linecap="round"/>
+            <line x1="55" y1="80" x2="35" y2="110" stroke="#c25c76" stroke-width="3" stroke-linecap="round"/>
+            <line x1="35" y1="110" x2="35" y2="140" stroke="#c25c76" stroke-width="3" stroke-linecap="round"/>
+            <line x1="75" y1="120" x2="85" y2="120" stroke="#c25c76" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="35" y1="140" x2="35" y2="142" stroke="#c25c76" stroke-width="4" stroke-linecap="round"/>
+            <line x1="55" y1="50" x2="75" y2="58" stroke="#c25c76" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="55" y1="50" x2="35" y2="42" stroke="#c25c76" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M48 85 Q42 78 38 85" stroke="#d4a95a" stroke-width="1.5" fill="none"/>
+            <text x="20" y="95" font-size="7" fill="#d4a95a" font-family="sans-serif">rek</text>
+            <text x="55" y="155" font-size="7" fill="#8a6070" font-family="sans-serif">30s</text>
+          </svg>
+          <div style="flex:1;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--text);margin-bottom:4px;">3. Heupbuigerrek</div>
+            <div style="font-size:11px;color:var(--muted);font-weight:300;line-height:1.6;">Ga in een uitvalspas. Achterste knie mag op de grond. Duw je heup licht naar voren. 30 seconden. Wissel.</div>
+            <div style="font-size:10px;color:var(--deep);font-weight:400;margin-top:6px;">Wie veel zit voelt dit meteen. Dat is normaal.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STRETCH 4: QUADRICEPSREK -->
+      <div style="background:var(--cream);border-radius:14px;padding:16px;margin-bottom:4px;">
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+          <svg viewBox="0 0 120 160" width="90" style="flex-shrink:0;" xmlns="http://www.w3.org/2000/svg">
+            <rect x="90" y="40" width="6" height="110" rx="2" fill="#f5e6d8" stroke="#c9a98a" stroke-width="0.8"/>
+            <circle cx="55" cy="22" r="10" fill="#e8879c"/>
+            <line x1="55" y1="32" x2="55" y2="80" stroke="#c25c76" stroke-width="3" stroke-linecap="round"/>
+            <line x1="55" y1="80" x2="55" y2="130" stroke="#c25c76" stroke-width="3" stroke-linecap="round"/>
+            <line x1="55" y1="80" x2="42" y2="110" stroke="#c25c76" stroke-width="3" stroke-linecap="round"/>
+            <path d="M42 110 Q45 95 55 85" stroke="#c25c76" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <line x1="55" y1="130" x2="60" y2="130" stroke="#c25c76" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="55" y1="50" x2="88" y2="65" stroke="#c25c76" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="55" y1="50" x2="42" y2="65" stroke="#c25c76" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M42 65 L42 105" stroke="#d4a95a" stroke-width="1" stroke-dasharray="3,2"/>
+            <text x="30" y="90" font-size="7" fill="#d4a95a" font-family="sans-serif">rek</text>
+            <text x="45" y="148" font-size="7" fill="#8a6070" font-family="sans-serif">30s</text>
+          </svg>
+          <div style="flex:1;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--text);margin-bottom:4px;">4. Quadricepsrek</div>
+            <div style="font-size:11px;color:var(--muted);font-weight:300;line-height:1.6;">Sta recht. Pak je enkel vast en trek je hiel naar je bil. Knie wijst naar beneden. 30 seconden. Wissel.</div>
+            <div style="font-size:10px;color:var(--deep);font-weight:400;margin-top:6px;">Moeite met balans? Hand tegen de muur, geen probleem.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BELANGRIJK TAB -->
+    <div id="prog-belangrijk" style="display:none;">
+      <div style="background:linear-gradient(135deg,var(--blush),var(--sand));border-radius:14px;padding:16px;margin-bottom:14px;border-left:3px solid var(--rose);">
+        <div style="font-size:13px;color:var(--text);font-weight:400;margin-bottom:6px;">Even dit lezen voor je start</div>
+        <div style="font-size:12px;color:var(--muted);font-weight:300;line-height:1.7;">De 12·3·30 is een pittige loopbandtraining. Dat is precies waarom ze werkt. Maar je lichaam heeft tijd nodig om eraan te wennen, zeker als je al een tijdje minder actief bent geweest. I get it.</div>
+      </div>
+      <div style="background:var(--cream);border-radius:12px;padding:14px 16px;margin-bottom:10px;border-left:3px solid var(--gold);">
+        <div style="font-size:12px;color:var(--text);font-weight:400;margin-bottom:4px;">Waar je op let</div>
+        <div style="font-size:11px;color:var(--muted);font-weight:300;line-height:1.6;">Je kuiten, achillespees en voetzool dragen het meeste. Als je stekende of aanhoudende pijn voelt: stop en neem een extra rustdag. Dat is geen falen. Dat is slim trainen.</div>
+      </div>
+      <div style="background:var(--cream);border-radius:12px;padding:14px 16px;margin-bottom:10px;border-left:3px solid var(--rose);">
+        <div style="font-size:12px;color:var(--text);font-weight:400;margin-bottom:4px;">Opbouwen is niet optioneel</div>
+        <div style="font-size:11px;color:var(--muted);font-weight:300;line-height:1.6;">Start op 6% en bouw wekelijks op. De progressie is er niet om je te vertragen, maar om je te beschermen.</div>
+      </div>
+      <div style="background:var(--cream);border-radius:12px;padding:14px 16px;border-left:3px solid var(--taupe);">
+        <div style="font-size:12px;color:var(--text);font-weight:400;margin-bottom:4px;">Bij twijfel</div>
+        <div style="font-size:11px;color:var(--muted);font-weight:300;line-height:1.6;">Bij bestaande klachten aan gewrichten, rug of pezen: raadpleeg eerst je huisarts of kinesist. Dit programma vervangt geen medisch advies.</div>
+      </div>
+    </div>
+  </div>
+
   <!-- MOUNT EVEREST BEKLIMMING -->
   <div class="everest-section">
     <div class="everest-title">Mount Everest <em style="font-style:italic;color:var(--deep)">Beklimming</em></div>
@@ -1881,7 +2078,7 @@ async function hashCode(code) {
 const KNOWN_CODES_HASHED = [
   '23a4601293003f8821a964433104062f2b5a993545cc4ababd12d7d291366346', // BB-SOFIA-ADMIN
   '5647dd4c33639a36cba3673cd515bae5b403acb195af7864ac81f743cbe38611', // BB-FABRICE-2026
-     'c4cc3f64573a342732c0ed47f2278146edf0a6c1ab181556637cd195bfb4ea1c', // BB-PRESSY-2026
+  'c4cc3f64573a342732c0ed47f2278146edf0a6c1ab181556637cd195bfb4ea1c', // BB-PRESSY-2026
 ];
 
 async function checkAccessCode() {
@@ -2161,13 +2358,12 @@ function render() {
   // Auto-spring naar correcte week op basis van vandaag
   const todayIdx = getTodayDayIndex();
   const correctWeek = Math.min(Math.floor(todayIdx / 7) + 1, 5);
-  if (state.currentWeek !== correctWeek) {
-    state.currentWeek = correctWeek;
-    // Sync week tab buttons
-    document.querySelectorAll('.week-tab').forEach((b, i) => {
-      b.classList.toggle('active', i + 1 === correctWeek);
-    });
-  }
+  state.currentWeek = correctWeek;
+  // Sync week tab buttons (alleen de voortgang tabs)
+  var progressTabs = document.querySelectorAll('.week-tabs .week-tab');
+  progressTabs.forEach(function(b, i) {
+    b.classList.toggle('active', i + 1 === correctWeek);
+  });
 
   renderTodayCard();
   renderGrid(state.currentWeek);
@@ -3426,6 +3622,21 @@ function showToast(msg) {
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── PROGRAMMA TABS ──
+function showProgramTab(tab, btn) {
+  ['sessie','progressie','stretching','belangrijk'].forEach(function(t) {
+    var el = document.getElementById('prog-' + t);
+    if (el) el.style.display = 'none';
+  });
+  var active = document.getElementById('prog-' + tab);
+  if (active) active.style.display = 'block';
+  if (btn) {
+    var parent = btn.parentElement;
+    if (parent) parent.querySelectorAll('.journal-tab').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+  }
 }
 
 // ── INIT ──
