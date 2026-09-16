@@ -2485,9 +2485,12 @@ function renderSchemaLegend(trainingDays, isCustom) {
   var legend = document.createElement('div');
   legend.id = 'schemaLegend';
   legend.style.cssText = 'margin-top:10px;font-size:10px;font-weight:300;letter-spacing:0.5px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;';
+  // Label rest days: 2 days = "Rust", 1 day = "Rust of Yoga"
+  var restLabel = restDays.length === 1 ? 'Rust of Yoga' : 'Rust';
+
   legend.innerHTML =
     '<span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#e8879c;display:inline-block;"></span> Training: ' + trainingDays.map(function(d){ return DAY_NAMES_FULL[d]||d; }).join(' · ') + '</span>' +
-    (restDays.length ? '<span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#f5e6d8;display:inline-block;border:1px solid #e0c8b8;"></span> Rust: ' + restDays.map(function(d){ return DAY_NAMES_FULL[d]||d; }).join(' · ') + '</span>' : '') +
+    (restDays.length ? '<span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#f5e6d8;display:inline-block;border:1px solid #e0c8b8;"></span> ' + restLabel + ': ' + restDays.map(function(d){ return DAY_NAMES_FULL[d]||d; }).join(' · ') + '</span>' : '') +
     (freeDays.length ? '<span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#ede7f6;display:inline-block;border:1px solid #d1c4e9;"></span> Vrij: ' + freeDays.map(function(d){ return DAY_NAMES_FULL[d]||d; }).join(' · ') + '</span>' : '');
 
   var gridEl = document.getElementById('daysGrid');
