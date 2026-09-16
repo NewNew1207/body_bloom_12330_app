@@ -271,6 +271,14 @@
     background: var(--sand);
     border-color: var(--sand);
   }
+  .day-cell.free-day {
+    background: #ede7f6;
+    border-color: #d1c4e9;
+    opacity: 0.7;
+    cursor: default;
+  }
+  .day-cell.free-day .day-num { color: #9575cd; }
+  .day-cell.free-day .day-label { color: #b39ddb; }
   .day-cell.rest .day-label { color: var(--taupe); font-size: 9px; }
   .day-num {
     font-family: 'Cormorant Garamond', serif;
@@ -1877,6 +1885,8 @@
     <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--text);margin-bottom:4px;">Instellingen</div>
     <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;font-weight:300;">Challenge</div>
     <div style="text-align:center;">
+      <button class="btn-secondary" onclick="editSchema()" style="font-size:9px;padding:8px 18px;margin-bottom:8px;">✏️ Wijzig mijn schema</button>
+      <br>
       <button class="btn-secondary" onclick="resetChallenge()" style="font-size:9px;padding:8px 18px">↺ Challenge volledig resetten</button>
     </div>
   </div>
@@ -2060,6 +2070,14 @@ function switchFitness(level, btn) {
 let selectedProgramOption = 'full'; // 'full', '3x', '2x'
 let selectedDays3x = [];
 let selectedDays2x = [];
+
+
+function setFitness(level, btn) {
+  state.fitnessLevel = level;
+  document.querySelectorAll('.fitness-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  saveState();
+}
 
 function selectProgramOption(opt) {
   selectedProgramOption = opt;
@@ -2306,6 +2324,19 @@ function render() {
   checkStreakCelebration();
 }
 
+
+function editSchema() {
+  // Re-open setup modal without resetting progress
+  document.getElementById('modalOverlay').classList.remove('hidden');
+  // Pre-fill name and age
+  var nameEl = document.getElementById('nameInput');
+  var ageEl = document.getElementById('ageInput');
+  if (nameEl && state.userName) nameEl.value = state.userName;
+  if (ageEl && state.userAge) ageEl.value = state.userAge;
+  // Restore program option
+  if (state.programOption) selectProgramOption(state.programOption);
+}
+
 function renderSchemaInfo() {
   var done = state.completed ? state.completed.length : 0;
   var bar = document.getElementById('schemaInfoBar');
@@ -2388,27 +2419,68 @@ function renderGrid(week) {
   const end   = Math.min(start + 7, TOTAL_DAYS);
   const today = getTodayDayIndex();
 
+  // Day names for the week - starting from Monday
+  const DAY_NAMES = ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'];
+
+  // Get training days for custom schedules
+  const trainingDays = state.trainingDays || [];
+  const isCustom = state.programOption && state.programOption !== 'full';
+
   for (let i = start; i < end; i++) {
     const d = i + 1;
     const isDone = state.completed.includes(i);
     const isRest = REST_DAYS.includes(d);
     const isToday = (i === today);
+    const dayOfWeek = i % 7; // 0=Ma, 1=Di, ... 6=Zo
+    const dayName = DAY_NAMES[dayOfWeek];
+
+    // For custom schedules: check if this day of week is a training day
+    const isFreeDay = isCustom && !isRest && trainingDays.length > 0 &&
+      !trainingDays.includes(DAY_NAMES[dayOfWeek].toLowerCase());
 
     const cell = document.createElement('div');
     cell.className = 'day-cell' +
       (isDone ? ' completed' : '') +
       (isToday ? ' today' : '') +
-      (isRest ? ' rest' : '');
+      (isRest ? ' rest' : '') +
+      (isFreeDay ? ' free-day' : '');
 
+    const labelText = isRest ? 'Rust' : (isFreeDay ? 'Vrij' : dayName);
     cell.innerHTML = `
       <div class="day-num">${d}</div>
-      <div class="day-label">${isRest ? 'Rust' : 'Dag'}</div>
+      <div class="day-label">${labelText}</div>
       ${isDone ? '<div class="day-check">✓</div>' : ''}`;
 
     cell.title = DAY_DATA[i]?.title || '';
-    cell.onclick = () => toggleDay(i);
+    if (!isFreeDay) cell.onclick = () => toggleDay(i);
     grid.appendChild(cell);
   }
+
+  // Render schema legend
+  renderSchemaLegend(trainingDays, isCustom);
+}
+
+function renderSchemaLegend(trainingDays, isCustom) {
+  var existing = document.getElementById('schemaLegend');
+  if (existing) existing.remove();
+  if (!isCustom || trainingDays.length === 0) return;
+
+  const DAY_NAMES_FULL = { ma:'Maandag', di:'Dinsdag', wo:'Woensdag', do:'Donderdag', vr:'Vrijdag', za:'Zaterdag', zo:'Zondag' };
+  const ALL_DAYS = ['ma','di','wo','do','vr','za','zo'];
+  const restDayNames = ['za','zo']; // standard rest after training days
+  const freeDays = ALL_DAYS.filter(d => !trainingDays.includes(d) && !restDayNames.includes(d));
+  const restDays = ALL_DAYS.filter(d => !trainingDays.includes(d) && restDayNames.includes(d));
+
+  const legend = document.createElement('div');
+  legend.id = 'schemaLegend';
+  legend.style.cssText = 'margin-top:10px;font-size:10px;font-weight:300;letter-spacing:0.5px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;';
+  legend.innerHTML =
+    '<span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:var(--deep);display:inline-block;"></span> Training: ' + trainingDays.map(d => DAY_NAMES_FULL[d] || d).join(' · ') + '</span>' +
+    (restDays.length ? '<span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:var(--sand);display:inline-block;border:1px solid #ccc;"></span> Rust: ' + restDays.map(d => DAY_NAMES_FULL[d] || d).join(' · ') + '</span>' : '') +
+    (freeDays.length ? '<span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#ede7f6;display:inline-block;border:1px solid #d1c4e9;"></span> Vrij: ' + freeDays.map(d => DAY_NAMES_FULL[d] || d).join(' · ') + '</span>' : '');
+
+  const gridEl = document.getElementById('daysGrid');
+  if (gridEl && gridEl.parentNode) gridEl.parentNode.insertBefore(legend, gridEl.nextSibling);
 }
 
 function showWeek(w, btn) {
