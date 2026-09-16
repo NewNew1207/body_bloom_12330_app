@@ -2434,18 +2434,21 @@ function renderGrid(week) {
     const dayOfWeek = i % 7; // 0=Ma, 1=Di, ... 6=Zo
     const dayName = DAY_NAMES[dayOfWeek];
 
-    // For custom schedules: check if this day of week is a training day
-    const isFreeDay = isCustom && !isRest && trainingDays.length > 0 &&
-      !trainingDays.includes(DAY_NAMES[dayOfWeek].toLowerCase());
+    // For custom schedules: check if this day is training/rest/free
+    var customRestDays = (isCustom && trainingDays.length > 0) ? getRestDaysForSchedule(trainingDays) : [];
+    var dayKey = DAY_NAMES[dayOfWeek].toLowerCase();
+    var isCustomRest = isCustom && !isRest && customRestDays.includes(dayKey);
+    var isFreeDay = isCustom && !isRest && !isCustomRest && trainingDays.length > 0 &&
+      !trainingDays.includes(dayKey);
 
     const cell = document.createElement('div');
     cell.className = 'day-cell' +
       (isDone ? ' completed' : '') +
       (isToday ? ' today' : '') +
-      (isRest ? ' rest' : '') +
+      (isRest || isCustomRest ? ' rest' : '') +
       (isFreeDay ? ' free-day' : '');
 
-    const labelText = isRest ? 'Rust' : (isFreeDay ? 'Vrij' : dayName);
+    const labelText = (isRest || isCustomRest) ? 'Rust' : (isFreeDay ? 'Vrij' : dayName);
     cell.innerHTML = `
       <div class="day-num">${d}</div>
       <div class="day-label">${labelText}</div>
@@ -2460,16 +2463,11 @@ function renderGrid(week) {
   renderSchemaLegend(trainingDays, isCustom);
 }
 
-function renderSchemaLegend(trainingDays, isCustom) {
-  var existing = document.getElementById('schemaLegend');
-  if (existing) existing.remove();
-  if (!isCustom || trainingDays.length === 0) return;
 
-  var DAY_NAMES_FULL = { ma:'Maandag', di:'Dinsdag', wo:'Woensdag', do:'Donderdag', vr:'Vrijdag', za:'Zaterdag', zo:'Zondag' };
+// ── HELPER: get rest days for custom schedule ──
+function getRestDaysForSchedule(trainingDays) {
   var ALL_DAYS = ['ma','di','wo','do','vr','za','zo'];
   var nonTraining = ALL_DAYS.filter(function(d) { return !trainingDays.includes(d); });
-
-  // Rest days: always 2 - prefer za/zo, otherwise last 2 non-training days
   var weekendFree = nonTraining.filter(function(d) { return d === 'za' || d === 'zo'; });
   var restDays = [];
   if (weekendFree.length >= 2) {
@@ -2480,6 +2478,20 @@ function renderSchemaLegend(trainingDays, isCustom) {
   } else {
     restDays = nonTraining.slice(-2);
   }
+  return restDays;
+}
+
+function renderSchemaLegend(trainingDays, isCustom) {
+  var existing = document.getElementById('schemaLegend');
+  if (existing) existing.remove();
+  if (!isCustom || trainingDays.length === 0) return;
+
+  var DAY_NAMES_FULL = { ma:'Maandag', di:'Dinsdag', wo:'Woensdag', do:'Donderdag', vr:'Vrijdag', za:'Zaterdag', zo:'Zondag' };
+  var ALL_DAYS = ['ma','di','wo','do','vr','za','zo'];
+  var nonTraining = ALL_DAYS.filter(function(d) { return !trainingDays.includes(d); });
+
+  // Rest days via shared helper
+  var restDays = getRestDaysForSchedule(trainingDays);
   var freeDays = nonTraining.filter(function(d) { return !restDays.includes(d); });
 
   var legend = document.createElement('div');
