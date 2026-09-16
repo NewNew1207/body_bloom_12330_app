@@ -1432,12 +1432,8 @@
     </div>
 
     <!-- Week Tabs -->
-    <div class="week-tabs" style="margin-top:24px">
-      <button class="week-tab active" onclick="showWeek(1,this)">Week 1</button>
-      <button class="week-tab" onclick="showWeek(2,this)">Week 2</button>
-      <button class="week-tab" onclick="showWeek(3,this)">Week 3</button>
-      <button class="week-tab" onclick="showWeek(4,this)">Week 4</button>
-      <button class="week-tab" onclick="showWeek(5,this)">Week 5</button>
+    <div class="week-tabs" style="margin-top:24px;overflow-x:auto;flex-wrap:nowrap;" id="weekTabsContainer">
+      <!-- Generated dynamically by renderWeekTabs() -->
     </div>
     <div class="days-grid" id="daysGrid"></div>
   </div>
@@ -2310,16 +2306,16 @@ function render() {
   if (elLeft) elLeft.textContent = done + ' / ' + TOTAL_DAYS + ' sessies';
   if (elPct) elPct.textContent = pct + '%';
 
-  // Auto-spring naar week op basis van voltooide sessies (niet kalender)
-  const doneCount = state.completed ? state.completed.length : 0;
-  const correctWeek = Math.min(Math.floor(doneCount / 6) + 1, 5);
+  // Auto-spring naar week op basis van voltooide sessies
+  var doneCount = state.completed ? state.completed.length : 0;
+  var freq = getSessionsPerWeek();
+  var totalWeeks = getTotalWeeks();
+  var correctWeek = Math.min(Math.floor(doneCount / freq) + 1, totalWeeks);
   if (state.currentWeek < correctWeek) {
     state.currentWeek = correctWeek;
-    document.querySelectorAll('.week-tab').forEach((b, i) => {
-      b.classList.toggle('active', i + 1 === correctWeek);
-    });
   }
 
+  renderWeekTabs();
   renderTodayCard();
   renderGrid(state.currentWeek);
   renderQuote();
@@ -2416,55 +2412,126 @@ function renderTodayCard() {
   btn.style.opacity = isDone ? '.5' : '1';
 }
 
+
+// ── WEEK HELPERS ──
+function getTotalWeeks() {
+  if (!state.programOption || state.programOption === 'full') return 5;
+  var freq = state.freq || 3;
+  return Math.ceil(30 / freq);
+}
+
+function getSessionsPerWeek() {
+  if (!state.programOption || state.programOption === 'full') return 6;
+  return state.freq || 3;
+}
+
+function renderWeekTabs() {
+  var container = document.getElementById('weekTabsContainer');
+  if (!container) return;
+  var totalWeeks = getTotalWeeks();
+  container.innerHTML = '';
+  for (var w = 1; w <= totalWeeks; w++) {
+    var btn = document.createElement('button');
+    btn.className = 'week-tab' + (w === state.currentWeek ? ' active' : '');
+    btn.textContent = 'Week ' + w;
+    (function(week) {
+      btn.onclick = function() { showWeekDirect(week); };
+    })(w);
+    container.appendChild(btn);
+  }
+}
+
+function showWeekDirect(w) {
+  state.currentWeek = w;
+  saveState();
+  renderWeekTabs();
+  renderGrid(w);
+}
+
 function renderGrid(week) {
-  const grid = document.getElementById('daysGrid');
+  var isCustom = state.programOption && state.programOption !== 'full';
+  var trainingDays = state.trainingDays || [];
+
+  if (isCustom && trainingDays.length > 0) {
+    renderCustomGrid(week, trainingDays);
+  } else {
+    renderFullGrid(week);
+  }
+  renderSchemaLegend(trainingDays, isCustom);
+}
+
+function renderFullGrid(week) {
+  var grid = document.getElementById('daysGrid');
   grid.innerHTML = '';
-  const start = (week - 1) * 7;
-  const end   = Math.min(start + 7, TOTAL_DAYS);
-  const today = getTodayDayIndex();
+  var start = (week - 1) * 7;
+  var end   = Math.min(start + 7, TOTAL_DAYS);
+  var today = getTodayDayIndex();
+  var DAY_NAMES = ['Ma','Di','Wo','Do','Vr','Za','Zo'];
 
-  // Day names for the week - starting from Monday
-  const DAY_NAMES = ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'];
+  for (var i = start; i < end; i++) {
+    var d = i + 1;
+    var isDone  = state.completed.includes(i);
+    var isRest  = REST_DAYS.includes(d);
+    var isToday = (i === today);
+    var dayName = DAY_NAMES[i % 7];
 
-  // Get training days for custom schedules
-  const trainingDays = state.trainingDays || [];
-  const isCustom = state.programOption && state.programOption !== 'full';
-
-  for (let i = start; i < end; i++) {
-    const d = i + 1;
-    const isDone = state.completed.includes(i);
-    const isRest = REST_DAYS.includes(d);
-    const isToday = (i === today);
-    const dayOfWeek = i % 7; // 0=Ma, 1=Di, ... 6=Zo
-    const dayName = DAY_NAMES[dayOfWeek];
-
-    // For custom schedules: check if this day is training/rest/free
-    var customRestDays = (isCustom && trainingDays.length > 0) ? getRestDaysForSchedule(trainingDays) : [];
-    var dayKey = DAY_NAMES[dayOfWeek].toLowerCase();
-    var isCustomRest = isCustom && !isRest && customRestDays.includes(dayKey);
-    var isFreeDay = isCustom && !isRest && !isCustomRest && trainingDays.length > 0 &&
-      !trainingDays.includes(dayKey);
-
-    const cell = document.createElement('div');
+    var cell = document.createElement('div');
     cell.className = 'day-cell' +
-      (isDone ? ' completed' : '') +
-      (isToday ? ' today' : '') +
-      (isRest || isCustomRest ? ' rest' : '') +
-      (isFreeDay ? ' free-day' : '');
-
-    const labelText = (isRest || isCustomRest) ? 'Rust' : (isFreeDay ? 'Vrij' : dayName);
-    cell.innerHTML = `
-      <div class="day-num">${d}</div>
-      <div class="day-label">${labelText}</div>
-      ${isDone ? '<div class="day-check">✓</div>' : ''}`;
-
-    cell.title = DAY_DATA[i]?.title || '';
-    if (!isFreeDay) cell.onclick = () => toggleDay(i);
+      (isDone  ? ' completed' : '') +
+      (isToday ? ' today'     : '') +
+      (isRest  ? ' rest'      : '');
+    cell.innerHTML =
+      '<div class="day-num">' + d + '</div>' +
+      '<div class="day-label">' + (isRest ? 'Rust' : dayName) + '</div>' +
+      (isDone ? '<div class="day-check">&#10003;</div>' : '');
+    cell.title = DAY_DATA[i] ? DAY_DATA[i].title : '';
+    if (!isRest) (function(idx){ cell.onclick = function(){ toggleDay(idx); }; })(i);
     grid.appendChild(cell);
   }
+}
 
-  // Render schema legend
-  renderSchemaLegend(trainingDays, isCustom);
+function renderCustomGrid(week, trainingDays) {
+  var grid = document.getElementById('daysGrid');
+  grid.innerHTML = '';
+
+  var ALL_WEEK = ['ma','di','wo','do','vr','za','zo'];
+  var DAY_LABELS = { ma:'Ma', di:'Di', wo:'Wo', do:'Do', vr:'Vr', za:'Za', zo:'Zo' };
+  var freq = state.freq || 3;
+  var restDays = getRestDaysForSchedule(trainingDays);
+
+  // Sessions for this week
+  var sessionStart = (week - 1) * freq; // first session index this week
+
+  // Show 7 cells (full calendar week)
+  for (var dayIdx = 0; dayIdx < 7; dayIdx++) {
+    var dayKey = ALL_WEEK[dayIdx];
+    var trainPos = trainingDays.indexOf(dayKey); // -1 if not training day
+    var isTraining = trainPos >= 0;
+    var sessionIdx = isTraining ? sessionStart + trainPos : -1;
+    var isDone  = isTraining && sessionIdx < 30 && state.completed.includes(sessionIdx);
+    var isRest  = restDays.includes(dayKey);
+    var isFree  = !isTraining && !isRest;
+    var isValidSession = isTraining && sessionIdx < 30;
+
+    var cell = document.createElement('div');
+    cell.className = 'day-cell' +
+      (isDone         ? ' completed' : '') +
+      (isRest         ? ' rest'      : '') +
+      (isFree         ? ' free-day'  : '');
+
+    var labelText = isRest ? 'Rust' : (isFree ? 'Vrij' : DAY_LABELS[dayKey]);
+    var numText   = isValidSession ? (sessionIdx + 1) : '';
+
+    cell.innerHTML =
+      '<div class="day-num">' + numText + '</div>' +
+      '<div class="day-label">' + labelText + '</div>' +
+      (isDone ? '<div class="day-check">&#10003;</div>' : '');
+
+    if (isValidSession) {
+      (function(idx){ cell.onclick = function(){ toggleDay(idx); }; })(sessionIdx);
+    }
+    grid.appendChild(cell);
+  }
 }
 
 
@@ -2514,10 +2581,7 @@ function renderSchemaLegend(trainingDays, isCustom) {
 }
 
 function showWeek(w, btn) {
-  state.currentWeek = w;
-  document.querySelectorAll('.week-tab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderGrid(w);
+  showWeekDirect(w);
 }
 
 // ── ACTIONS ──
