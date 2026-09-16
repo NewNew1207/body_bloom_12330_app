@@ -1412,10 +1412,15 @@
   <!-- PROGRESS -->
   <div class="progress-section">
     <div class="section-title">Jouw <em style="font-style:italic;color:var(--deep)">Voortgang</em></div>
-    <div id="schemaInfoBar" style="display:none;background:linear-gradient(135deg,var(--blush),var(--sand));border-radius:12px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
-      <span id="schemaBadge" style="background:var(--deep);color:white;border-radius:50px;padding:4px 12px;font-size:10px;letter-spacing:1px;text-transform:uppercase;">3× per week</span>
-      <span id="schemaDays" style="font-size:11px;color:var(--muted);font-weight:300;"></span>
-      <span id="schemaHelling" style="background:var(--mauve);color:white;border-radius:50px;padding:4px 12px;font-size:10px;letter-spacing:1px;">Week 1 · 6%</span>
+    <div id="schemaInfoBar" style="display:none;background:linear-gradient(135deg,var(--blush),var(--sand));border-radius:12px;padding:10px 14px;margin-bottom:10px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:8px;">
+        <span id="schemaBadge" style="background:var(--deep);color:white;border-radius:50px;padding:4px 12px;font-size:10px;letter-spacing:1px;text-transform:uppercase;">3× per week</span>
+        <span id="schemaDays" style="font-size:11px;color:var(--muted);font-weight:300;"></span>
+        <span id="schemaHelling" style="background:var(--mauve);color:white;border-radius:50px;padding:4px 12px;font-size:10px;letter-spacing:1px;">Week 1 · 6%</span>
+      </div>
+      <button onclick="editSchema()" style="width:100%;background:white;border:1.5px solid var(--deep);color:var(--deep);border-radius:50px;padding:8px 16px;font-family:'Jost',sans-serif;font-size:11px;font-weight:400;letter-spacing:1px;cursor:pointer;transition:all .2s;">
+        ✏️ Wijzig mijn schema of trainingsdagen
+      </button>
     </div>
     <div class="section-sub" id="progressLabel">30 dagen · 5 weken challenge</div>
     <div class="progress-bar-wrap">
