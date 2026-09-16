@@ -1017,68 +1017,29 @@
   }
 
 
-  /* ── PROGRAMMA SETUP ── */
-  .schedule-section {
-    margin-bottom: 18px;
+  /* ── SETUP OPTIES ── */
+  .setup-option {
+    border: 2px solid var(--sand); border-radius: 16px; padding: 16px;
+    margin-bottom: 10px; cursor: pointer; transition: all .2s;
+    background: white; text-align: left;
   }
-  .schedule-label {
-    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--muted); font-weight: 300; margin-bottom: 10px;
-    display: block;
+  .setup-option:hover { border-color: var(--rose); }
+  .setup-option.selected { border-color: var(--deep); background: linear-gradient(135deg, var(--blush), var(--cream)); }
+  .setup-option-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+  .setup-option-sub { font-size: 11px; color: var(--muted); font-weight: 300; }
+  .setup-extra { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--sand); }
+  .setup-extra.visible { display: block; }
+  .schema-info {
+    background: linear-gradient(135deg, var(--blush), var(--sand));
+    border-radius: 12px; padding: 12px 16px; margin-bottom: 12px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
   }
-  .freq-buttons {
-    display: flex; gap: 8px; justify-content: center; margin-bottom: 6px;
+  .schema-badge {
+    background: var(--deep); color: white; border-radius: 50px;
+    padding: 4px 12px; font-size: 10px; letter-spacing: 1px;
+    text-transform: uppercase; font-weight: 400;
   }
-  .freq-btn {
-    flex: 1; padding: 10px 8px;
-    border: 1.5px solid var(--sand); border-radius: 50px;
-    background: white; color: var(--muted);
-    font-family: 'Jost', sans-serif; font-size: 12px;
-    font-weight: 300; cursor: pointer; transition: all .2s;
-  }
-  .freq-btn.active {
-    background: var(--deep); border-color: var(--deep);
-    color: white; font-weight: 500;
-  }
-  .days-grid {
-    display: flex; gap: 6px; flex-wrap: wrap; justify-content: center;
-  }
-  .day-toggle {
-    width: 40px; height: 40px; border-radius: 50%;
-    border: 1.5px solid var(--sand); background: white;
-    color: var(--muted); font-family: 'Jost', sans-serif;
-    font-size: 11px; font-weight: 300; cursor: pointer;
-    transition: all .2s; display: flex; align-items: center;
-    justify-content: center;
-  }
-  .day-toggle.active {
-    background: var(--deep); border-color: var(--deep);
-    color: white; font-weight: 500;
-  }
-  .helling-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-  .helling-item {
-    display: flex; align-items: center; gap: 8px;
-  }
-  .helling-item label {
-    font-size: 11px; color: var(--muted); font-weight: 300;
-    min-width: 52px; letter-spacing: 1px;
-  }
-  .helling-input {
-    width: 100%; padding: 8px 12px;
-    border: 1.5px solid var(--sand); border-radius: 50px;
-    font-family: 'Jost', sans-serif; font-size: 13px;
-    color: var(--text); background: var(--cream);
-    outline: none; text-align: center;
-    transition: border-color .2s;
-  }
-  .helling-input:focus { border-color: var(--rose); }
-  .days-warning {
-    font-size: 10px; color: var(--deep); margin-top: 6px;
-    text-align: center; min-height: 16px; font-weight: 300;
-  }
+  .schema-detail { font-size: 11px; color: var(--muted); font-weight: 300; }
 
 </style>
 </head>
@@ -1112,10 +1073,10 @@
 
 <!-- INTRO MODAL -->
 <div class="modal-overlay hidden" id="modalOverlay">
-  <div class="modal">
+  <div class="modal" style="max-height:88vh;overflow-y:auto;padding:28px 24px;">
     <div class="modal-logo">Body Bloom by Sofia</div>
-    <h2>Welkom bij jouw<br><em style="color:var(--deep)">30 Dagen Challenge</em></h2>
-    <p>12·3·30 Loopband Challenge by Body Bloom: wandel 30 minuten op 12% helling aan 4,8 km/u. Eenvoudig, effectief en helemaal van jou.</p>
+    <h2>Welkom bij jouw<br><em style="color:var(--deep)">12·3·30 Challenge</em></h2>
+
     <div class="modal-input-wrap">
       <input type="text" class="modal-input" id="nameInput" placeholder="Jouw voornaam (optioneel)" maxlength="30">
     </div>
@@ -1123,116 +1084,135 @@
       <input type="number" class="modal-input" id="ageInput" placeholder="Leeftijd" min="10" max="99">
     </div>
     <p style="font-size:10px;color:var(--muted);margin-top:-10px;margin-bottom:18px;font-weight:300;">Voor jouw persoonlijke hartslagzones 💓</p>
+
     <div style="margin-bottom:20px;">
       <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:300;margin-bottom:10px;">Fitnessniveau</p>
       <div style="display:flex;gap:8px;justify-content:center;">
-        <button class="fitness-btn active" onclick="setFitness('beginner',this)">🌱 Beginner</button>
-        <button class="fitness-btn" onclick="setFitness('gemiddeld',this)">💪 Gemiddeld</button>
-        <button class="fitness-btn" onclick="setFitness('gevorderd',this)">🔥 Gevorderd</button>
-      </div>
-    </div>
-    <!-- FREQUENTIE -->
-    <div class="schedule-section">
-      <span class="schedule-label">Hoe vaak per week?</span>
-      <div class="freq-buttons">
-        <button class="freq-btn" id="freq2" onclick="setFreq(2,this)">2× per week</button>
-        <button class="freq-btn active" id="freq3" onclick="setFreq(3,this)">3× per week</button>
+        <button class="fitness-btn active" id="fb-beginner" onclick="setFitness('beginner',this)">🌱 Beginner</button>
+        <button class="fitness-btn" id="fb-gemiddeld" onclick="setFitness('gemiddeld',this)">💪 Gemiddeld</button>
+        <button class="fitness-btn" id="fb-gevorderd" onclick="setFitness('gevorderd',this)">🔥 Gevorderd</button>
       </div>
     </div>
 
-    <!-- TRAININGSDAGEN -->
-    <div class="schedule-section">
-      <span class="schedule-label">Kies jouw trainingsdagen</span>
-      <div class="days-grid">
-        <button class="day-toggle" data-day="ma" onclick="toggleScheduleDay('ma',this)">Ma</button>
-        <button class="day-toggle" data-day="di" onclick="toggleScheduleDay('di',this)">Di</button>
-        <button class="day-toggle" data-day="wo" onclick="toggleScheduleDay('wo',this)">Wo</button>
-        <button class="day-toggle" data-day="do" onclick="toggleScheduleDay('do',this)">Do</button>
-        <button class="day-toggle" data-day="vr" onclick="toggleScheduleDay('vr',this)">Vr</button>
-        <button class="day-toggle" data-day="za" onclick="toggleScheduleDay('za',this)">Za</button>
-        <button class="day-toggle" data-day="zo" onclick="toggleScheduleDay('zo',this)">Zo</button>
-      </div>
-      <div class="days-warning" id="daysWarning"></div>
+    <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:300;margin-bottom:12px;">Kies jouw programma</p>
+
+    <div class="setup-option selected" id="opt-full" onclick="selectProgramOption('full')">
+      <div class="setup-option-title">🗓️ Volledige 30 dagen challenge</div>
+      <div class="setup-option-sub">Elke dag een sessie · 5 weken · opbouw 6→8→10→12% helling</div>
     </div>
 
-    <!-- HELLING PER WEEK -->
-    <div class="schedule-section">
-      <span class="schedule-label">Helling per week (%) — jouw persoonlijk programma</span>
-      <div class="helling-grid">
-        <div class="helling-item">
-          <label>Week 1</label>
-          <input type="number" class="helling-input" id="h1" value="6" min="1" max="15" step="0.5">
+    <div class="setup-option" id="opt-3x" onclick="selectProgramOption('3x')">
+      <div class="setup-option-title">💪 3× per week — op maat</div>
+      <div class="setup-option-sub">Kies je eigen dagen & helling per week</div>
+      <div class="setup-extra" id="extra-3x">
+        <span class="schedule-label">Jouw trainingsdagen (kies 3)</span>
+        <div class="days-grid">
+          <button class="day-toggle" data-day="ma" onclick="toggleScheduleDay('ma',this,'3x')">Ma</button>
+          <button class="day-toggle" data-day="di" onclick="toggleScheduleDay('di',this,'3x')">Di</button>
+          <button class="day-toggle" data-day="wo" onclick="toggleScheduleDay('wo',this,'3x')">Wo</button>
+          <button class="day-toggle" data-day="do" onclick="toggleScheduleDay('do',this,'3x')">Do</button>
+          <button class="day-toggle" data-day="vr" onclick="toggleScheduleDay('vr',this,'3x')">Vr</button>
+          <button class="day-toggle" data-day="za" onclick="toggleScheduleDay('za',this,'3x')">Za</button>
+          <button class="day-toggle" data-day="zo" onclick="toggleScheduleDay('zo',this,'3x')">Zo</button>
         </div>
-        <div class="helling-item">
-          <label>Week 2</label>
-          <input type="number" class="helling-input" id="h2" value="8" min="1" max="15" step="0.5">
+        <div class="days-warning" id="warn-3x">Selecteer 3 trainingsdagen</div>
+
+        <!-- Opbouw kiezen -->
+        <span class="schedule-label" style="margin-top:14px;display:block;">Opbouw helling</span>
+        <div class="freq-buttons" style="margin-bottom:12px;">
+          <button class="freq-btn active" id="3x-mode-week" onclick="setHellingMode('3x','week',this)">📅 Per week</button>
+          <button class="freq-btn" id="3x-mode-maand" onclick="setHellingMode('3x','maand',this)">📆 Per maand</button>
         </div>
-        <div class="helling-item">
-          <label>Week 3</label>
-          <input type="number" class="helling-input" id="h3" value="10" min="1" max="15" step="0.5">
+
+        <!-- Per week -->
+        <div id="3x-week-grid">
+          <div class="helling-grid">
+            <div class="helling-item"><label>Week 1</label><input type="number" class="helling-input" id="h3x-w1" value="6" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 2</label><input type="number" class="helling-input" id="h3x-w2" value="7" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 3</label><input type="number" class="helling-input" id="h3x-w3" value="8" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 4</label><input type="number" class="helling-input" id="h3x-w4" value="9" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 5</label><input type="number" class="helling-input" id="h3x-w5" value="10" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 6</label><input type="number" class="helling-input" id="h3x-w6" value="11" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 7</label><input type="number" class="helling-input" id="h3x-w7" value="12" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 8</label><input type="number" class="helling-input" id="h3x-w8" value="12" min="1" max="15" step="0.5"></div>
+          </div>
         </div>
-        <div class="helling-item">
-          <label>Week 4+</label>
-          <input type="number" class="helling-input" id="h4" value="12" min="1" max="15" step="0.5">
+
+        <!-- Per maand -->
+        <div id="3x-maand-grid" style="display:none;">
+          <div class="helling-grid">
+            <div class="helling-item"><label>Maand 1</label><input type="number" class="helling-input" id="h3x-m1" value="6" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Maand 2</label><input type="number" class="helling-input" id="h3x-m2" value="8" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Maand 3</label><input type="number" class="helling-input" id="h3x-m3" value="10" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Maand 4</label><input type="number" class="helling-input" id="h3x-m4" value="12" min="1" max="15" step="0.5"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+            <input type="checkbox" id="3x-maand5" style="width:16px;height:16px;accent-color:var(--deep);">
+            <label for="3x-maand5" style="font-size:12px;color:var(--muted);font-weight:300;">Maand 5 — 12% · 40 min (einddoel bereikt)</label>
+          </div>
         </div>
+        <p style="font-size:10px;color:var(--muted);margin-top:10px;font-weight:300;font-style:italic;">Sofia adviseert jou welke helling je gebruikt 🌸</p>
       </div>
-      <p style="font-size:10px;color:var(--muted);margin-top:8px;font-weight:300;font-style:italic;">
-        Sofia heeft jou geadviseerd welke helling je per week gebruikt 🌸
-      </p>
     </div>
 
-    <button class="btn-primary" onclick="startChallenge()" style="width:100%;justify-content:center;display:block;text-align:center;">
-      Start mijn challenge ✦
+    <div class="setup-option" id="opt-2x" onclick="selectProgramOption('2x')">
+      <div class="setup-option-title">🌸 2× per week — rustig opbouwen</div>
+      <div class="setup-option-sub">Kies je eigen dagen & helling per week</div>
+      <div class="setup-extra" id="extra-2x">
+        <span class="schedule-label">Jouw trainingsdagen (kies 2)</span>
+        <div class="days-grid">
+          <button class="day-toggle" data-day="ma" onclick="toggleScheduleDay('ma',this,'2x')">Ma</button>
+          <button class="day-toggle" data-day="di" onclick="toggleScheduleDay('di',this,'2x')">Di</button>
+          <button class="day-toggle" data-day="wo" onclick="toggleScheduleDay('wo',this,'2x')">Wo</button>
+          <button class="day-toggle" data-day="do" onclick="toggleScheduleDay('do',this,'2x')">Do</button>
+          <button class="day-toggle" data-day="vr" onclick="toggleScheduleDay('vr',this,'2x')">Vr</button>
+          <button class="day-toggle" data-day="za" onclick="toggleScheduleDay('za',this,'2x')">Za</button>
+          <button class="day-toggle" data-day="zo" onclick="toggleScheduleDay('zo',this,'2x')">Zo</button>
+        </div>
+        <div class="days-warning" id="warn-2x">Selecteer 2 trainingsdagen</div>
+
+        <!-- Opbouw kiezen -->
+        <span class="schedule-label" style="margin-top:14px;display:block;">Opbouw helling</span>
+        <div class="freq-buttons" style="margin-bottom:12px;">
+          <button class="freq-btn active" id="2x-mode-week" onclick="setHellingMode('2x','week',this)">📅 Per week</button>
+          <button class="freq-btn" id="2x-mode-maand" onclick="setHellingMode('2x','maand',this)">📆 Per maand</button>
+        </div>
+
+        <!-- Per week -->
+        <div id="2x-week-grid">
+          <div class="helling-grid">
+            <div class="helling-item"><label>Week 1</label><input type="number" class="helling-input" id="h2x-w1" value="5" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 2</label><input type="number" class="helling-input" id="h2x-w2" value="6" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 3</label><input type="number" class="helling-input" id="h2x-w3" value="7" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 4</label><input type="number" class="helling-input" id="h2x-w4" value="8" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 5</label><input type="number" class="helling-input" id="h2x-w5" value="9" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 6</label><input type="number" class="helling-input" id="h2x-w6" value="10" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 7</label><input type="number" class="helling-input" id="h2x-w7" value="11" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 8</label><input type="number" class="helling-input" id="h2x-w8" value="12" min="1" max="15" step="0.5"></div>
+          </div>
+        </div>
+
+        <!-- Per maand -->
+        <div id="2x-maand-grid" style="display:none;">
+          <div class="helling-grid">
+            <div class="helling-item"><label>Maand 1</label><input type="number" class="helling-input" id="h2x-m1" value="6" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Maand 2</label><input type="number" class="helling-input" id="h2x-m2" value="8" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Maand 3</label><input type="number" class="helling-input" id="h2x-m3" value="10" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Maand 4</label><input type="number" class="helling-input" id="h2x-m4" value="12" min="1" max="15" step="0.5"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+            <input type="checkbox" id="2x-maand5" style="width:16px;height:16px;accent-color:var(--deep);">
+            <label for="2x-maand5" style="font-size:12px;color:var(--muted);font-weight:300;">Maand 5 — 12% · 40 min (einddoel bereikt)</label>
+          </div>
+        </div>
+        <p style="font-size:10px;color:var(--muted);margin-top:10px;font-weight:300;font-style:italic;">Sofia adviseert jou welke helling je gebruikt 🌸</p>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="startChallenge()" style="width:100%;justify-content:center;display:block;text-align:center;margin-top:16px;">
+      Start mijn Challenge ✦
     </button>
   </div>
-</div>
-
-<!-- WELCOME OVERLAY -->
-<div class="welcome-overlay hidden" id="welcomeOverlay">
-  <div class="welcome-bloom">🌸</div>
-  <div class="welcome-title">Welkom<br><em id="welcomeName">Sofia</em>!</div>
-  <div class="welcome-sub">Succes met de 12·3·30 Challenge!<br>Jij kan dit — stap voor stap, dag voor dag. 💪</div>
-  <div class="welcome-dots">
-    <div class="welcome-dot"></div>
-    <div class="welcome-dot"></div>
-    <div class="welcome-dot"></div>
-  </div>
-</div>
-
-<!-- DISCLAIMER PAGE -->
-<div class="disclaimer-page" id="disclaimerPage">
-  <button class="disclaimer-back" onclick="closeDisclaimer()">← Terug</button>
-  <div class="disclaimer-title">Disclaimer</div>
-  <div class="disclaimer-sub">Body Bloom by Sofia · 12·3·30 Challenge</div>
-
-  <div class="disclaimer-section">
-    <h3>Medisch advies</h3>
-    <p>De informatie in deze app is uitsluitend bedoeld voor algemene informatiedoeleinden en vervangt geen professioneel medisch advies, diagnose of behandeling. Raadpleeg altijd een arts of andere gekwalificeerde zorgverlener bij vragen over een medische aandoening.</p>
-  </div>
-  <div class="disclaimer-section">
-    <h3>Sportadvies</h3>
-    <p>Consulteer een arts voor je begint met een nieuw sportprogramma, vooral als je gezondheidsproblemen hebt of lang niet gesport hebt. Stop onmiddellijk en zoek medische hulp bij pijn, duizeligheid of ademhalingsmoeilijkheden.</p>
-  </div>
-  <div class="disclaimer-section">
-    <h3>Resultaten</h3>
-    <p>Resultaten variëren per persoon op basis van leeftijd, conditie, voeding en consistentie. Body Bloom by Sofia geeft geen garantie op specifieke resultaten.</p>
-  </div>
-  <div class="disclaimer-section">
-    <h3>Aansprakelijkheid</h3>
-    <p>Body Bloom by Sofia is niet aansprakelijk voor eventuele blessures of schade die voortvloeien uit het gebruik van deze app of het volgen van de trainingsadviezen.</p>
-  </div>
-  <div class="disclaimer-section">
-    <h3>Intellectueel eigendom</h3>
-    <p>Deze app en alle inhoud zijn eigendom van Body Bloom by Sofia. Het is niet toegestaan de app te kopiëren, distribueren of doorverkopen zonder toestemming.</p>
-  </div>
-  <div class="disclaimer-section">
-    <h3>Privacy & Gegevens</h3>
-    <p>Deze app slaat gegevens lokaal op je toestel op. Er worden geen persoonlijke gegevens naar externe servers gestuurd. Je toegangscode wordt lokaal bewaard voor 365 dagen.</p>
-  </div>
-
-  <p style="font-size:10px;color:var(--taupe);margin-top:24px;font-weight:300;font-style:italic;">
-    © 2026 Body Bloom by Sofia · Alle rechten voorbehouden
-  </p>
 </div>
 
 <!-- HEADER -->
@@ -1256,10 +1236,6 @@
   <div class="stat-item">
     <div class="stat-number" id="statDone">0</div>
     <div class="stat-label">Voltooid</div>
-  </div>
-  <div class="stat-item" id="hellingStatItem" style="display:none;">
-    <div class="stat-number" id="statHelling" style="font-size:16px;">12%</div>
-    <div class="stat-label">Helling ⛰️</div>
   </div>
 
   <div class="stat-item">
@@ -1428,7 +1404,12 @@
   <!-- PROGRESS -->
   <div class="progress-section">
     <div class="section-title">Jouw <em style="font-style:italic;color:var(--deep)">Voortgang</em></div>
-    <div class="section-sub">30 dagen · 5 weken challenge</div>
+    <div id="schemaInfoBar" style="display:none;background:linear-gradient(135deg,var(--blush),var(--sand));border-radius:12px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+      <span id="schemaBadge" style="background:var(--deep);color:white;border-radius:50px;padding:4px 12px;font-size:10px;letter-spacing:1px;text-transform:uppercase;">3× per week</span>
+      <span id="schemaDays" style="font-size:11px;color:var(--muted);font-weight:300;"></span>
+      <span id="schemaHelling" style="background:var(--mauve);color:white;border-radius:50px;padding:4px 12px;font-size:10px;letter-spacing:1px;">Week 1 · 6%</span>
+    </div>
+    <div class="section-sub" id="progressLabel">30 dagen · 5 weken challenge</div>
     <div class="progress-bar-wrap">
       <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
     </div>
@@ -2075,46 +2056,82 @@ function switchFitness(level, btn) {
   if (bpm) updateHR(bpm);
 }
 
-// ── SCHEDULE LOGIC ──
-let selectedFreq = 3;
-let selectedDays = [];
+// ── SCHEMA LOGIC ──
+let selectedProgramOption = 'full'; // 'full', '3x', '2x'
+let selectedDays3x = [];
+let selectedDays2x = [];
 
-function setFreq(n, btn) {
-  selectedFreq = n;
-  document.querySelectorAll('.freq-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  validateDays();
+function selectProgramOption(opt) {
+  selectedProgramOption = opt;
+  ['full','3x','2x'].forEach(o => {
+    var el = document.getElementById('opt-' + o);
+    var ex = document.getElementById('extra-' + o);
+    if (el) el.classList.toggle('selected', o === opt);
+    if (ex) ex.classList.toggle('visible', o === opt);
+  });
 }
 
-function toggleScheduleDay(day, btn) {
+function toggleScheduleDay(day, btn, freq) {
+  var days = freq === '3x' ? selectedDays3x : selectedDays2x;
+  var needed = freq === '3x' ? 3 : 2;
+  var isActive = btn.classList.contains('active');
+  if (!isActive && days.length >= needed) {
+    var warnEl = document.getElementById('warn-' + freq);
+    if (warnEl) warnEl.textContent = 'Max. ' + needed + ' dagen selecteren!';
+    return;
+  }
   btn.classList.toggle('active');
-  selectedDays = Array.from(document.querySelectorAll('.day-toggle.active')).map(b => b.dataset.day);
-  validateDays();
-}
-
-function validateDays() {
-  const warn = document.getElementById('daysWarning');
-  if (!warn) return;
-  if (selectedDays.length === 0) {
-    warn.textContent = '';
-  } else if (selectedDays.length < selectedFreq) {
-    warn.textContent = `Selecteer nog ${selectedFreq - selectedDays.length} dag(en) meer`;
-  } else if (selectedDays.length > selectedFreq) {
-    warn.textContent = `Selecteer max. ${selectedFreq} dagen`;
+  if (freq === '3x') {
+    selectedDays3x = Array.from(document.querySelectorAll('#extra-3x .day-toggle.active')).map(b => b.dataset.day);
+    var w3 = document.getElementById('warn-3x');
+    if (w3) w3.textContent = selectedDays3x.length === 3 ? '✓ Perfect! 3 dagen geselecteerd' : 'Nog ' + (3 - selectedDays3x.length) + ' dag(en) te selecteren';
   } else {
-    warn.textContent = '✓ Perfect schema!';
+    selectedDays2x = Array.from(document.querySelectorAll('#extra-2x .day-toggle.active')).map(b => b.dataset.day);
+    var w2 = document.getElementById('warn-2x');
+    if (w2) w2.textContent = selectedDays2x.length === 2 ? '✓ Perfect! 2 dagen geselecteerd' : 'Nog ' + (2 - selectedDays2x.length) + ' dag(en) te selecteren';
   }
 }
 
-function getHellingForWeek(weekNum) {
-  const h1 = parseFloat(document.getElementById('h1')?.value) || 6;
-  const h2 = parseFloat(document.getElementById('h2')?.value) || 8;
-  const h3 = parseFloat(document.getElementById('h3')?.value) || 10;
-  const h4 = parseFloat(document.getElementById('h4')?.value) || 12;
-  if (weekNum <= 1) return h1;
-  if (weekNum === 2) return h2;
-  if (weekNum === 3) return h3;
-  return h4;
+
+// ── HELLING MODE TOGGLE ──
+var hellingMode3x = 'week';
+var hellingMode2x = 'week';
+
+function setHellingMode(freq, mode, btn) {
+  if (freq === '3x') { hellingMode3x = mode; }
+  else { hellingMode2x = mode; }
+
+  // Toggle buttons
+  var weekBtn = document.getElementById(freq + '-mode-week');
+  var maandBtn = document.getElementById(freq + '-mode-maand');
+  if (weekBtn) weekBtn.classList.toggle('active', mode === 'week');
+  if (maandBtn) maandBtn.classList.toggle('active', mode === 'maand');
+
+  // Toggle grids
+  var weekGrid = document.getElementById(freq + '-week-grid');
+  var maandGrid = document.getElementById(freq + '-maand-grid');
+  if (weekGrid) weekGrid.style.display = mode === 'week' ? 'block' : 'none';
+  if (maandGrid) maandGrid.style.display = mode === 'maand' ? 'block' : 'none';
+}
+
+function getHellingArray(freq) {
+  var mode = freq === '3x' ? hellingMode3x : hellingMode2x;
+  var prefix = 'h' + freq + '-';
+  var arr = [];
+  if (mode === 'week') {
+    for (var i = 1; i <= 8; i++) {
+      var el = document.getElementById(prefix + 'w' + i);
+      arr.push(el ? parseFloat(el.value) || 6 : 6);
+    }
+  } else {
+    for (var j = 1; j <= 4; j++) {
+      var el2 = document.getElementById(prefix + 'm' + j);
+      arr.push(el2 ? parseFloat(el2.value) || 6 : 6);
+    }
+    var m5 = document.getElementById(freq + '-maand5');
+    if (m5 && m5.checked) arr.push('12-40min');
+  }
+  return { mode: mode, values: arr };
 }
 
 function startChallenge() {
@@ -2123,15 +2140,26 @@ function startChallenge() {
   state.fitnessLevel = state.fitnessLevel || 'beginner';
   state.startDate    = state.startDate || new Date().toISOString();
 
-  // Save schedule settings
-  state.freq = selectedFreq;
-  state.trainingDays = selectedDays.length === selectedFreq ? selectedDays : [];
-  state.hellingPerWeek = {
-    1: parseFloat(document.getElementById('h1')?.value) || 6,
-    2: parseFloat(document.getElementById('h2')?.value) || 8,
-    3: parseFloat(document.getElementById('h3')?.value) || 10,
-    4: parseFloat(document.getElementById('h4')?.value) || 12,
-  };
+  // Save program option
+  state.programOption = selectedProgramOption;
+
+  if (selectedProgramOption === 'full') {
+    state.freq = 6; // elke dag (6 per week)
+    state.trainingDays = ['ma','di','wo','do','vr','za'];
+    state.hellingPerWeek = { 1:6, 2:8, 3:10, 4:12 };
+  } else if (selectedProgramOption === '3x') {
+    state.freq = 3;
+    state.trainingDays = selectedDays3x;
+    var h3x = getHellingArray('3x');
+    state.hellingMode = h3x.mode;
+    state.hellingValues = h3x.values;
+  } else {
+    state.freq = 2;
+    state.trainingDays = selectedDays2x;
+    var h2x = getHellingArray('2x');
+    state.hellingMode = h2x.mode;
+    state.hellingValues = h2x.values;
+  }
 
   saveState();
   document.getElementById('modalOverlay').classList.add('hidden');
@@ -2251,13 +2279,6 @@ function render() {
   if (elDone) elDone.textContent = done;
   if (elRemain) elRemain.textContent = TOTAL_DAYS - done;
   if (elCal) elCal.textContent = Math.round(done * 250);
-  // Show helling in stats if custom schedule
-  if (state.hellingPerWeek) {
-    var helStat = document.getElementById('statHelling');
-    var helItem = document.getElementById('hellingStatItem');
-    if (helStat) helStat.textContent = getCurrentHelling() + '%';
-    if (helItem) helItem.style.display = 'block';
-  }
 
   const pct = Math.round((done / TOTAL_DAYS) * 100);
   document.getElementById('progressFill').style.width = pct + '%';
@@ -2281,36 +2302,47 @@ function render() {
   renderGrid(state.currentWeek);
   renderQuote();
   renderEverest();
+  renderSchemaInfo();
   checkStreakCelebration();
 }
 
-function getCurrentHelling() {
-  // Get helling based on current week
-  if (state.hellingPerWeek) {
-    const done = state.completed ? state.completed.length : 0;
-    const sessPerWeek = state.freq || 3;
-    const weekNum = Math.floor(done / sessPerWeek) + 1;
-    const h = state.hellingPerWeek[Math.min(weekNum, 4)] || 12;
-    return h;
-  }
-  return 12; // default
-}
+function renderSchemaInfo() {
+  var done = state.completed ? state.completed.length : 0;
+  var bar = document.getElementById('schemaInfoBar');
+  var lbl = document.getElementById('progressLabel');
+  var leftEl = document.getElementById('progressLeft');
 
-function getCurrentWeekNum() {
-  const done = state.completed ? state.completed.length : 0;
-  const sessPerWeek = state.freq || 3;
-  return Math.floor(done / sessPerWeek) + 1;
+  if (!state.programOption || state.programOption === 'full') {
+    if (bar) bar.style.display = 'none';
+    if (lbl) lbl.textContent = '30 dagen · 5 weken challenge';
+    if (leftEl) leftEl.textContent = done + ' / 30 sessies';
+    return;
+  }
+
+  var dagNames = { ma:'Ma', di:'Di', wo:'Wo', do:'Do', vr:'Vr', za:'Za', zo:'Zo' };
+  var days = (state.trainingDays || []).map(function(d) { return dagNames[d] || d; }).join(' · ');
+  var freq = state.freq || 3;
+  var weekNum = getCurrentWeekNum();
+  var helling = getCurrentHelling();
+
+  // Calculate total weeks needed
+  var totalWeeks = Math.ceil(30 / freq);
+
+  var badge = document.getElementById('schemaBadge');
+  var daysEl = document.getElementById('schemaDays');
+  var hellingEl = document.getElementById('schemaHelling');
+
+  if (badge) badge.textContent = freq + '× per week';
+  if (daysEl) daysEl.textContent = days || 'Kies je dagen';
+  if (hellingEl) hellingEl.textContent = 'Week ' + weekNum + ' · ' + helling + '%';
+  if (bar) bar.style.display = 'flex';
+  if (lbl) lbl.textContent = '30 sessies · ' + freq + '× per week · ±' + totalWeeks + ' weken';
+  if (leftEl) leftEl.textContent = done + ' / 30 sessies';
 }
 
 function renderTodayCard() {
   const today = getTodayDayIndex();
   const d = DAY_DATA[today] || DAY_DATA[TOTAL_DAYS - 1];
-  // Update helling display
-  const hellingEl = document.getElementById('currentHelling');
-  if (hellingEl) {
-    const h = getCurrentHelling();
-    hellingEl.textContent = h + '% · 4,8 km/u';
-  }
   var elDayNum = document.getElementById('todayDayNum');
   var elDayTitle = document.getElementById('todayTitle');
   if (elDayNum) elDayNum.textContent = today + 1;
@@ -2318,13 +2350,6 @@ function renderTodayCard() {
 
   const isDone = state.completed.includes(today);
   const isRest = REST_DAYS.includes(today + 1);
-
-  // Show training day info
-  if (state.trainingDays && state.trainingDays.length > 0) {
-    const dagNames = { ma: 'Maandag', di: 'Dinsdag', wo: 'Woensdag', do: 'Donderdag', vr: 'Vrijdag', za: 'Zaterdag', zo: 'Zondag' };
-    const el = document.getElementById('trainingDaysInfo');
-    if (el) el.textContent = 'Jouw trainingsdagen: ' + state.trainingDays.map(d => dagNames[d]).join(' · ');
-  }
   const btn = document.getElementById('markDoneBtn');
 
   if (isRest) {
@@ -2345,7 +2370,7 @@ function renderTodayCard() {
       </div>
       <div class="step-card">
         <div class="step-icon">⛰️</div>
-        <div class="step-text"><strong id="currentHelling">12% · 4,8 km/u</strong><span>30 min actief</span></div>
+        <div class="step-text"><strong>12% · 4,8 km/u</strong><span>30 min actief</span></div>
       </div>
       <div class="step-card">
         <div class="step-icon">✨</div>
@@ -3416,6 +3441,46 @@ function renderMiniEverest() {
     }
     pathEl.setAttribute('points', pts);
   }
+}
+
+
+function getCurrentHelling() {
+  var done = state.completed ? state.completed.length : 0;
+  var freq = state.freq || 3;
+
+  // Full challenge - always fixed progression
+  if (!state.programOption || state.programOption === 'full') {
+    var week = Math.floor(done / 6) + 1;
+    if (week <= 1) return 6;
+    if (week === 2) return 8;
+    if (week === 3) return 10;
+    return 12;
+  }
+
+  // Custom: use hellingValues array
+  if (state.hellingValues && state.hellingValues.length > 0) {
+    var mode = state.hellingMode || 'week';
+    var idx = 0;
+    if (mode === 'week') {
+      idx = Math.floor(done / freq); // week index
+    } else {
+      // maand: 3x/week = ~13 sess/maand, 2x/week = ~9 sess/maand
+      var sessPerMaand = freq === 3 ? 13 : 9;
+      idx = Math.floor(done / sessPerMaand);
+    }
+    idx = Math.min(idx, state.hellingValues.length - 1);
+    var val = state.hellingValues[idx];
+    if (val === '12-40min') return 12; // 40 min variant
+    return val || 12;
+  }
+
+  return 12;
+}
+
+function getCurrentWeekNum() {
+  var done = state.completed ? state.completed.length : 0;
+  var sessPerWeek = state.freq || 3;
+  return Math.floor(done / sessPerWeek) + 1;
 }
 
 // ── TOAST ──
