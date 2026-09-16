@@ -1144,13 +1144,13 @@
     <div class="schedule-section">
       <span class="schedule-label">Kies jouw trainingsdagen</span>
       <div class="days-grid">
-        <button class="day-toggle" data-day="ma" onclick="toggleDay('ma',this)">Ma</button>
-        <button class="day-toggle" data-day="di" onclick="toggleDay('di',this)">Di</button>
-        <button class="day-toggle" data-day="wo" onclick="toggleDay('wo',this)">Wo</button>
-        <button class="day-toggle" data-day="do" onclick="toggleDay('do',this)">Do</button>
-        <button class="day-toggle" data-day="vr" onclick="toggleDay('vr',this)">Vr</button>
-        <button class="day-toggle" data-day="za" onclick="toggleDay('za',this)">Za</button>
-        <button class="day-toggle" data-day="zo" onclick="toggleDay('zo',this)">Zo</button>
+        <button class="day-toggle" data-day="ma" onclick="toggleScheduleDay('ma',this)">Ma</button>
+        <button class="day-toggle" data-day="di" onclick="toggleScheduleDay('di',this)">Di</button>
+        <button class="day-toggle" data-day="wo" onclick="toggleScheduleDay('wo',this)">Wo</button>
+        <button class="day-toggle" data-day="do" onclick="toggleScheduleDay('do',this)">Do</button>
+        <button class="day-toggle" data-day="vr" onclick="toggleScheduleDay('vr',this)">Vr</button>
+        <button class="day-toggle" data-day="za" onclick="toggleScheduleDay('za',this)">Za</button>
+        <button class="day-toggle" data-day="zo" onclick="toggleScheduleDay('zo',this)">Zo</button>
       </div>
       <div class="days-warning" id="daysWarning"></div>
     </div>
@@ -2086,7 +2086,7 @@ function setFreq(n, btn) {
   validateDays();
 }
 
-function toggleDay(day, btn) {
+function toggleScheduleDay(day, btn) {
   btn.classList.toggle('active');
   selectedDays = Array.from(document.querySelectorAll('.day-toggle.active')).map(b => b.dataset.day);
   validateDays();
