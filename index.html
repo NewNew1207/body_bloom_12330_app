@@ -1890,9 +1890,9 @@
     <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--text);margin-bottom:4px;">Instellingen</div>
     <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;font-weight:300;">Challenge</div>
     <div style="text-align:center;">
-      <button class="btn-secondary" onclick="editSchema()" style="font-size:9px;padding:8px 18px;margin-bottom:8px;">✏️ Wijzig mijn schema</button>
+      <button class="btn-secondary" onclick="editSchema()" style="font-size:9px;padding:8px 18px;margin-bottom:8px;border-color:var(--deep);color:var(--deep);">✏️ Wijzig mijn schema</button>
       <br>
-      <button class="btn-secondary" onclick="resetChallenge()" style="font-size:9px;padding:8px 18px">↺ Challenge volledig resetten</button>
+      <button class="btn-secondary" onclick="resetChallenge()" style="font-size:9px;padding:8px 18px;margin-top:8px;">↺ Challenge volledig resetten</button>
     </div>
   </div>
 
@@ -2310,12 +2310,11 @@ function render() {
   if (elLeft) elLeft.textContent = done + ' / ' + TOTAL_DAYS + ' sessies';
   if (elPct) elPct.textContent = pct + '%';
 
-  // Auto-spring naar correcte week op basis van vandaag
-  const todayIdx = getTodayDayIndex();
-  const correctWeek = Math.min(Math.floor(todayIdx / 7) + 1, 5);
-  if (state.currentWeek !== correctWeek) {
+  // Auto-spring naar week op basis van voltooide sessies (niet kalender)
+  const doneCount = state.completed ? state.completed.length : 0;
+  const correctWeek = Math.min(Math.floor(doneCount / 6) + 1, 5);
+  if (state.currentWeek < correctWeek) {
     state.currentWeek = correctWeek;
-    // Sync week tab buttons
     document.querySelectorAll('.week-tab').forEach((b, i) => {
       b.classList.toggle('active', i + 1 === correctWeek);
     });
@@ -2522,7 +2521,11 @@ function showWeek(w, btn) {
 }
 
 // ── ACTIONS ──
+var toggleDayLock = false;
 function toggleDay(index) {
+  if (toggleDayLock) return;
+  toggleDayLock = true;
+  setTimeout(function(){ toggleDayLock = false; }, 500);
   const pos = state.completed.indexOf(index);
   if (pos === -1) {
     state.completed.push(index);
@@ -2576,7 +2579,21 @@ function saveStartDate() {
 
 function resetChallenge() {
   if (!confirm('Wil je de challenge opnieuw starten? Alle voortgang wordt gewist.')) return;
-  state = { userName: state.userName, completed: [], startDate: new Date().toISOString(), currentWeek: 1 };
+  // Keep schema settings after reset!
+  state = {
+    userName: state.userName,
+    userAge: state.userAge,
+    fitnessLevel: state.fitnessLevel,
+    programOption: state.programOption,
+    freq: state.freq,
+    trainingDays: state.trainingDays,
+    hellingMode: state.hellingMode,
+    hellingValues: state.hellingValues,
+    hellingPerWeek: state.hellingPerWeek,
+    completed: [],
+    startDate: new Date().toISOString(),
+    currentWeek: 1,
+  };
   saveState();
   render();
   showToast('Challenge gereset. Dag 1 opnieuw! 💪');
