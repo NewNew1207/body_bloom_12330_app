@@ -2465,21 +2465,32 @@ function renderSchemaLegend(trainingDays, isCustom) {
   if (existing) existing.remove();
   if (!isCustom || trainingDays.length === 0) return;
 
-  const DAY_NAMES_FULL = { ma:'Maandag', di:'Dinsdag', wo:'Woensdag', do:'Donderdag', vr:'Vrijdag', za:'Zaterdag', zo:'Zondag' };
-  const ALL_DAYS = ['ma','di','wo','do','vr','za','zo'];
-  const restDayNames = ['za','zo']; // standard rest after training days
-  const freeDays = ALL_DAYS.filter(d => !trainingDays.includes(d) && !restDayNames.includes(d));
-  const restDays = ALL_DAYS.filter(d => !trainingDays.includes(d) && restDayNames.includes(d));
+  var DAY_NAMES_FULL = { ma:'Maandag', di:'Dinsdag', wo:'Woensdag', do:'Donderdag', vr:'Vrijdag', za:'Zaterdag', zo:'Zondag' };
+  var ALL_DAYS = ['ma','di','wo','do','vr','za','zo'];
+  var nonTraining = ALL_DAYS.filter(function(d) { return !trainingDays.includes(d); });
 
-  const legend = document.createElement('div');
+  // Rest days: always 2 - prefer za/zo, otherwise last 2 non-training days
+  var weekendFree = nonTraining.filter(function(d) { return d === 'za' || d === 'zo'; });
+  var restDays = [];
+  if (weekendFree.length >= 2) {
+    restDays = ['za','zo'];
+  } else if (weekendFree.length === 1) {
+    var extra = nonTraining.filter(function(d) { return d !== 'za' && d !== 'zo'; });
+    restDays = weekendFree.concat(extra.length ? [extra[extra.length-1]] : []);
+  } else {
+    restDays = nonTraining.slice(-2);
+  }
+  var freeDays = nonTraining.filter(function(d) { return !restDays.includes(d); });
+
+  var legend = document.createElement('div');
   legend.id = 'schemaLegend';
   legend.style.cssText = 'margin-top:10px;font-size:10px;font-weight:300;letter-spacing:0.5px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;';
   legend.innerHTML =
-    '<span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:var(--rose);display:inline-block;"></span> Training: ' + trainingDays.map(d => DAY_NAMES_FULL[d] || d).join(' · ') + '</span>' +
-    (restDays.length ? '<span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:var(--sand);display:inline-block;border:1px solid #e0c8b8;"></span> Rust: ' + restDays.map(d => DAY_NAMES_FULL[d] || d).join(' · ') + '</span>' : '') +
-    (freeDays.length ? '<span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#ede7f6;display:inline-block;border:1px solid #d1c4e9;"></span> Vrij: ' + freeDays.map(d => DAY_NAMES_FULL[d] || d).join(' · ') + '</span>' : '');
+    '<span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#e8879c;display:inline-block;"></span> Training: ' + trainingDays.map(function(d){ return DAY_NAMES_FULL[d]||d; }).join(' · ') + '</span>' +
+    (restDays.length ? '<span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#f5e6d8;display:inline-block;border:1px solid #e0c8b8;"></span> Rust: ' + restDays.map(function(d){ return DAY_NAMES_FULL[d]||d; }).join(' · ') + '</span>' : '') +
+    (freeDays.length ? '<span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#ede7f6;display:inline-block;border:1px solid #d1c4e9;"></span> Vrij: ' + freeDays.map(function(d){ return DAY_NAMES_FULL[d]||d; }).join(' · ') + '</span>' : '');
 
-  const gridEl = document.getElementById('daysGrid');
+  var gridEl = document.getElementById('daysGrid');
   if (gridEl && gridEl.parentNode) gridEl.parentNode.insertBefore(legend, gridEl.nextSibling);
 }
 
