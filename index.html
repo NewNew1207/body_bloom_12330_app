@@ -1142,7 +1142,7 @@
   <div class="modal" style="max-height:88vh;overflow-y:auto;padding:28px 24px;">
     <div class="modal-logo">Body Bloom by Sofia</div>
     <h2>Welkom bij jouw<br><em style="color:var(--deep)">12·3·30 Challenge</em></h2>
-    <p style="font-size:9px;color:var(--taupe);text-align:center;margin-top:-8px;margin-bottom:14px;letter-spacing:1px;">v2.4</p>
+    <p style="font-size:9px;color:var(--taupe);text-align:center;margin-top:-8px;margin-bottom:14px;letter-spacing:1px;">v2.5</p>
 
     <div class="modal-input-wrap">
       <input type="text" class="modal-input" id="nameInput" placeholder="Jouw voornaam (optioneel)" maxlength="30">
@@ -1183,6 +1183,10 @@
           <button class="day-toggle" data-day="zo" onclick="toggleScheduleDay('zo',this,'3x')">Zo</button>
         </div>
         <div class="days-warning" id="warn-3x">Selecteer 3 trainingsdagen</div>
+        <span class="schedule-label" style="margin-top:14px;display:block;">Rustdagen</span>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;"><span style="background:#f5e6d8;border:1.5px solid #e0c8b8;border-radius:50px;padding:5px 14px;font-size:11px;color:var(--text);">&#127825; Zondag (vast)</span><span style="font-size:11px;color:var(--muted);font-weight:300;">+ kies je 2de rustdag:</span></div>
+        <div class="day-row" id="rest-days-3x"><button class="day-toggle" data-day="ma" onclick="toggleRestDay('ma',this,'3x')">Ma</button><button class="day-toggle" data-day="di" onclick="toggleRestDay('di',this,'3x')">Di</button><button class="day-toggle" data-day="wo" onclick="toggleRestDay('wo',this,'3x')">Wo</button><button class="day-toggle" data-day="do" onclick="toggleRestDay('do',this,'3x')">Do</button><button class="day-toggle" data-day="vr" onclick="toggleRestDay('vr',this,'3x')">Vr</button><button class="day-toggle" data-day="za" onclick="toggleRestDay('za',this,'3x')">Za</button></div>
+        <div class="days-warning" id="rest-warn-3x"></div>
 
         <!-- Opbouw kiezen -->
         <span class="schedule-label" style="margin-top:14px;display:block;">Opbouw helling</span>
@@ -1217,7 +1221,6 @@
             <input type="checkbox" id="3x-maand5" style="width:16px;height:16px;accent-color:var(--deep);">
             <label for="3x-maand5" style="font-size:12px;color:var(--muted);font-weight:300;">Maand 5 — 12% · 40 min (einddoel bereikt)</label>
           </div>
-          <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--sand);"><span class="schedule-label">Rustdagen</span><div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="width:28px;height:28px;border-radius:50%;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:var(--muted);">Zo</span><span style="font-size:11px;color:var(--muted);font-weight:300;">Zondag &#8212; altijd rust &#127800;</span></div><span style="font-size:10px;color:var(--muted);font-weight:300;display:block;margin-bottom:6px;">Kies jouw 2de rustdag:</span><div class="day-row" id="rest-days-3x"><button class="day-toggle" data-day="ma" onclick="toggleRestDay('ma',this,'3x')">Ma</button><button class="day-toggle" data-day="di" onclick="toggleRestDay('di',this,'3x')">Di</button><button class="day-toggle" data-day="wo" onclick="toggleRestDay('wo',this,'3x')">Wo</button><button class="day-toggle" data-day="do" onclick="toggleRestDay('do',this,'3x')">Do</button><button class="day-toggle" data-day="vr" onclick="toggleRestDay('vr',this,'3x')">Vr</button><button class="day-toggle" data-day="za" onclick="toggleRestDay('za',this,'3x')">Za</button></div><div class="days-warning" id="rest-warn-3x"></div></div>
         </div>
         <p style="font-size:10px;color:var(--muted);margin-top:10px;font-weight:300;font-style:italic;">Sofia adviseert jou welke helling je gebruikt 🌸</p>
       </div>
@@ -1238,6 +1241,10 @@
           <button class="day-toggle" data-day="zo" onclick="toggleScheduleDay('zo',this,'2x')">Zo</button>
         </div>
         <div class="days-warning" id="warn-2x">Selecteer 2 trainingsdagen</div>
+        <span class="schedule-label" style="margin-top:14px;display:block;">Rustdagen</span>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;"><span style="background:#f5e6d8;border:1.5px solid #e0c8b8;border-radius:50px;padding:5px 14px;font-size:11px;color:var(--text);">&#127825; Zondag (vast)</span><span style="font-size:11px;color:var(--muted);font-weight:300;">+ kies je 2de rustdag:</span></div>
+        <div class="day-row" id="rest-days-2x"><button class="day-toggle" data-day="ma" onclick="toggleRestDay('ma',this,'2x')">Ma</button><button class="day-toggle" data-day="di" onclick="toggleRestDay('di',this,'2x')">Di</button><button class="day-toggle" data-day="wo" onclick="toggleRestDay('wo',this,'2x')">Wo</button><button class="day-toggle" data-day="do" onclick="toggleRestDay('do',this,'2x')">Do</button><button class="day-toggle" data-day="vr" onclick="toggleRestDay('vr',this,'2x')">Vr</button><button class="day-toggle" data-day="za" onclick="toggleRestDay('za',this,'2x')">Za</button></div>
+        <div class="days-warning" id="rest-warn-2x"></div>
 
         <!-- Opbouw kiezen -->
         <span class="schedule-label" style="margin-top:14px;display:block;">Opbouw helling</span>
@@ -1272,7 +1279,6 @@
             <input type="checkbox" id="2x-maand5" style="width:16px;height:16px;accent-color:var(--deep);">
             <label for="2x-maand5" style="font-size:12px;color:var(--muted);font-weight:300;">Maand 5 — 12% · 40 min (einddoel bereikt)</label>
           </div>
-          <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--sand);"><span class="schedule-label">Rustdagen</span><div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="width:28px;height:28px;border-radius:50%;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:var(--muted);">Zo</span><span style="font-size:11px;color:var(--muted);font-weight:300;">Zondag &#8212; altijd rust &#127800;</span></div><span style="font-size:10px;color:var(--muted);font-weight:300;display:block;margin-bottom:6px;">Kies jouw 2de rustdag:</span><div class="day-row" id="rest-days-2x"><button class="day-toggle" data-day="ma" onclick="toggleRestDay('ma',this,'2x')">Ma</button><button class="day-toggle" data-day="di" onclick="toggleRestDay('di',this,'2x')">Di</button><button class="day-toggle" data-day="wo" onclick="toggleRestDay('wo',this,'2x')">Wo</button><button class="day-toggle" data-day="do" onclick="toggleRestDay('do',this,'2x')">Do</button><button class="day-toggle" data-day="vr" onclick="toggleRestDay('vr',this,'2x')">Vr</button><button class="day-toggle" data-day="za" onclick="toggleRestDay('za',this,'2x')">Za</button></div><div class="days-warning" id="rest-warn-2x"></div></div>
         </div>
         <p style="font-size:10px;color:var(--muted);margin-top:10px;font-weight:300;font-style:italic;">Sofia adviseert jou welke helling je gebruikt 🌸</p>
       </div>
@@ -1965,7 +1971,7 @@
 <div style="height:40px;"></div>
 
 <footer>
-  <strong>© 2026 Body Bloom by Sofia · v2.4</strong> — Alle rechten voorbehouden<br>
+  <strong>© 2026 Body Bloom by Sofia · v2.5</strong> — Alle rechten voorbehouden<br>
   <span style="opacity:.6;margin-top:6px;display:block;letter-spacing:2px;font-size:10px;text-transform:uppercase;">Exclusief voor Body&bull;Bloom klanten</span>
   <div style="margin-top:10px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
     <button class="disclaimer-link" onclick="openDisclaimer()">Disclaimer</button>
