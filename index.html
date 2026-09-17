@@ -1157,6 +1157,22 @@
           <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
             <input type="checkbox" id="3x-maand5" style="width:16px;height:16px;accent-color:var(--deep);">
             <label for="3x-maand5" style="font-size:12px;color:var(--muted);font-weight:300;">Maand 5 — 12% · 40 min (einddoel bereikt)</label>
+          <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--sand);"><span class="schedule-label">Rustdagen</span><div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="width:28px;height:28px;border-radius:50%;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:var(--muted);">Zo</span><span style="font-size:11px;color:var(--muted);font-weight:300;">Zondag &#8212; altijd rust &#127800;</span></div><span style="font-size:10px;color:var(--muted);font-weight:300;display:block;margin-bottom:6px;">Kies jouw 2de rustdag:</span><div class="days-grid" id="rest-days-3x"><button class="day-toggle" data-day="ma" onclick="toggleRestDay('ma',this,'3x')">Ma</button><button class="day-toggle" data-day="di" onclick="toggleRestDay('di',this,'3x')">Di</button><button class="day-toggle" data-day="wo" onclick="toggleRestDay('wo',this,'3x')">Wo</button><button class="day-toggle" data-day="do" onclick="toggleRestDay('do',this,'3x')">Do</button><button class="day-toggle" data-day="vr" onclick="toggleRestDay('vr',this,'3x')">Vr</button><button class="day-toggle" data-day="za" onclick="toggleRestDay('za',this,'3x')">Za</button></div><div class="days-warning" id="rest-warn-3x"></div></div>
+          </div>
+          <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--sand);">
+            <span class="schedule-label">Rustdagen</span>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+              <span style="background:#f5e6d8;border:1.5px solid #e0c8b8;border-radius:50px;padding:5px 14px;font-size:11px;font-weight:400;color:var(--text);">🍑 Zondag (vast)</span>
+              <span style="font-size:11px;color:var(--muted);font-weight:300;">+  kies je 2de rustdag:</span>
+            </div>
+            <div class="days-grid">
+              <button class="day-toggle" data-day="ma" onclick="selectExtraRest('ma',this,'3x')">Ma</button>
+              <button class="day-toggle" data-day="di" onclick="selectExtraRest('di',this,'3x')">Di</button>
+              <button class="day-toggle" data-day="wo" onclick="selectExtraRest('wo',this,'3x')">Wo</button>
+              <button class="day-toggle" data-day="do" onclick="selectExtraRest('do',this,'3x')">Do</button>
+              <button class="day-toggle" data-day="vr" onclick="selectExtraRest('vr',this,'3x')">Vr</button>
+              <button class="day-toggle" data-day="za" onclick="selectExtraRest('za',this,'3x')">Za</button>
+            </div>
           </div>
         </div>
         <p style="font-size:10px;color:var(--muted);margin-top:10px;font-weight:300;font-style:italic;">Sofia adviseert jou welke helling je gebruikt 🌸</p>
@@ -1211,6 +1227,22 @@
           <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
             <input type="checkbox" id="2x-maand5" style="width:16px;height:16px;accent-color:var(--deep);">
             <label for="2x-maand5" style="font-size:12px;color:var(--muted);font-weight:300;">Maand 5 — 12% · 40 min (einddoel bereikt)</label>
+          <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--sand);"><span class="schedule-label">Rustdagen</span><div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;"><span style="width:28px;height:28px;border-radius:50%;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:var(--muted);">Zo</span><span style="font-size:11px;color:var(--muted);font-weight:300;">Zondag &#8212; altijd rust &#127800;</span></div><span style="font-size:10px;color:var(--muted);font-weight:300;display:block;margin-bottom:6px;">Kies jouw 2de rustdag:</span><div class="days-grid" id="rest-days-2x"><button class="day-toggle" data-day="ma" onclick="toggleRestDay('ma',this,'2x')">Ma</button><button class="day-toggle" data-day="di" onclick="toggleRestDay('di',this,'2x')">Di</button><button class="day-toggle" data-day="wo" onclick="toggleRestDay('wo',this,'2x')">Wo</button><button class="day-toggle" data-day="do" onclick="toggleRestDay('do',this,'2x')">Do</button><button class="day-toggle" data-day="vr" onclick="toggleRestDay('vr',this,'2x')">Vr</button><button class="day-toggle" data-day="za" onclick="toggleRestDay('za',this,'2x')">Za</button></div><div class="days-warning" id="rest-warn-2x"></div></div>
+          </div>
+          <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--sand);">
+            <span class="schedule-label">Rustdagen</span>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+              <span style="background:#f5e6d8;border:1.5px solid #e0c8b8;border-radius:50px;padding:5px 14px;font-size:11px;font-weight:400;color:var(--text);">🍑 Zondag (vast)</span>
+              <span style="font-size:11px;color:var(--muted);font-weight:300;">+  kies je 2de rustdag:</span>
+            </div>
+            <div class="days-grid">
+              <button class="day-toggle" data-day="ma" onclick="selectExtraRest('ma',this,'2x')">Ma</button>
+              <button class="day-toggle" data-day="di" onclick="selectExtraRest('di',this,'2x')">Di</button>
+              <button class="day-toggle" data-day="wo" onclick="selectExtraRest('wo',this,'2x')">Wo</button>
+              <button class="day-toggle" data-day="do" onclick="selectExtraRest('do',this,'2x')">Do</button>
+              <button class="day-toggle" data-day="vr" onclick="selectExtraRest('vr',this,'2x')">Vr</button>
+              <button class="day-toggle" data-day="za" onclick="selectExtraRest('za',this,'2x')">Za</button>
+            </div>
           </div>
         </div>
         <p style="font-size:10px;color:var(--muted);margin-top:10px;font-weight:300;font-style:italic;">Sofia adviseert jou welke helling je gebruikt 🌸</p>
@@ -2169,12 +2201,14 @@ function startChallenge() {
   } else if (selectedProgramOption === '3x') {
     state.freq = 3;
     state.trainingDays = selectedDays3x;
+    state.customRestDays = selectedRestDay3x ? ['zo', selectedRestDay3x] : [];
     var h3x = getHellingArray('3x');
     state.hellingMode = h3x.mode;
     state.hellingValues = h3x.values;
   } else {
     state.freq = 2;
     state.trainingDays = selectedDays2x;
+    state.customRestDays = selectedRestDay2x ? ['zo', selectedRestDay2x] : [];
     var h2x = getHellingArray('2x');
     state.hellingMode = h2x.mode;
     state.hellingValues = h2x.values;
@@ -2335,6 +2369,26 @@ function editSchema() {
   if (ageEl && state.userAge) ageEl.value = state.userAge;
   // Restore program option
   if (state.programOption) selectProgramOption(state.programOption);
+}
+
+
+// ── REST DAY SELECTOR (maand program) ──
+var selectedRestDay3x = '';
+var selectedRestDay2x = '';
+
+function toggleRestDay(day, btn, freq) {
+  var groupId = 'rest-days-' + freq;
+  var warnId  = 'rest-warn-'  + freq;
+  // Deselect all in group
+  document.querySelectorAll('#' + groupId + ' .day-toggle').forEach(function(b) {
+    b.classList.remove('active');
+  });
+  // Select clicked
+  btn.classList.add('active');
+  if (freq === '3x') selectedRestDay3x = day;
+  else selectedRestDay2x = day;
+  var warn = document.getElementById(warnId);
+  if (warn) warn.textContent = '✓ ' + day.charAt(0).toUpperCase() + day.slice(1) + ' + Zondag als rustdagen';
 }
 
 function renderSchemaInfo() {
@@ -2537,6 +2591,11 @@ function renderCustomGrid(week, trainingDays) {
 
 // ── HELPER: get rest days for custom schedule ──
 function getRestDaysForSchedule(trainingDays) {
+  // If custom rest days are set (maand program), use those
+  if (state.customRestDays && state.customRestDays.length > 0) {
+    return state.customRestDays.filter(function(d) { return !trainingDays.includes(d); });
+  }
+  // Auto-calculate: prefer za+zo
   var ALL_DAYS = ['ma','di','wo','do','vr','za','zo'];
   var nonTraining = ALL_DAYS.filter(function(d) { return !trainingDays.includes(d); });
   var weekendFree = nonTraining.filter(function(d) { return d === 'za' || d === 'zo'; });
