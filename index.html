@@ -1107,6 +1107,47 @@
   }
 
 
+
+  /* ── STRETCHING ── */
+  .stretch-item {
+    border: 1.5px solid var(--sand); border-radius: 14px;
+    margin-bottom: 8px; overflow: hidden; background: var(--white);
+  }
+  .stretch-head {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 14px; cursor: pointer; user-select: none;
+  }
+  .stretch-head:hover { background: var(--cream); }
+  .stretch-num {
+    width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+    background: var(--deep); color: white; font-size: 11px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .stretch-name { flex: 1; font-size: 13px; color: var(--text); font-weight: 400; }
+  .stretch-dur  { font-size: 10px; color: var(--muted); letter-spacing: 1px; white-space: nowrap; }
+  .stretch-body {
+    display: none; padding: 0 14px 14px 50px;
+    font-size: 12px; color: var(--muted); font-weight: 300; line-height: 1.6;
+  }
+  .stretch-item.open .stretch-body { display: block; }
+  .stretch-item.open { border-color: var(--rose); }
+
+  .stretch-body-inner { display: flex; gap: 14px; align-items: flex-start; }
+  .stretch-fig {
+    flex: 0 0 116px; background: var(--cream);
+    border: 1px solid var(--sand); border-radius: 10px; padding: 6px;
+  }
+  .stretch-txt { flex: 1; min-width: 0; }
+  @media (max-width: 480px) {
+    .stretch-body-inner { flex-direction: column; }
+    .stretch-fig { flex: none; width: 100%; max-width: 200px; align-self: center; }
+  }
+  .stretch-tip {
+    background: var(--cream); border-left: 3px solid var(--rose);
+    border-radius: 6px; padding: 10px 12px; margin-top: 14px;
+    font-size: 11px; color: var(--muted); font-weight: 300; line-height: 1.6;
+  }
+
 </style>
 </head>
 <body>
@@ -1142,7 +1183,7 @@
   <div class="modal" style="max-height:88vh;overflow-y:auto;padding:28px 24px;">
     <div class="modal-logo">Body Bloom by Sofia</div>
     <h2>Welkom bij jouw<br><em style="color:var(--deep)">12·3·30 Challenge</em></h2>
-    <p style="font-size:9px;color:var(--taupe);text-align:center;margin-top:-8px;margin-bottom:14px;letter-spacing:1px;">v2.7</p>
+    <p style="font-size:9px;color:var(--taupe);text-align:center;margin-top:-8px;margin-bottom:14px;letter-spacing:1px;">v2.9</p>
 
     <div class="modal-input-wrap">
       <input type="text" class="modal-input" id="nameInput" placeholder="Jouw voornaam (optioneel)" maxlength="30">
@@ -1484,16 +1525,16 @@
 
   <!-- PROGRESS -->
   <div class="progress-section">
-    <div class="section-title">Jouw <em style="font-style:italic;color:var(--deep)">Voortgang</em></div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+      <div class="section-title">Jouw <em style="font-style:italic;color:var(--deep)">Voortgang</em></div>
+      <button onclick="editSchema()" title="Wijzig jouw schema" style="flex-shrink:0;background:white;border:1.5px solid var(--deep);color:var(--deep);border-radius:50px;padding:6px 14px;font-family:'Jost',sans-serif;font-size:10px;font-weight:400;letter-spacing:.5px;cursor:pointer;white-space:nowrap;">&#9999;&#65039; Wijzig schema</button>
+    </div>
     <div id="schemaInfoBar" style="display:none;background:linear-gradient(135deg,var(--blush),var(--sand));border-radius:12px;padding:10px 14px;margin-bottom:10px;">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:8px;">
         <span id="schemaBadge" style="background:var(--deep);color:white;border-radius:50px;padding:4px 12px;font-size:10px;letter-spacing:1px;text-transform:uppercase;">3× per week</span>
         <span id="schemaDays" style="font-size:11px;color:var(--muted);font-weight:300;"></span>
         <span id="schemaHelling" style="background:var(--mauve);color:white;border-radius:50px;padding:4px 12px;font-size:10px;letter-spacing:1px;">Week 1 · 6%</span>
       </div>
-      <button onclick="editSchema()" style="width:100%;background:white;border:1.5px solid var(--deep);color:var(--deep);border-radius:50px;padding:8px 16px;font-family:'Jost',sans-serif;font-size:11px;font-weight:400;letter-spacing:1px;cursor:pointer;transition:all .2s;">
-        ✏️ Wijzig mijn schema of trainingsdagen
-      </button>
     </div>
     <div class="section-sub" id="progressLabel">30 dagen · 5 weken challenge</div>
     <div class="progress-bar-wrap">
@@ -1509,6 +1550,157 @@
       <!-- Generated dynamically by renderWeekTabs() -->
     </div>
     <div class="days-grid" id="daysGrid"></div>
+  </div>
+
+
+  <!-- STRETCHING -->
+  <div class="progress-section">
+    <div class="section-title">Stretching<em style="font-style:italic;color:var(--deep)"> na elke sessie</em></div>
+    <div class="section-sub">Tik een oefening aan voor uitleg en houding</div>
+    
+      <div class="stretch-item" onclick="this.classList.toggle('open')">
+        <div class="stretch-head">
+          <div class="stretch-num">1</div>
+          <div class="stretch-name">Kuitstrek — gastrocnemius</div>
+          <div class="stretch-dur">30 sec / been · 2&times;</div>
+        </div>
+        <div class="stretch-body"><div class="stretch-body-inner"><div class="stretch-fig"><svg viewBox="0 0 110 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+<rect x="6" y="10" width="7" height="82" fill="#e0cdb8" rx="2"/>
+<line x1="6" y1="92" x2="106" y2="92" stroke="#e0cdb8" stroke-width="3"/>
+<circle cx="42" cy="20" r="7" fill="#f2c4ce" stroke="#c25c76" stroke-width="2"/>
+<path d="M42 27 L50 54" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M42 28 L15 26" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M42 33 L15 34" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M50 54 L40 90" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M36 90 L48 90" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M50 54 L76 72" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M76 72 L90 90" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M86 90 L98 90" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<text x="80" y="66" font-size="7.5" fill="#d4a95a" font-weight="bold">kuit</text>
+<text x="76" y="56" font-size="7" fill="#d4a95a">been recht</text>
+</svg></div><div class="stretch-txt">Handen tegen de muur, één been gestrekt naar achter. Hiel plat op de grond, been volledig gestrekt.<br><span style="color:var(--deep);">Je voelt de rek hoog in de kuit. Draai je achterste voet recht vooruit.</span></div></div></div>
+      </div>
+      <div class="stretch-item" onclick="this.classList.toggle('open')">
+        <div class="stretch-head">
+          <div class="stretch-num">2</div>
+          <div class="stretch-name">Kuitstrek — soleus</div>
+          <div class="stretch-dur">30 sec / been · 2&times;</div>
+        </div>
+        <div class="stretch-body"><div class="stretch-body-inner"><div class="stretch-fig"><svg viewBox="0 0 110 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+<rect x="6" y="10" width="7" height="82" fill="#e0cdb8" rx="2"/>
+<line x1="6" y1="92" x2="106" y2="92" stroke="#e0cdb8" stroke-width="3"/>
+<circle cx="42" cy="20" r="7" fill="#f2c4ce" stroke="#c25c76" stroke-width="2"/>
+<path d="M42 27 L50 54" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M42 28 L15 26" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M42 33 L15 34" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M50 54 L40 90" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M36 90 L48 90" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M50 54 L74 66" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M74 66 L82 90" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<circle cx="74" cy="66" r="4.5" fill="#d4a95a"/>
+<path d="M78 90 L92 90" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<text x="80" y="62" font-size="7" fill="#d4a95a" font-weight="bold">knie</text>
+<text x="80" y="71" font-size="7" fill="#d4a95a" font-weight="bold">gebogen</text>
+</svg></div><div class="stretch-txt">Zelfde houding, maar buig nu je achterste knie licht.<br><span style="color:var(--deep);">De rek zakt naar beneden richting de achillespees. Rustig en gecontroleerd.</span></div></div></div>
+      </div>
+      <div class="stretch-item" onclick="this.classList.toggle('open')">
+        <div class="stretch-head">
+          <div class="stretch-num">3</div>
+          <div class="stretch-name">Achillespees</div>
+          <div class="stretch-dur">30 sec / been · voorzichtig</div>
+        </div>
+        <div class="stretch-body"><div class="stretch-body-inner"><div class="stretch-fig"><svg viewBox="0 0 110 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+<line x1="4" y1="94" x2="106" y2="94" stroke="#e0cdb8" stroke-width="3"/>
+<path d="M10 58 L54 58 L54 94 L10 94 Z" fill="#e0cdb8"/>
+<rect x="92" y="12" width="7" height="82" fill="#e0cdb8" rx="2"/>
+<circle cx="40" cy="14" r="7" fill="#f2c4ce" stroke="#c25c76" stroke-width="2"/>
+<path d="M40 21 L44 46" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M40 26 L90 26" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M44 46 L46 58" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M38 58 L52 58" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M50 58 L58 62" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M58 62 L60 76" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M58 76 L66 76" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M70 60 L70 80" stroke="#d4a95a" stroke-width="2" stroke-dasharray="3,2"/>
+<path d="M66 75 L70 81 L74 75" fill="none" stroke="#d4a95a" stroke-width="2.5" stroke-linecap="round"/>
+<text x="74" y="68" font-size="7.5" fill="#d4a95a" font-weight="bold">hiel</text>
+<text x="74" y="77" font-size="7.5" fill="#d4a95a" font-weight="bold">zakt</text>
+<text x="14" y="52" font-size="7" fill="#c25c76">trede</text>
+</svg></div><div class="stretch-txt">Sta met je voorvoet op de rand van een trede. Laat je hiel langzaam zakken.<br><span style="color:var(--deep);">Nooit forceren. Stop meteen bij scherpe pijn.</span></div></div></div>
+      </div>
+      <div class="stretch-item" onclick="this.classList.toggle('open')">
+        <div class="stretch-head">
+          <div class="stretch-num">4</div>
+          <div class="stretch-name">Hamstring</div>
+          <div class="stretch-dur">30-45 sec / been · 2&times;</div>
+        </div>
+        <div class="stretch-body"><div class="stretch-body-inner"><div class="stretch-fig"><svg viewBox="0 0 110 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+<line x1="4" y1="86" x2="106" y2="86" stroke="#e0cdb8" stroke-width="4"/>
+<circle cx="18" cy="78" r="7" fill="#f2c4ce" stroke="#c25c76" stroke-width="2"/>
+<path d="M26 80 L56 82" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M56 82 L62 44" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M62 44 L66 18" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M62 14 L74 18" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M56 82 L84 84" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M84 84 L96 82" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M92 78 L96 86" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M30 78 L58 34" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M58 34 L64 26" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<circle cx="63" cy="29" r="4" fill="none" stroke="#c25c76" stroke-width="3"/>
+<text x="74" y="46" font-size="7.5" fill="#d4a95a" font-weight="bold">achter-</text>
+<text x="74" y="55" font-size="7.5" fill="#d4a95a" font-weight="bold">been</text>
+</svg></div><div class="stretch-txt">Lig op je rug, trek één been omhoog met beide handen. Hou het been gestrekt.<br><span style="color:var(--deep);">Rek aan de achterkant van je bovenbeen. Blijf rustig doorademen.</span></div></div></div>
+      </div>
+      <div class="stretch-item" onclick="this.classList.toggle('open')">
+        <div class="stretch-head">
+          <div class="stretch-num">5</div>
+          <div class="stretch-name">Heupbuiger</div>
+          <div class="stretch-dur">30-45 sec / been · 2&times;</div>
+        </div>
+        <div class="stretch-body"><div class="stretch-body-inner"><div class="stretch-fig"><svg viewBox="0 0 110 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+<line x1="4" y1="90" x2="106" y2="90" stroke="#e0cdb8" stroke-width="4"/>
+<circle cx="58" cy="16" r="7" fill="#f2c4ce" stroke="#c25c76" stroke-width="2"/>
+<path d="M58 23 L56 52" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M58 28 L44 40" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M58 28 L72 40" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M56 52 L80 62" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M80 62 L80 88" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M76 88 L90 88" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M56 52 L30 76" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M30 76 L18 88" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<circle cx="30" cy="76" r="4" fill="#d4a95a"/>
+<path d="M14 88 L24 88" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<text x="18" y="64" font-size="7" fill="#d4a95a" font-weight="bold">heup</text>
+<text x="18" y="72" font-size="7" fill="#d4a95a" font-weight="bold">vooruit</text>
+</svg></div><div class="stretch-txt">Ga in een lange uitval, achterste knie op de grond. Duw je heup zacht naar voor.<br><span style="color:var(--deep);">Blijf rechtop. Je voelt het vooraan in je heup en bovenbeen.</span></div></div></div>
+      </div>
+      <div class="stretch-item" onclick="this.classList.toggle('open')">
+        <div class="stretch-head">
+          <div class="stretch-num">6</div>
+          <div class="stretch-name">Quadriceps</div>
+          <div class="stretch-dur">30 sec / been · 2&times;</div>
+        </div>
+        <div class="stretch-body"><div class="stretch-body-inner"><div class="stretch-fig"><svg viewBox="0 0 110 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+<line x1="4" y1="92" x2="106" y2="92" stroke="#e0cdb8" stroke-width="4"/>
+<rect x="96" y="14" width="7" height="78" fill="#e0cdb8" rx="2"/>
+<circle cx="46" cy="16" r="7" fill="#f2c4ce" stroke="#c25c76" stroke-width="2"/>
+<path d="M46 23 L48 54" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M46 28 L92 26" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M48 54 L46 90" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M42 90 L52 90" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M48 54 L60 74" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M60 74 L52 56" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M50 54 L58 52" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<circle cx="60" cy="74" r="4" fill="#d4a95a"/>
+<text x="64" y="62" font-size="7" fill="#d4a95a" font-weight="bold">voor-</text>
+<text x="64" y="70" font-size="7" fill="#d4a95a" font-weight="bold">been</text>
+</svg></div><div class="stretch-txt">Sta op één been, trek je enkel naar je bil. Knieën naast elkaar.<br><span style="color:var(--deep);">Gebruik de muur voor je evenwicht. Knieën parallel houden.</span></div></div></div>
+      </div>
+    <div class="stretch-tip">
+      <strong style="color:var(--deep);">Altijd n&aacute; de training, nooit ervoor.</strong><br>
+      Hou elke rek 30 tot 45 seconden vast. Niet veren, niet forceren. Blijf doorademen.
+      Voel je scherpe pijn in plaats van rek? Stop en bouw rustiger op.
+    </div>
   </div>
 
   <!-- HEART RATE METER -->
@@ -1977,7 +2169,7 @@
 <div style="height:40px;"></div>
 
 <footer>
-  <strong>© 2026 Body Bloom by Sofia · v2.7</strong> — Alle rechten voorbehouden<br>
+  <strong>© 2026 Body Bloom by Sofia · v2.9</strong> — Alle rechten voorbehouden<br>
   <span style="opacity:.6;margin-top:6px;display:block;letter-spacing:2px;font-size:10px;text-transform:uppercase;">Exclusief voor Body&bull;Bloom klanten</span>
   <div style="margin-top:10px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
     <button class="disclaimer-link" onclick="openDisclaimer()">Disclaimer</button>
