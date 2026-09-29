@@ -1184,7 +1184,7 @@
   <div class="modal" style="max-height:88vh;overflow-y:auto;padding:28px 24px;">
     <div class="modal-logo">Body Bloom by Sofia</div>
     <h2>Welkom bij jouw<br><em style="color:var(--deep)">12·3·30 Challenge</em></h2>
-    <p style="font-size:9px;color:var(--taupe);text-align:center;margin-top:-8px;margin-bottom:14px;letter-spacing:1px;">v3.9</p>
+    <p style="font-size:9px;color:var(--taupe);text-align:center;margin-top:-8px;margin-bottom:14px;letter-spacing:1px;">v4.0</p>
 
     <div class="modal-input-wrap">
       <input type="text" class="modal-input" id="nameInput" placeholder="Jouw voornaam (optioneel)" maxlength="30">
@@ -2170,7 +2170,7 @@
 <div style="height:40px;"></div>
 
 <footer>
-  <strong>© 2026 Body Bloom by Sofia · v3.9</strong> — Alle rechten voorbehouden<br>
+  <strong>© 2026 Body Bloom by Sofia · v4.0</strong> — Alle rechten voorbehouden<br>
   <span style="opacity:.6;margin-top:6px;display:block;letter-spacing:2px;font-size:10px;text-transform:uppercase;">Exclusief voor Body&bull;Bloom klanten</span>
   <div style="margin-top:10px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
     <button class="disclaimer-link" onclick="openDisclaimer()">Disclaimer</button>
@@ -3834,7 +3834,7 @@ function downloadWeekReport() {
   const start = (week - 1) * 7;
   const end = Math.min(start + 7, 30);
   const REST_DAYS_LOCAL = [7, 14, 21, 28];
-  const userName = localStorage.getItem('bodybloom_access_name') || 'Gebruiker';
+  const userName = localStorage.getItem('bodybloom_access_name') || '';
   const datum = new Date().toLocaleDateString('nl-BE', { day:'numeric', month:'long', year:'numeric' });
 
   const weekDays = [];
@@ -3895,42 +3895,56 @@ function downloadWeekReport() {
     playlistHTML += '</div>';
   }
 
-  var html = '<!DOCTYPE html><html lang="nl"><head><meta charset="UTF-8">' +
-    '<style>' +
-    '* { margin:0; padding:0; box-sizing:border-box; }' +
-    'body { font-family: Georgia, serif; background: #fdf6f0; color: #3a2430; padding: 40px; }' +
-    '.header { background: linear-gradient(135deg,#9b4d6a,#c25c76); color:white; padding:32px; border-radius:16px; margin-bottom:24px; text-align:center; }' +
-    '.header h1 { font-size:32px; font-weight:300; letter-spacing:-1px; }' +
-    '.header p { font-size:12px; opacity:.8; margin-top:6px; letter-spacing:2px; text-transform:uppercase; }' +
-    '.section { background:white; border-radius:12px; padding:20px; margin-bottom:16px; border-left:4px solid #c25c76; }' +
-    '.section h2 { font-size:16px; color:#c25c76; margin-bottom:12px; font-weight:400; }' +
-    '.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:12px; }' +
-    '.stat { text-align:center; background:#fdf6f0; border-radius:8px; padding:12px; }' +
-    '.stat-num { font-size:28px; color:#c25c76; font-weight:300; }' +
-    '.stat-lbl { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#8a6070; margin-top:2px; }' +
-    '.day-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }' +
-    '.day-cell { text-align:center; padding:8px 4px; border-radius:8px; font-size:11px; }' +
-    '.day-cell.done { background:#c25c76; color:white; }' +
-    '.day-cell.rust { background:#f2c4ce; color:#9b4d6a; }' +
-    '.day-cell.miss { background:#f5e6d8; color:#c9a98a; }' +
-    '.note { background:#fdf6f0; border-radius:8px; padding:10px 12px; margin-bottom:8px; border-left:3px solid #e8879c; }' +
-    '.note-meta { font-size:9px; letter-spacing:1px; text-transform:uppercase; color:#8a6070; margin-bottom:4px; }' +
-    '.note-text { font-size:12px; line-height:1.6; }' +
-    '.playlist-item { display:flex; gap:10px; align-items:center; padding:8px 0; border-bottom:1px solid #f5e6d8; }' +
-    '.pl-num { font-size:16px; color:#c25c76; font-weight:300; min-width:24px; }' +
-    '.pl-song { font-size:12px; font-weight:500; }' +
-    '.pl-artist { font-size:11px; color:#8a6070; }' +
-    '.measure-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }' +
-    '.measure-item { text-align:center; background:#fdf6f0; border-radius:8px; padding:10px; }' +
-    '.measure-val { font-size:20px; color:#c25c76; font-weight:300; }' +
-    '.measure-lbl { font-size:9px; letter-spacing:1px; text-transform:uppercase; color:#8a6070; }' +
-    '.footer { text-align:center; margin-top:24px; font-size:10px; color:#c9a98a; letter-spacing:2px; text-transform:uppercase; }' +
-    '@media print { body { padding:20px; } }' +
-    '</style></head><body>' +
+  var R = '#bbRapport ';
+  var css =
+    R + '* { margin:0; padding:0; box-sizing:border-box; font-family: Georgia, serif; }' +
+    '#bbRapport { color:#3a2430; padding:20px 16px 48px; max-width:760px; margin:0 auto; }' +
+    R + '.header { background: linear-gradient(135deg,#9b4d6a,#c25c76); color:white; padding:28px 20px; border-radius:16px; margin-bottom:20px; text-align:center; }' +
+    R + '.header h1 { font-size:30px; font-weight:300; letter-spacing:-1px; color:white; }' +
+    R + '.header p { font-size:11px; opacity:.85; margin-top:6px; letter-spacing:2px; text-transform:uppercase; color:white; }' +
+    R + '.section { background:white; border-radius:12px; padding:18px; margin-bottom:14px; border-left:4px solid #c25c76; }' +
+    R + '.section h2 { font-size:16px; color:#c25c76; margin-bottom:12px; font-weight:400; }' +
+    R + '.stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-bottom:12px; }' +
+    R + '.stat { text-align:center; background:#fdf6f0; border-radius:8px; padding:12px 6px; }' +
+    R + '.stat-num { font-size:26px; color:#c25c76; font-weight:300; }' +
+    R + '.stat-lbl { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#8a6070; margin-top:2px; }' +
+    R + '.day-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:4px; }' +
+    R + '.day-cell { text-align:center; padding:8px 1px; border-radius:8px; font-size:10px; overflow:hidden; }' + R + '.day-cell div:last-child { font-size:12px !important; }' +
+    R + '.day-cell.done { background:#c25c76; color:white; }' +
+    R + '.day-cell.rust { background:#f2c4ce; color:#9b4d6a; }' +
+    R + '.day-cell.miss { background:#f5e6d8; color:#c9a98a; }' +
+    R + '.note { background:#fdf6f0; border-radius:8px; padding:10px 12px; margin-bottom:8px; border-left:3px solid #e8879c; }' +
+    R + '.note-meta { font-size:9px; letter-spacing:1px; text-transform:uppercase; color:#8a6070; margin-bottom:4px; }' +
+    R + '.note-text { font-size:12px; line-height:1.6; }' +
+    R + '.playlist-item { display:flex; gap:10px; align-items:center; padding:8px 0; border-bottom:1px solid #f5e6d8; }' +
+    R + '.pl-num { font-size:16px; color:#c25c76; font-weight:300; min-width:24px; }' +
+    R + '.pl-song { font-size:12px; font-weight:500; }' +
+    R + '.pl-artist { font-size:11px; color:#8a6070; }' +
+    R + '.measure-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }' +
+    R + '.measure-item { text-align:center; background:#fdf6f0; border-radius:8px; padding:10px 4px; }' +
+    R + '.measure-val { font-size:20px; color:#c25c76; font-weight:300; }' +
+    R + '.measure-lbl { font-size:9px; letter-spacing:1px; text-transform:uppercase; color:#8a6070; }' +
+    R + '.footer { text-align:center; margin-top:24px; font-size:10px; color:#c9a98a; letter-spacing:2px; text-transform:uppercase; }' +
+    '#bbRapportOverlay { position:fixed; top:0; left:0; right:0; bottom:0; z-index:99999; background:#fdf6f0; overflow-y:auto; -webkit-overflow-scrolling:touch; }' +
+    '#bbRapportOverlay .bbr-balk { position:sticky; top:0; z-index:2; display:flex; gap:8px; padding:12px 16px; background:rgba(253,246,240,.97); border-bottom:1px solid #f2c4ce; }' +
+    '#bbRapportOverlay .bbr-balk button { flex:1; border-radius:999px; padding:13px 8px; font-family:\'Jost\',sans-serif; font-size:13px; letter-spacing:.5px; cursor:pointer; }' +
+    '#bbRapportOverlay .bbr-terug { background:white; color:#9b4d6a; border:1px solid #e8879c; }' +
+    '#bbRapportOverlay .bbr-print { background:linear-gradient(135deg,#9b4d6a,#c25c76); color:white; border:none; }' +
+    'body.bbr-open { overflow:hidden; }' +
+    '@media print {' +
+    '  body.bbr-open > *:not(#bbRapportOverlay) { display:none !important; }' +
+    '  body.bbr-open { overflow:visible; background:white; }' +
+    '  #bbRapportOverlay { position:static; overflow:visible; background:white; }' +
+    '  #bbRapportOverlay .bbr-balk { display:none !important; }' +
+    '  #bbRapport { max-width:none; padding:0; }' +
+    '  #bbRapport .header, #bbRapport .day-cell, #bbRapport .stat { -webkit-print-color-adjust:exact; print-color-adjust:exact; }' +
+    '}';
+
+  var inhoud =
     '<div class="header">' +
     '<p>Body Bloom by Sofia &middot; 12&middot;3&middot;30 Challenge</p>' +
     '<h1>Week ' + week + ' Rapport</h1>' +
-    '<p>Dag ' + (start+1) + ' t/m ' + end + ' &middot; ' + userName + ' &middot; ' + datum + '</p>' +
+    '<p>Dag ' + (start+1) + ' t/m ' + end + ' &middot; ' + (userName ? userName.replace(/</g,'&lt;') + ' &middot; ' : '') + datum + '</p>' +
     '</div>' +
     '<div class="section"><h2>Voortgang deze week</h2>' +
     '<div class="stats">' +
@@ -3941,15 +3955,47 @@ function downloadWeekReport() {
     '<div class="day-grid">' + dagGrid + '</div>' +
     '</div>' +
     notesHTML + metingenHTML + playlistHTML +
-    '<div class="footer">&copy; 2026 Body Bloom by Sofia &middot; 12&middot;3&middot;30 Loopband Challenge &middot; Exclusief voor Body Bloom klanten</div>' +
-    '</body></html>';
+    '<div class="footer">&copy; 2026 Body Bloom by Sofia &middot; 12&middot;3&middot;30 Loopband Challenge &middot; Exclusief voor Body Bloom klanten</div>';
 
-  var win = window.open('', '_blank');
-  if (!win) { showToast('Pop-up geblokkeerd! Sta pop-ups toe in Safari. 🌸'); return; }
-  win.document.write(html);
-  win.document.close();
-  setTimeout(function() { win.print(); }, 600);
+  toonRapport(css, inhoud);
 }
+
+// ── RAPPORT IN DE APP ──
+// Opent in de app zelf, niet in een nieuw venster.
+// Zo blijft er altijd een weg terug, ook in de app op het beginscherm.
+function toonRapport(css, inhoud) {
+  var oud = document.getElementById('bbRapportOverlay');
+  if (oud) oud.remove();
+  var ov = document.createElement('div');
+  ov.id = 'bbRapportOverlay';
+  ov.innerHTML =
+    '<style>' + css + '</style>' +
+    '<div class="bbr-balk">' +
+      '<button type="button" class="bbr-terug" onclick="sluitRapport()">&larr; Terug naar de app</button>' +
+      '<button type="button" class="bbr-print" onclick="window.print()">Afdrukken of PDF</button>' +
+    '</div>' +
+    '<div id="bbRapport">' + inhoud + '</div>';
+  document.body.appendChild(ov);
+  document.body.classList.add('bbr-open');
+  ov.scrollTop = 0;
+  try { history.pushState({ bbRapport: true }, ''); } catch (e) {}
+}
+
+function sluitRapport() {
+  if (history.state && history.state.bbRapport) { history.back(); return; }
+  verwijderRapport();
+}
+
+function verwijderRapport() {
+  var ov = document.getElementById('bbRapportOverlay');
+  if (ov) ov.remove();
+  document.body.classList.remove('bbr-open');
+}
+
+// Terugknop van de telefoon (Android) sluit het rapport ook.
+window.addEventListener('popstate', function() {
+  if (document.getElementById('bbRapportOverlay')) verwijderRapport();
+});
 
 
 // ── MOUNT EVEREST CONSTANTEN ──
