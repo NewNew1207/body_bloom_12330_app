@@ -1,0 +1,4313 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Body Bloom 12·3·30">
+<meta name="theme-color" content="#C25C76">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23C25C76'/><text y='.9em' font-size='80' x='10'>🌸</text></svg>">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Body Bloom — 12·3·30 Challenge</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blush:    #f2c4ce;
+    --rose:     #e8879c;
+    --deep:     #c25c76;
+    --mauve:    #9b4d6a;
+    --cream:    #fdf6f0;
+    --sand:     #f5e6d8;
+    --taupe:    #c9a98a;
+    --text:     #3a2430;
+    --muted:    #8a6070;
+    --white:    #ffffff;
+    --gold:     #d4a95a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, var(--mauve) 0%, var(--deep) 50%, var(--rose) 100%);
+    padding: 48px 24px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 30%, rgba(255,255,255,.12) 0%, transparent 60%);
+  }
+  .header-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--blush);
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(44px, 10vw, 72px);
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .header h1 span { font-style: italic; color: var(--blush); }
+  .header-sub {
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.7);
+    margin-top: 10px;
+  }
+  .method-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 50px;
+    padding: 8px 20px;
+    margin-top: 20px;
+    color: var(--white);
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 300;
+    backdrop-filter: blur(8px);
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    background: var(--white);
+    border-bottom: 1px solid var(--sand);
+    padding: 0 24px;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    padding: 18px 32px;
+    text-align: center;
+    border-right: 1px solid var(--sand);
+    flex: 1;
+    min-width: 100px;
+    max-width: 180px;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--deep);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 300;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 36px 20px;
+  }
+
+  /* ── METHOD CARD ── */
+  .method-card {
+    background: linear-gradient(135deg, var(--deep), var(--mauve));
+    border-radius: 20px;
+    padding: 32px;
+    color: var(--white);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background-clip: padding-box;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .method-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Ccircle cx='30' cy='30' r='28' stroke='rgba(255,255,255,.05)' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E") repeat;
+    opacity: .4;
+  }
+  .method-pillar {
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  .method-pillar + .method-pillar {
+    border-left: 1px solid rgba(255,255,255,.2);
+  }
+  .pillar-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 56px;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--blush);
+  }
+  .pillar-unit {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.6);
+    margin-top: 4px;
+  }
+  .pillar-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,.85);
+    margin-top: 8px;
+    font-weight: 300;
+  }
+
+  /* ── PROGRESS SECTION ── */
+  .progress-section {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 28px 28px 20px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 20px rgba(194,92,118,.08);
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .section-sub {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+  .progress-bar-wrap {
+    background: var(--sand);
+    border-radius: 50px;
+    height: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--rose), var(--deep));
+    border-radius: 50px;
+    transition: width .6s ease;
+  }
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  /* ── DAY GRID ── */
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .day-cell {
+    aspect-ratio: 1;
+    border-radius: 12px;
+    border: 1.5px solid var(--sand);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all .25s ease;
+    background: var(--white);
+    position: relative;
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--muted);
+    user-select: none;
+  }
+  .day-cell:hover {
+    border-color: var(--rose);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(194,92,118,.2);
+  }
+  .day-cell.completed {
+    background: linear-gradient(135deg, var(--rose), var(--deep));
+    border-color: var(--deep);
+    color: var(--white);
+  }
+  .day-cell.completed .day-num { color: var(--white); }
+  .day-cell.today {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(212,169,90,.3);
+  }
+  .day-cell.rest {
+    background: var(--sand);
+    border-color: var(--sand);
+  }
+  .day-cell.free-day {
+    background: #f0ebfa;
+    border-color: #d1c4e9;
+    opacity: 0.8;
+    cursor: default;
+  }
+  .day-cell.free-day .day-num { color: #9575cd; font-weight: 300; }
+  .day-cell.free-day .day-label { color: #b39ddb; }
+  .day-cell.rest .day-label { color: var(--taupe); font-size: 9px; }
+  .day-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1;
+  }
+  .day-label {
+    font-size: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 2px;
+    color: var(--muted);
+  }
+  .day-check {
+    position: absolute;
+    top: 4px; right: 5px;
+    font-size: 10px;
+  }
+
+  /* ── WEEK TABS ── */
+  .week-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .week-tab {
+    padding: 7px 18px;
+    border-radius: 50px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1.5px solid var(--sand);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all .2s;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+  }
+  .week-tab.active, .week-tab:hover {
+    background: var(--deep);
+    border-color: var(--deep);
+    color: var(--white);
+  }
+
+  /* ── TODAY CARD ── */
+  .today-card {
+    background: linear-gradient(135deg, var(--blush), var(--sand));
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 28px;
+    border: 1px solid var(--rose);
+  }
+  .today-label {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--deep);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .today-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  .workout-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .step-card {
+    background: rgba(255,255,255,.7);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .step-icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--rose), var(--deep));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .step-text strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .step-text span {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--rose), var(--deep));
+    color: var(--white);
+    border: none;
+    border-radius: 50px;
+    padding: 14px 32px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all .25s;
+    font-weight: 300;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(194,92,118,.4);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--deep);
+    border: 1.5px solid var(--deep);
+    border-radius: 50px;
+    padding: 12px 28px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all .25s;
+    font-weight: 300;
+    margin-left: 10px;
+  }
+  .btn-secondary:hover {
+    background: var(--sand);
+  }
+
+  /* ── TIMER ── */
+  .timer-section {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 28px;
+    text-align: center;
+    box-shadow: 0 2px 20px rgba(194,92,118,.08);
+    display: none;
+  }
+  .timer-section.visible { display: block; }
+  .timer-ring {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 20px;
+  }
+  .timer-ring svg {
+    transform: rotate(-90deg);
+  }
+  .timer-ring-bg { stroke: var(--sand); }
+  .timer-ring-fill {
+    stroke: url(#timerGrad);
+    stroke-linecap: round;
+    transition: stroke-dashoffset .5s ease;
+  }
+  .timer-display {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .timer-time {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1;
+  }
+  .timer-phase {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .timer-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+  /* ── TIPS ── */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .tip-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 20px;
+    border-left: 3px solid var(--rose);
+    box-shadow: 0 2px 12px rgba(194,92,118,.06);
+  }
+  .tip-icon { font-size: 22px; margin-bottom: 8px; }
+  .tip-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .tip-text {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 28px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: linear-gradient(135deg, var(--deep), var(--mauve));
+    color: var(--white);
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 300;
+    transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+    z-index: 100;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 28px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--taupe);
+    font-weight: 300;
+    border-top: 1px solid var(--sand);
+  }
+  footer strong { color: var(--deep); }
+
+  /* ── INTRO MODAL ── */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(58,36,48,.6);
+    backdrop-filter: blur(6px);
+    z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.hidden { display: none; }
+  .modal {
+    background: var(--cream);
+    border-radius: 24px;
+    padding: 40px 36px;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+    animation: modalIn .4s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes modalIn {
+    from { transform: scale(.8); opacity: 0; }
+    to   { transform: scale(1);  opacity: 1; }
+  }
+  .modal-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--deep);
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+  .modal h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 300;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .modal p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 28px;
+  }
+  .modal-input-wrap {
+    margin-bottom: 20px;
+  }
+  .modal-input {
+    width: 100%;
+    padding: 14px 20px;
+    border: 1.5px solid var(--sand);
+    border-radius: 50px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    background: var(--white);
+    text-align: center;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .modal-input:focus { border-color: var(--rose); }
+  .modal-input::placeholder { color: var(--taupe); }
+  .fitness-btn {
+    flex: 1;
+    padding: 9px 8px;
+    border-radius: 50px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    border: 1.5px solid var(--sand);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all .2s;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+  }
+  .fitness-btn.active, .fitness-btn:hover {
+    background: var(--deep);
+    border-color: var(--deep);
+    color: var(--white);
+  }
+
+  /* ── HEART RATE ── */
+  .hr-section {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 20px rgba(194,92,118,.08);
+  }
+  .hr-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .hr-input {
+    width: 100px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--sand);
+    border-radius: 50px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--text);
+    text-align: center;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .hr-input:focus { border-color: var(--rose); }
+  .hr-input::placeholder { font-size: 13px; font-family: 'Jost', sans-serif; color: var(--taupe); }
+  .hr-feedback {
+    background: linear-gradient(135deg, var(--blush), var(--sand));
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    display: none;
+    align-items: center;
+    gap: 14px;
+    border: 1px solid var(--rose);
+  }
+  .hr-feedback.visible { display: flex; }
+  .hr-feedback-icon { font-size: 26px; }
+  .hr-feedback-zone {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .hr-feedback-tip { font-size: 11px; color: var(--muted); font-weight: 300; margin-top: 2px; }
+  .hr-zones {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+  }
+  .hr-zone-bar {
+    border-radius: 10px;
+    padding: 10px 14px;
+    transition: transform .2s;
+    position: relative;
+  }
+  .hr-zone-bar.active-zone {
+    transform: scale(1.04);
+    box-shadow: 0 4px 18px rgba(0,0,0,.15);
+  }
+  .hr-zone-bar.active-zone::after {
+    content: '◀ jij nu';
+    position: absolute; right: 9px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 8px; color: rgba(255,255,255,.85); letter-spacing: 1px;
+  }
+  .hr-zone-name { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,.75); font-weight: 300; }
+  .hr-zone-range { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 600; color: white; margin-top: 2px; }
+  .hr-zone-desc { font-size: 9px; color: rgba(255,255,255,.7); margin-top: 2px; font-weight: 300; }
+
+  @media (max-width: 600px) {
+    .stat-item { padding: 14px 16px; }
+    .method-card { grid-template-columns: 1fr; }
+    .method-pillar + .method-pillar { border-left: none; border-top: 1px solid rgba(255,255,255,.2); }
+    .days-grid { grid-template-columns: repeat(6, 1fr); gap: 5px; }
+    .day-cell { border-radius: 8px; }
+    .day-num { font-size: 14px; }
+  }
+
+  /* ── WELCOME OVERLAY ── */
+  .welcome-overlay {
+    position: fixed; inset: 0;
+    background: linear-gradient(135deg, var(--mauve), var(--deep));
+    z-index: 300;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 40px;
+    animation: fadeIn .5s ease;
+  }
+  .welcome-overlay.hidden { display: none; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .welcome-bloom { font-size: 60px; margin-bottom: 20px; }
+  .welcome-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px; font-weight: 300; color: white;
+    margin-bottom: 10px; line-height: 1;
+  }
+  .welcome-sub {
+    font-size: 14px; color: rgba(255,255,255,.8);
+    font-weight: 300; line-height: 1.6; margin-bottom: 16px;
+  }
+  .welcome-dots {
+    display: flex; gap: 8px; justify-content: center; margin-top: 24px;
+  }
+  .welcome-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(255,255,255,.4);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  .welcome-dot:nth-child(2) { animation-delay: .3s; }
+  .welcome-dot:nth-child(3) { animation-delay: .6s; }
+  @keyframes pulse { 0%,100%{opacity:.4;transform:scale(1)} 50%{opacity:1;transform:scale(1.3)} }
+
+  /* ── DISCLAIMER PAGE ── */
+  .disclaimer-page {
+    display: none;
+    position: fixed; inset: 0;
+    background: var(--cream);
+    z-index: 200;
+    overflow-y: auto;
+    padding: 40px 24px 80px;
+  }
+  .disclaimer-page.visible { display: block; }
+  .disclaimer-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--deep); font-size: 12px; letter-spacing: 2px;
+    text-transform: uppercase; cursor: pointer; font-weight: 300;
+    background: none; border: none; padding: 0; margin-bottom: 24px;
+  }
+  .disclaimer-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 400; color: var(--text);
+    margin-bottom: 8px;
+  }
+  .disclaimer-sub {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 24px; font-weight: 300;
+  }
+  .disclaimer-section { margin-bottom: 20px; }
+  .disclaimer-section h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px; font-weight: 600; color: var(--deep);
+    margin-bottom: 8px;
+  }
+  .disclaimer-section p {
+    font-size: 12px; color: var(--muted); line-height: 1.7;
+    font-weight: 300;
+  }
+  .disclaimer-link {
+    color: var(--deep); font-size: 11px; cursor: pointer;
+    text-decoration: underline; background: none; border: none;
+    font-family: 'Jost', sans-serif; font-weight: 300;
+  }
+
+  /* ── MIJN DATA ── */
+  .data-section {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 20px rgba(194,92,118,.08);
+  }
+  .data-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  .data-btn {
+    flex: 1; min-width: 120px;
+    padding: 10px 16px;
+    border-radius: 50px;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase; cursor: pointer;
+    font-weight: 300; border: 1.5px solid var(--sand);
+    background: var(--white); color: var(--muted);
+    transition: all .2s;
+  }
+  .data-btn:hover { border-color: var(--rose); color: var(--deep); }
+  .data-btn.danger:hover { border-color: #e05555; color: #e05555; }
+
+
+  .daily-quote {
+    background: linear-gradient(135deg, var(--blush), var(--sand));
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin-bottom: 28px;
+    border-left: 3px solid var(--rose);
+    text-align: center;
+  }
+  .daily-quote em {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    color: var(--text);
+    font-style: italic;
+    line-height: 1.5;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .quote-author {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 300;
+    font-style: normal;
+  }
+
+
+  /* ── VOORTGANG JOURNAL ── */
+  .journal-section {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 20px rgba(194,92,118,.08);
+  }
+  .journal-tabs {
+    display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .journal-tab {
+    padding: 7px 16px; border-radius: 50px; font-size: 11px;
+    letter-spacing: 1px; text-transform: uppercase;
+    border: 1.5px solid var(--sand); background: transparent;
+    color: var(--muted); cursor: pointer; transition: all .2s;
+    font-family: 'Jost', sans-serif; font-weight: 300;
+  }
+  .journal-tab.active { background: var(--deep); border-color: var(--deep); color: white; }
+  .journal-entry {
+    background: var(--cream); border-radius: 12px;
+    padding: 16px; margin-bottom: 12px;
+    border-left: 3px solid var(--rose);
+  }
+  .journal-entry-date {
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); font-weight: 300; margin-bottom: 6px;
+  }
+  .journal-entry-text {
+    font-size: 13px; color: var(--text); line-height: 1.6; font-weight: 300;
+  }
+  .journal-textarea {
+    width: 100%; padding: 12px 16px;
+    border: 1.5px solid var(--sand); border-radius: 12px;
+    font-family: 'Jost', sans-serif; font-size: 13px;
+    color: var(--text); background: var(--cream);
+    outline: none; resize: vertical; min-height: 80px;
+    transition: border-color .2s; margin-bottom: 10px;
+  }
+  .journal-textarea:focus { border-color: var(--rose); }
+  .journal-measurements {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px; margin-bottom: 14px;
+  }
+  .measure-input-wrap { display: flex; flex-direction: column; gap: 4px; }
+  .measure-label {
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); font-weight: 300;
+  }
+  .measure-input {
+    padding: 8px 12px; border: 1.5px solid var(--sand);
+    border-radius: 50px; font-family: 'Jost', sans-serif;
+    font-size: 13px; color: var(--text); background: var(--cream);
+    outline: none; text-align: center; transition: border-color .2s;
+  }
+  .measure-input:focus { border-color: var(--rose); }
+  .before-after-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;
+  }
+  .ba-card {
+    background: var(--cream); border-radius: 12px; padding: 16px;
+    border: 1.5px solid var(--sand); text-align: center;
+  }
+  .ba-card h4 {
+    font-family: 'Cormorant Garamond', serif; font-size: 16px;
+    color: var(--deep); margin-bottom: 8px;
+  }
+  .ba-card p { font-size: 11px; color: var(--muted); font-weight: 300; line-height: 1.5; }
+  .ba-stat { font-size: 22px; font-weight: 600; color: var(--deep); font-family: 'Cormorant Garamond', serif; }
+
+
+  /* ── PLAYLIST ── */
+  .playlist-item {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--cream); border-radius: 12px;
+    padding: 12px 14px; margin-bottom: 8px;
+    border-left: 3px solid var(--rose);
+    animation: slideIn .3s ease;
+  }
+  @keyframes slideIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+  .playlist-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; color: var(--deep); font-weight: 600;
+    min-width: 24px; text-align: center;
+  }
+  .playlist-info { flex: 1; }
+  .playlist-song { font-size: 13px; color: var(--text); font-weight: 400; }
+  .playlist-artist { font-size: 11px; color: var(--muted); font-weight: 300; }
+  .playlist-vibe { font-size: 16px; }
+  .playlist-delete {
+    background: none; border: none; color: var(--muted);
+    cursor: pointer; font-size: 16px; padding: 4px;
+    transition: color .2s;
+  }
+  .playlist-delete:hover { color: #e05555; }
+
+
+  /* ── EVEREST CLIMB ── */
+  .everest-section {
+    background: linear-gradient(180deg, #e8f4f8 0%, #f5e6d8 100%);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 20px rgba(194,92,118,.08);
+    overflow: hidden;
+    position: relative;
+  }
+  .everest-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; color: var(--text);
+    margin-bottom: 2px;
+  }
+  .everest-sub {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 16px; font-weight: 300;
+  }
+  .everest-svg-wrap {
+    width: 100%; position: relative;
+    margin-bottom: 12px;
+  }
+  .everest-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 8px; margin-top: 12px;
+  }
+  .everest-stat {
+    text-align: center; background: rgba(255,255,255,.7);
+    border-radius: 10px; padding: 10px 6px;
+  }
+  .everest-stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; color: var(--deep); font-weight: 600;
+  }
+  .everest-stat-lbl {
+    font-size: 9px; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--muted); font-weight: 300;
+  }
+  .camp-badge {
+    display: inline-block; background: var(--deep);
+    color: white; border-radius: 50px;
+    padding: 4px 12px; font-size: 10px;
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-top: 8px; font-weight: 300;
+  }
+  /* ── STREAK IN JOURNEY ── */
+  .streak-journey {
+    background: linear-gradient(135deg, var(--blush), var(--sand));
+    border-radius: 16px; padding: 20px;
+    margin-bottom: 16px; text-align: center;
+    border-left: 3px solid var(--rose);
+  }
+  .streak-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px; color: var(--deep); line-height: 1;
+  }
+  .streak-label {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--muted); font-weight: 300; margin-top: 4px;
+  }
+  .streak-milestones {
+    display: flex; gap: 6px; justify-content: center;
+    margin-top: 12px; flex-wrap: wrap;
+  }
+  .streak-milestone {
+    padding: 4px 10px; border-radius: 50px; font-size: 10px;
+    border: 1.5px solid var(--sand); color: var(--muted);
+    font-weight: 300;
+  }
+  .streak-milestone.reached {
+    background: var(--deep); border-color: var(--deep);
+    color: white;
+  }
+
+
+  /* ── MINI EVEREST IN TIMER ── */
+  .mini-everest-wrap {
+    margin: 16px 0 8px;
+    background: linear-gradient(180deg, #1a3a5c 0%, #7eb8d4 60%, #f5e6d8 100%);
+    border-radius: 16px;
+    padding: 10px 16px 6px;
+    position: relative;
+    overflow: hidden;
+  }
+  .mini-everest-label {
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,255,255,.7); font-weight: 300; margin-bottom: 4px;
+    text-align: center;
+  }
+  .mini-everest-stats {
+    display: flex; justify-content: space-between;
+    margin-top: 4px;
+  }
+  .mini-everest-stat {
+    text-align: center; flex: 1;
+  }
+  .mini-everest-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px; color: white; font-weight: 600;
+  }
+  .mini-everest-lbl {
+    font-size: 8px; color: rgba(255,255,255,.65);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+
+
+  /* ── SETUP OPTIES ── */
+  .setup-option {
+    border: 2px solid var(--sand); border-radius: 16px; padding: 16px;
+    margin-bottom: 10px; cursor: pointer; transition: all .2s;
+    background: white; text-align: left;
+  }
+  .setup-option:hover { border-color: var(--rose); }
+  .setup-option.selected { border-color: var(--deep); background: linear-gradient(135deg, var(--blush), var(--cream)); }
+  .setup-option-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+  .setup-option-sub { font-size: 11px; color: var(--muted); font-weight: 300; }
+  .setup-extra { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--sand); }
+  .setup-extra.visible { display: block; }
+  .schema-info {
+    background: linear-gradient(135deg, var(--blush), var(--sand));
+    border-radius: 12px; padding: 12px 16px; margin-bottom: 12px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+  .schema-badge {
+    background: var(--deep); color: white; border-radius: 50px;
+    padding: 4px 12px; font-size: 10px; letter-spacing: 1px;
+    text-transform: uppercase; font-weight: 400;
+  }
+  .schema-detail { font-size: 11px; color: var(--muted); font-weight: 300; }
+
+  /* ── SETUP KNOPPEN ── */
+  .schedule-label {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); font-weight: 300; margin-bottom: 10px; display: block;
+  }
+  .freq-buttons { display: flex; gap: 8px; justify-content: center; }
+  .freq-btn {
+    flex: 1; padding: 10px 8px;
+    border: 1.5px solid var(--sand); border-radius: 50px;
+    background: white; color: var(--muted);
+    font-family: 'Jost', sans-serif; font-size: 12px;
+    font-weight: 300; cursor: pointer; transition: all .2s;
+  }
+  .freq-btn.active {
+    background: var(--deep); border-color: var(--deep);
+    color: white; font-weight: 500;
+  }
+  .day-row {
+    display: flex; gap: 6px; flex-wrap: wrap; justify-content: center;
+    margin-top: 0;
+  }
+  .day-toggle {
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 1.5px solid var(--sand); background: white;
+    color: var(--muted); font-family: 'Jost', sans-serif;
+    font-size: 11px; font-weight: 300; cursor: pointer;
+    transition: all .2s; display: flex; align-items: center;
+    justify-content: center; padding: 0; aspect-ratio: auto;
+  }
+  .day-toggle:hover { border-color: var(--rose); }
+  .day-toggle.active {
+    background: var(--deep); border-color: var(--deep);
+    color: white; font-weight: 500;
+  }
+  .day-toggle.rest-active {
+    background: #f5e6d8; border-color: #e0c8b8;
+    color: var(--text); font-weight: 500;
+  }
+  .helling-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .helling-item { display: flex; align-items: center; gap: 8px; }
+  .helling-item label {
+    font-size: 11px; color: var(--muted); font-weight: 300;
+    min-width: 54px; letter-spacing: 1px;
+  }
+  .helling-input {
+    width: 100%; padding: 8px 12px;
+    border: 1.5px solid var(--sand); border-radius: 50px;
+    font-family: 'Jost', sans-serif; font-size: 13px;
+    color: var(--text); background: var(--cream);
+    outline: none; text-align: center; transition: border-color .2s;
+  }
+  .helling-input:focus { border-color: var(--rose); }
+  .days-warning {
+    font-size: 10px; color: var(--deep); margin-top: 8px;
+    text-align: center; min-height: 14px; font-weight: 300;
+  }
+
+
+
+  /* ── STRETCHING ── */
+  .stretch-item {
+    border: 1.5px solid var(--sand); border-radius: 14px;
+    margin-bottom: 8px; overflow: hidden; background: var(--white);
+  }
+  .stretch-head {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 14px; cursor: pointer; user-select: none;
+  }
+  .stretch-head:hover { background: var(--cream); }
+  .stretch-num {
+    width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+    background: var(--deep); color: white; font-size: 11px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .stretch-name { flex: 1; font-size: 13px; color: var(--text); font-weight: 400; }
+  .stretch-dur  { font-size: 10px; color: var(--muted); letter-spacing: 1px; white-space: nowrap; }
+  .stretch-body {
+    display: none; padding: 0 14px 14px 50px;
+    font-size: 12px; color: var(--muted); font-weight: 300; line-height: 1.6;
+  }
+  .stretch-item.open .stretch-body { display: block; }
+  .stretch-item.open { border-color: var(--rose); }
+
+  .stretch-body-inner { display: flex; gap: 14px; align-items: flex-start; }
+  .stretch-fig {
+    flex: 0 0 116px; background: var(--cream);
+    border: 1px solid var(--sand); border-radius: 10px; padding: 6px;
+  }
+  .stretch-txt { flex: 1; min-width: 0; }
+  @media (max-width: 480px) {
+    .stretch-body-inner { flex-direction: column; }
+    .stretch-fig { flex: none; width: 100%; max-width: 200px; align-self: center; }
+  }
+  .stretch-tip {
+    background: var(--cream); border-left: 3px solid var(--rose);
+    border-radius: 6px; padding: 10px 12px; margin-top: 14px;
+    font-size: 11px; color: var(--muted); font-weight: 300; line-height: 1.6;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- TOEGANGSCODE MODAL -->
+<div class="modal-overlay hidden" id="accessModalOverlay">
+  <div class="modal">
+    <div class="modal-logo">Body Bloom by Sofia</div>
+    <h2>Welkom bij<br><em style="color:var(--deep)">12 · 3 · 30</em></h2>
+    <p style="margin-bottom:20px;">Vul jouw persoonlijk paswoord in. Dat doe je maar één keer, daarna onthoudt de app je. 🌸</p>
+    <div class="modal-input-wrap">
+      <input type="text" class="modal-input" id="accessCodeInput"
+        placeholder="BB-XXXX-XXXX"
+        maxlength="24"
+        autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"
+        style="text-transform:uppercase;letter-spacing:2px;"
+        oninput="this.value=this.value.toUpperCase()">
+    </div>
+    <div id="accessError" style="color:#c25c76;font-size:11px;margin-top:-10px;margin-bottom:14px;display:none;text-align:center;">
+      Dit paswoord klopt niet. Kijk het nog eens na in het bericht van Sofia.
+    </div>
+    <button class="btn-primary" id="accessBtn" onclick="checkAccessCode()" style="width:100%;justify-content:center;display:block;text-align:center;">
+      Toegang krijgen ✦
+    </button>
+    <p style="font-size:10px;color:var(--taupe);margin-top:16px;text-align:center;font-weight:300;">
+      Exclusief voor Body&bull;Bloom klanten
+    </p>
+    <p style="margin-top:10px;text-align:center;"><a href="https://www.instagram.com/body_bloom_be" target="_blank" style="color:var(--deep);font-size:11px;font-weight:300;letter-spacing:1px;text-decoration:none;">📸 Volg mij op Instagram @body_bloom_be</a></p>
+  </div>
+</div>
+
+<!-- INTRO MODAL -->
+<div class="modal-overlay hidden" id="modalOverlay">
+  <div class="modal" style="max-height:88vh;overflow-y:auto;padding:28px 24px;">
+    <div class="modal-logo">Body Bloom by Sofia</div>
+    <h2>Welkom bij jouw<br><em style="color:var(--deep)">12·3·30 Challenge</em></h2>
+    <p style="font-size:9px;color:var(--taupe);text-align:center;margin-top:-8px;margin-bottom:14px;letter-spacing:1px;">v3.9</p>
+
+    <div class="modal-input-wrap">
+      <input type="text" class="modal-input" id="nameInput" placeholder="Jouw voornaam (optioneel)" maxlength="30">
+    </div>
+    <div class="modal-input-wrap">
+      <input type="number" class="modal-input" id="ageInput" placeholder="Leeftijd" min="10" max="99">
+    </div>
+    <p style="font-size:10px;color:var(--muted);margin-top:-10px;margin-bottom:18px;font-weight:300;">Voor jouw persoonlijke hartslagzones 💓</p>
+
+    <div style="margin-bottom:20px;">
+      <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:300;margin-bottom:10px;">Fitnessniveau</p>
+      <div style="display:flex;gap:8px;justify-content:center;">
+        <button class="fitness-btn active" id="fb-beginner" onclick="setFitness('beginner',this)">🌱 Beginner</button>
+        <button class="fitness-btn" id="fb-gemiddeld" onclick="setFitness('gemiddeld',this)">💪 Gemiddeld</button>
+        <button class="fitness-btn" id="fb-gevorderd" onclick="setFitness('gevorderd',this)">🔥 Gevorderd</button>
+      </div>
+    </div>
+
+    <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:300;margin-bottom:12px;">Kies jouw programma</p>
+
+    <div class="setup-option selected" id="opt-full" onclick="selectProgramOption('full')">
+      <div class="setup-option-title">🗓️ Volledige 30 dagen challenge</div>
+      <div class="setup-option-sub">5 weken · opbouw 6→8→10→12% helling</div>
+      <div class="setup-extra visible" id="extra-full">
+        <span class="schedule-label">Rustdagen</span>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;"><span style="background:#f5e6d8;border:1.5px solid #e0c8b8;border-radius:50px;padding:5px 14px;font-size:11px;color:var(--text);">&#127825; Zondag (vast)</span><span style="font-size:11px;color:var(--muted);font-weight:300;">+ kies je 2de rustdag:</span></div>
+        <div class="day-row" id="rest-days-full"><button class="day-toggle" data-day="ma" onclick="toggleRestDay('ma',this,'full')">Ma</button><button class="day-toggle" data-day="di" onclick="toggleRestDay('di',this,'full')">Di</button><button class="day-toggle" data-day="wo" onclick="toggleRestDay('wo',this,'full')">Wo</button><button class="day-toggle" data-day="do" onclick="toggleRestDay('do',this,'full')">Do</button><button class="day-toggle" data-day="vr" onclick="toggleRestDay('vr',this,'full')">Vr</button><button class="day-toggle" data-day="za" onclick="toggleRestDay('za',this,'full')">Za</button></div>
+        <div class="days-warning" id="rest-warn-full"></div>
+      </div>
+    </div>
+
+    <div class="setup-option" id="opt-3x" onclick="selectProgramOption('3x')">
+      <div class="setup-option-title">💪 3× per week — op maat</div>
+      <div class="setup-option-sub">Kies je eigen dagen & helling per week</div>
+      <div class="setup-extra" id="extra-3x">
+        <span class="schedule-label">Jouw trainingsdagen (kies 3)</span>
+        <div class="day-row">
+          <button class="day-toggle" data-day="ma" onclick="toggleScheduleDay('ma',this,'3x')">Ma</button>
+          <button class="day-toggle" data-day="di" onclick="toggleScheduleDay('di',this,'3x')">Di</button>
+          <button class="day-toggle" data-day="wo" onclick="toggleScheduleDay('wo',this,'3x')">Wo</button>
+          <button class="day-toggle" data-day="do" onclick="toggleScheduleDay('do',this,'3x')">Do</button>
+          <button class="day-toggle" data-day="vr" onclick="toggleScheduleDay('vr',this,'3x')">Vr</button>
+          <button class="day-toggle" data-day="za" onclick="toggleScheduleDay('za',this,'3x')">Za</button>
+          <button class="day-toggle" data-day="zo" onclick="toggleScheduleDay('zo',this,'3x')">Zo</button>
+        </div>
+        <div class="days-warning" id="warn-3x">Selecteer 3 trainingsdagen</div>
+        <span class="schedule-label" style="margin-top:14px;display:block;">Rustdagen</span>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;"><span style="background:#f5e6d8;border:1.5px solid #e0c8b8;border-radius:50px;padding:5px 14px;font-size:11px;color:var(--text);">&#127825; Zondag (vast)</span><span style="font-size:11px;color:var(--muted);font-weight:300;">+ kies je 2de rustdag:</span></div>
+        <div class="day-row" id="rest-days-3x"><button class="day-toggle" data-day="ma" onclick="toggleRestDay('ma',this,'3x')">Ma</button><button class="day-toggle" data-day="di" onclick="toggleRestDay('di',this,'3x')">Di</button><button class="day-toggle" data-day="wo" onclick="toggleRestDay('wo',this,'3x')">Wo</button><button class="day-toggle" data-day="do" onclick="toggleRestDay('do',this,'3x')">Do</button><button class="day-toggle" data-day="vr" onclick="toggleRestDay('vr',this,'3x')">Vr</button><button class="day-toggle" data-day="za" onclick="toggleRestDay('za',this,'3x')">Za</button></div>
+        <div class="days-warning" id="rest-warn-3x"></div>
+
+        <!-- Opbouw kiezen -->
+        <span class="schedule-label" style="margin-top:14px;display:block;">Opbouw helling</span>
+        <div class="freq-buttons" style="margin-bottom:12px;">
+          <button class="freq-btn active" id="3x-mode-week" onclick="setHellingMode('3x','week',this)">📅 Per week</button>
+          <button class="freq-btn" id="3x-mode-maand" onclick="setHellingMode('3x','maand',this)">📆 Per maand</button>
+        </div>
+
+        <!-- Per week -->
+        <div id="3x-week-grid">
+          <div class="helling-grid">
+            <div class="helling-item"><label>Week 1</label><input type="number" class="helling-input" id="h3x-w1" value="6" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 2</label><input type="number" class="helling-input" id="h3x-w2" value="7" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 3</label><input type="number" class="helling-input" id="h3x-w3" value="8" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 4</label><input type="number" class="helling-input" id="h3x-w4" value="9" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 5</label><input type="number" class="helling-input" id="h3x-w5" value="10" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 6</label><input type="number" class="helling-input" id="h3x-w6" value="11" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 7</label><input type="number" class="helling-input" id="h3x-w7" value="12" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 8</label><input type="number" class="helling-input" id="h3x-w8" value="12" min="1" max="15" step="0.5"></div>
+          </div>
+        </div>
+
+        <!-- Per maand -->
+        <div id="3x-maand-grid" style="display:none;">
+          <div class="helling-grid">
+            <div class="helling-item"><label>Maand 1</label><input type="number" class="helling-input" id="h3x-m1" value="6" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Maand 2</label><input type="number" class="helling-input" id="h3x-m2" value="8" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Maand 3</label><input type="number" class="helling-input" id="h3x-m3" value="10" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Maand 4</label><input type="number" class="helling-input" id="h3x-m4" value="12" min="1" max="15" step="0.5"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+            <input type="checkbox" id="3x-maand5" style="width:16px;height:16px;accent-color:var(--deep);">
+            <label for="3x-maand5" style="font-size:12px;color:var(--muted);font-weight:300;">Maand 5 — 12% · 40 min (einddoel bereikt)</label>
+          </div>
+        </div>
+        <p style="font-size:10px;color:var(--muted);margin-top:10px;font-weight:300;font-style:italic;">Sofia adviseert jou welke helling je gebruikt 🌸</p>
+      </div>
+    </div>
+
+    <div class="setup-option" id="opt-2x" onclick="selectProgramOption('2x')">
+      <div class="setup-option-title">🌸 2× per week — rustig opbouwen</div>
+      <div class="setup-option-sub">Kies je eigen dagen & helling per week</div>
+      <div class="setup-extra" id="extra-2x">
+        <span class="schedule-label">Jouw trainingsdagen (kies 2)</span>
+        <div class="day-row">
+          <button class="day-toggle" data-day="ma" onclick="toggleScheduleDay('ma',this,'2x')">Ma</button>
+          <button class="day-toggle" data-day="di" onclick="toggleScheduleDay('di',this,'2x')">Di</button>
+          <button class="day-toggle" data-day="wo" onclick="toggleScheduleDay('wo',this,'2x')">Wo</button>
+          <button class="day-toggle" data-day="do" onclick="toggleScheduleDay('do',this,'2x')">Do</button>
+          <button class="day-toggle" data-day="vr" onclick="toggleScheduleDay('vr',this,'2x')">Vr</button>
+          <button class="day-toggle" data-day="za" onclick="toggleScheduleDay('za',this,'2x')">Za</button>
+          <button class="day-toggle" data-day="zo" onclick="toggleScheduleDay('zo',this,'2x')">Zo</button>
+        </div>
+        <div class="days-warning" id="warn-2x">Selecteer 2 trainingsdagen</div>
+        <span class="schedule-label" style="margin-top:14px;display:block;">Rustdagen</span>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;"><span style="background:#f5e6d8;border:1.5px solid #e0c8b8;border-radius:50px;padding:5px 14px;font-size:11px;color:var(--text);">&#127825; Zondag (vast)</span><span style="font-size:11px;color:var(--muted);font-weight:300;">+ kies je 2de rustdag:</span></div>
+        <div class="day-row" id="rest-days-2x"><button class="day-toggle" data-day="ma" onclick="toggleRestDay('ma',this,'2x')">Ma</button><button class="day-toggle" data-day="di" onclick="toggleRestDay('di',this,'2x')">Di</button><button class="day-toggle" data-day="wo" onclick="toggleRestDay('wo',this,'2x')">Wo</button><button class="day-toggle" data-day="do" onclick="toggleRestDay('do',this,'2x')">Do</button><button class="day-toggle" data-day="vr" onclick="toggleRestDay('vr',this,'2x')">Vr</button><button class="day-toggle" data-day="za" onclick="toggleRestDay('za',this,'2x')">Za</button></div>
+        <div class="days-warning" id="rest-warn-2x"></div>
+
+        <!-- Opbouw kiezen -->
+        <span class="schedule-label" style="margin-top:14px;display:block;">Opbouw helling</span>
+        <div class="freq-buttons" style="margin-bottom:12px;">
+          <button class="freq-btn active" id="2x-mode-week" onclick="setHellingMode('2x','week',this)">📅 Per week</button>
+          <button class="freq-btn" id="2x-mode-maand" onclick="setHellingMode('2x','maand',this)">📆 Per maand</button>
+        </div>
+
+        <!-- Per week -->
+        <div id="2x-week-grid">
+          <div class="helling-grid">
+            <div class="helling-item"><label>Week 1</label><input type="number" class="helling-input" id="h2x-w1" value="5" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 2</label><input type="number" class="helling-input" id="h2x-w2" value="6" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 3</label><input type="number" class="helling-input" id="h2x-w3" value="7" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 4</label><input type="number" class="helling-input" id="h2x-w4" value="8" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 5</label><input type="number" class="helling-input" id="h2x-w5" value="9" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 6</label><input type="number" class="helling-input" id="h2x-w6" value="10" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 7</label><input type="number" class="helling-input" id="h2x-w7" value="11" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Week 8</label><input type="number" class="helling-input" id="h2x-w8" value="12" min="1" max="15" step="0.5"></div>
+          </div>
+        </div>
+
+        <!-- Per maand -->
+        <div id="2x-maand-grid" style="display:none;">
+          <div class="helling-grid">
+            <div class="helling-item"><label>Maand 1</label><input type="number" class="helling-input" id="h2x-m1" value="6" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Maand 2</label><input type="number" class="helling-input" id="h2x-m2" value="8" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Maand 3</label><input type="number" class="helling-input" id="h2x-m3" value="10" min="1" max="15" step="0.5"></div>
+            <div class="helling-item"><label>Maand 4</label><input type="number" class="helling-input" id="h2x-m4" value="12" min="1" max="15" step="0.5"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+            <input type="checkbox" id="2x-maand5" style="width:16px;height:16px;accent-color:var(--deep);">
+            <label for="2x-maand5" style="font-size:12px;color:var(--muted);font-weight:300;">Maand 5 — 12% · 40 min (einddoel bereikt)</label>
+          </div>
+        </div>
+        <p style="font-size:10px;color:var(--muted);margin-top:10px;font-weight:300;font-style:italic;">Sofia adviseert jou welke helling je gebruikt 🌸</p>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="startChallenge()" style="width:100%;justify-content:center;display:block;text-align:center;margin-top:16px;">
+      Start mijn Challenge ✦
+    </button>
+  </div>
+</div>
+
+<!-- HEADER -->
+
+<!-- PWA INSTALL BANNER -->
+<div id="pwaBanner" style="display:none;background:linear-gradient(135deg,var(--deep),var(--mauve));color:white;padding:12px 20px;text-align:center;position:sticky;top:0;z-index:50;">
+  <span style="font-size:12px;font-weight:300;letter-spacing:1px;">📱 Installeer de app op je gsm! </span>
+  <button onclick="installPWA()" style="background:white;color:var(--deep);border:none;border-radius:50px;padding:4px 14px;font-size:11px;font-weight:500;cursor:pointer;margin-left:8px;">Installeer</button>
+  <button onclick="document.getElementById('pwaBanner').style.display='none'" style="background:transparent;border:none;color:rgba(255,255,255,.7);cursor:pointer;margin-left:6px;font-size:16px;">✕</button>
+</div>
+
+<header class="header">
+  <div class="header-logo">Body Bloom by Sofia</div>
+  <h1>12·3·<span>30</span></h1>
+  <div class="header-sub">30 Dagen Loopband Challenge</div>
+  <div class="method-badge">✦ 12·3·30 by Body Bloom ✦</div>
+</header>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-number" id="statDone">0</div>
+    <div class="stat-label">Voltooid</div>
+  </div>
+
+  <div class="stat-item">
+    <div class="stat-number" id="statRemain">30</div>
+    <div class="stat-label">Resterend</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number" id="statCal">0</div>
+    <div class="stat-label">kcal ~</div>
+  </div>
+</div>
+
+<main class="container">
+
+  <!-- METHOD PILLARS -->
+  <div class="method-card">
+    <div class="method-pillar">
+      <div class="pillar-number">12</div>
+      <div class="pillar-unit">% Helling</div>
+      <div class="pillar-desc">Maximale inclinatie</div>
+    </div>
+    <div class="method-pillar">
+      <div class="pillar-number">3</div>
+      <div class="pillar-unit">4,8 km/u</div>
+      <div class="pillar-desc">Stevig wandeltempo</div>
+    </div>
+    <div class="method-pillar">
+      <div class="pillar-number">30</div>
+      <div class="pillar-unit">minuten</div>
+      <div class="pillar-desc">Per sessie</div>
+    </div>
+  </div>
+
+  <!-- TODAY CARD -->
+  <div class="today-card" id="todayCard">
+    <div class="today-label">Vandaag · Dag <span id="todayDayNum">1</span></div>
+    <div class="today-title" id="todayTitle">Dag 1 — Eerste stap</div>
+    <div class="workout-steps" id="todaySteps">
+      <div class="step-card">
+        <div class="step-icon">🌸</div>
+        <div class="step-text">
+          <strong>Opwarming</strong>
+          <span>5 min · vlak · rustig</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">⛰️</div>
+        <div class="step-text">
+          <strong>12% helling · 4,8 km/u</strong>
+          <span>30 min · vetverbranding</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">✨</div>
+        <div class="step-text">
+          <strong>Cool-down</strong>
+          <span>5 min · stretching</span>
+        </div>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="openTimer()">Start timer ▶</button>
+    <button class="btn-secondary" id="markDoneBtn" onclick="markTodayDone()">Dag voltooien ✓</button>
+  </div>
+
+  <!-- TIMER -->
+  <div class="timer-section" id="timerSection">
+    <div class="section-title" style="font-style:italic">Workout Timer</div>
+    <div class="section-sub" id="timerPhaseName">Opwarming</div>
+    <div class="timer-ring">
+      <svg width="180" height="180" viewBox="0 0 180 180">
+        <defs>
+          <linearGradient id="timerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#e8879c"/>
+            <stop offset="100%" stop-color="#9b4d6a"/>
+          </linearGradient>
+        </defs>
+        <circle class="timer-ring-bg" cx="90" cy="90" r="80" fill="none" stroke-width="8"/>
+        <circle class="timer-ring-fill" id="timerCircle" cx="90" cy="90" r="80" fill="none" stroke-width="8"
+          stroke-dasharray="502" stroke-dashoffset="502"/>
+      </svg>
+      <div class="timer-display">
+        <div class="timer-time" id="timerDisplay">5:00</div>
+        <div class="timer-phase" id="timerPhaseSmall">opwarming</div>
+      </div>
+    </div>
+    <div class="timer-controls">
+      <button class="btn-primary" id="timerBtn" onclick="toggleTimer()">▶ Start</button>
+      <button class="btn-secondary" onclick="resetTimer()">↺ Reset</button>
+      <button class="btn-secondary" onclick="closeTimer()">✕ Sluiten</button>
+    </div>
+    <!-- MINI EVEREST IN TIMER -->
+    <div class="mini-everest-wrap">
+      <div class="mini-everest-label">🏔️ Jouw Everest Beklimming</div>
+      <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+        <defs>
+          <linearGradient id="meSky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a3a5c" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#1a3a5c" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="meRock" x1="0" y1="0" x2="0.3" y2="1">
+            <stop offset="0%" stop-color="#8a9aaa"/>
+            <stop offset="100%" stop-color="#3a4a5a"/>
+          </linearGradient>
+          <linearGradient id="meSnow" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="100%" stop-color="#c8e0f0"/>
+          </linearGradient>
+        </defs>
+        <!-- Background mountains -->
+        <polygon points="0,75 40,45 80,75" fill="#4a6a8a" opacity="0.4"/>
+        <polygon points="220,75 265,38 300,75" fill="#4a6a8a" opacity="0.4"/>
+        <!-- Main Everest -->
+        <polygon points="80,75 150,8 220,75" fill="url(#meRock)"/>
+        <!-- Snow cap -->
+        <polygon points="132,32 150,8 168,32 158,36 150,14 142,36" fill="url(#meSnow)" opacity="0.9"/>
+        <!-- Summit flag -->
+        <line x1="150" y1="8" x2="150" y2="2" stroke="white" stroke-width="0.8"/>
+        <polygon points="150,2 157,4 150,7" fill="#c25c76"/>
+        <!-- Camp dots -->
+        <circle cx="108" cy="60" r="2.5" fill="#f5c842" stroke="white" stroke-width="1"/>
+        <circle cx="124" cy="46" r="2.5" fill="#e8879c" stroke="white" stroke-width="1"/>
+        <circle cx="138" cy="32" r="2.5" fill="#c25c76" stroke="white" stroke-width="1"/>
+        <circle cx="146" cy="20" r="2" fill="#9b4d6a" stroke="white" stroke-width="1"/>
+        <!-- Foreground -->
+        <rect x="0" y="72" width="300" height="8" fill="#1a2530"/>
+        <!-- Climber (positioned by JS) -->
+        <g id="miniClimber" transform="translate(108,60)">
+          <circle r="4.5" fill="#c25c76" stroke="white" stroke-width="1.5"/>
+          <text x="0" y="3" text-anchor="middle" font-family="sans-serif" font-size="5" fill="white" font-weight="700">BB</text>
+        </g>
+        <!-- Path (drawn by JS) -->
+        <polyline id="miniPath" points="108,60" fill="none" stroke="#f5c842" stroke-width="1.5" stroke-dasharray="3,2" opacity="0.9"/>
+      </svg>
+      <div class="mini-everest-stats">
+        <div class="mini-everest-stat">
+          <div class="mini-everest-num" id="miniMeters">0m</div>
+          <div class="mini-everest-lbl">Geklommen</div>
+        </div>
+        <div class="mini-everest-stat">
+          <div class="mini-everest-num" id="miniCamp">Start</div>
+          <div class="mini-everest-lbl">Positie</div>
+        </div>
+        <div class="mini-everest-stat">
+          <div class="mini-everest-num" id="miniPct">0%</div>
+          <div class="mini-everest-lbl">Van top</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="soundActivateWrap" style="margin-top:14px;text-align:center;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+      <button onclick="activateSound()" id="soundActivateBtn"
+        style="background:transparent;border:1.5px solid var(--rose);color:var(--deep);border-radius:50px;padding:8px 20px;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:300;">
+        🔔 Activeer geluid
+      </button>
+      <button onclick="requestNotifPermission()" id="notifBtn"
+        style="background:transparent;border:1.5px solid var(--rose);color:var(--deep);border-radius:50px;padding:8px 20px;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:300;">
+        🔔 Activeer meldingen
+      </button>
+    </div>
+    <p style="font-size:10px;color:var(--taupe);font-weight:300;font-style:italic;margin-top:8px;text-align:center;">
+      * Geluid en trilling werken het best op Android. Op iPhone (iOS) is het beep-signaal niet altijd betrouwbaar door Safari beperkingen — activeer meldingen voor 100% zekerheid bij elke fase, ook tijdens YouTube. 🔔
+    </p>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-section">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+      <div class="section-title">Jouw <em style="font-style:italic;color:var(--deep)">Voortgang</em></div>
+      <button onclick="editSchema()" title="Wijzig jouw schema" style="flex-shrink:0;background:white;border:1.5px solid var(--deep);color:var(--deep);border-radius:50px;padding:6px 14px;font-family:'Jost',sans-serif;font-size:10px;font-weight:400;letter-spacing:.5px;cursor:pointer;white-space:nowrap;">&#9999;&#65039; Wijzig schema</button>
+    </div>
+    <div id="schemaInfoBar" style="display:none;background:linear-gradient(135deg,var(--blush),var(--sand));border-radius:12px;padding:10px 14px;margin-bottom:10px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:8px;">
+        <span id="schemaBadge" style="background:var(--deep);color:white;border-radius:50px;padding:4px 12px;font-size:10px;letter-spacing:1px;text-transform:uppercase;">3× per week</span>
+        <span id="schemaDays" style="font-size:11px;color:var(--muted);font-weight:300;"></span>
+        <span id="schemaHelling" style="background:var(--mauve);color:white;border-radius:50px;padding:4px 12px;font-size:10px;letter-spacing:1px;">Week 1 · 6%</span>
+      </div>
+    </div>
+    <div class="section-sub" id="progressLabel">30 dagen · 5 weken challenge</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <div class="progress-info">
+      <span id="progressLeft">0 / 30 sessies</span>
+      <span id="progressPct">0%</span>
+    </div>
+
+    <!-- Week Tabs -->
+    <div class="week-tabs" style="margin-top:24px;overflow-x:auto;flex-wrap:nowrap;" id="weekTabsContainer">
+      <!-- Generated dynamically by renderWeekTabs() -->
+    </div>
+    <div class="days-grid" id="daysGrid"></div>
+  </div>
+
+
+  <!-- STRETCHING -->
+  <div class="progress-section">
+    <div class="section-title">Stretching<em style="font-style:italic;color:var(--deep)"> na elke sessie</em></div>
+    <div class="section-sub">Tik een oefening aan voor uitleg en houding</div>
+    
+      <div class="stretch-item" onclick="this.classList.toggle('open')">
+        <div class="stretch-head">
+          <div class="stretch-num">1</div>
+          <div class="stretch-name">Kuitstrek — gastrocnemius</div>
+          <div class="stretch-dur">30 sec / been · 2&times;</div>
+        </div>
+        <div class="stretch-body"><div class="stretch-body-inner"><div class="stretch-fig"><svg viewBox="0 0 110 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+<rect x="6" y="10" width="7" height="82" fill="#e0cdb8" rx="2"/>
+<line x1="6" y1="92" x2="106" y2="92" stroke="#e0cdb8" stroke-width="3"/>
+<circle cx="42" cy="20" r="7" fill="#f2c4ce" stroke="#c25c76" stroke-width="2"/>
+<path d="M42 27 L50 54" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M42 28 L15 26" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M42 33 L15 34" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M50 54 L40 90" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M36 90 L48 90" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M50 54 L76 72" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M76 72 L90 90" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M86 90 L98 90" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<text x="80" y="66" font-size="7.5" fill="#d4a95a" font-weight="bold">kuit</text>
+<text x="76" y="56" font-size="7" fill="#d4a95a">been recht</text>
+</svg></div><div class="stretch-txt">Handen tegen de muur, één been gestrekt naar achter. Hiel plat op de grond, been volledig gestrekt.<br><span style="color:var(--deep);">Je voelt de rek hoog in de kuit. Draai je achterste voet recht vooruit.</span></div></div></div>
+      </div>
+      <div class="stretch-item" onclick="this.classList.toggle('open')">
+        <div class="stretch-head">
+          <div class="stretch-num">2</div>
+          <div class="stretch-name">Kuitstrek — soleus</div>
+          <div class="stretch-dur">30 sec / been · 2&times;</div>
+        </div>
+        <div class="stretch-body"><div class="stretch-body-inner"><div class="stretch-fig"><svg viewBox="0 0 110 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+<rect x="6" y="10" width="7" height="82" fill="#e0cdb8" rx="2"/>
+<line x1="6" y1="92" x2="106" y2="92" stroke="#e0cdb8" stroke-width="3"/>
+<circle cx="42" cy="20" r="7" fill="#f2c4ce" stroke="#c25c76" stroke-width="2"/>
+<path d="M42 27 L50 54" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M42 28 L15 26" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M42 33 L15 34" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M50 54 L40 90" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M36 90 L48 90" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M50 54 L74 66" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M74 66 L82 90" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<circle cx="74" cy="66" r="4.5" fill="#d4a95a"/>
+<path d="M78 90 L92 90" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<text x="80" y="62" font-size="7" fill="#d4a95a" font-weight="bold">knie</text>
+<text x="80" y="71" font-size="7" fill="#d4a95a" font-weight="bold">gebogen</text>
+</svg></div><div class="stretch-txt">Zelfde houding, maar buig nu je achterste knie licht.<br><span style="color:var(--deep);">De rek zakt naar beneden richting de achillespees. Rustig en gecontroleerd.</span></div></div></div>
+      </div>
+      <div class="stretch-item" onclick="this.classList.toggle('open')">
+        <div class="stretch-head">
+          <div class="stretch-num">3</div>
+          <div class="stretch-name">Achillespees</div>
+          <div class="stretch-dur">30 sec / been · voorzichtig</div>
+        </div>
+        <div class="stretch-body"><div class="stretch-body-inner"><div class="stretch-fig"><svg viewBox="0 0 110 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+<line x1="4" y1="94" x2="106" y2="94" stroke="#e0cdb8" stroke-width="3"/>
+<path d="M10 58 L54 58 L54 94 L10 94 Z" fill="#e0cdb8"/>
+<rect x="92" y="12" width="7" height="82" fill="#e0cdb8" rx="2"/>
+<circle cx="40" cy="14" r="7" fill="#f2c4ce" stroke="#c25c76" stroke-width="2"/>
+<path d="M40 21 L44 46" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M40 26 L90 26" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M44 46 L46 58" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M38 58 L52 58" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M50 58 L58 62" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M58 62 L60 76" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M58 76 L66 76" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M70 60 L70 80" stroke="#d4a95a" stroke-width="2" stroke-dasharray="3,2"/>
+<path d="M66 75 L70 81 L74 75" fill="none" stroke="#d4a95a" stroke-width="2.5" stroke-linecap="round"/>
+<text x="74" y="68" font-size="7.5" fill="#d4a95a" font-weight="bold">hiel</text>
+<text x="74" y="77" font-size="7.5" fill="#d4a95a" font-weight="bold">zakt</text>
+<text x="14" y="52" font-size="7" fill="#c25c76">trede</text>
+</svg></div><div class="stretch-txt">Sta met je voorvoet op de rand van een trede. Laat je hiel langzaam zakken.<br><span style="color:var(--deep);">Nooit forceren. Stop meteen bij scherpe pijn.</span></div></div></div>
+      </div>
+      <div class="stretch-item" onclick="this.classList.toggle('open')">
+        <div class="stretch-head">
+          <div class="stretch-num">4</div>
+          <div class="stretch-name">Hamstring</div>
+          <div class="stretch-dur">30-45 sec / been · 2&times;</div>
+        </div>
+        <div class="stretch-body"><div class="stretch-body-inner"><div class="stretch-fig"><svg viewBox="0 0 110 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+<line x1="4" y1="86" x2="106" y2="86" stroke="#e0cdb8" stroke-width="4"/>
+<circle cx="18" cy="78" r="7" fill="#f2c4ce" stroke="#c25c76" stroke-width="2"/>
+<path d="M26 80 L56 82" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M56 82 L62 44" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M62 44 L66 18" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M62 14 L74 18" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M56 82 L84 84" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M84 84 L96 82" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M92 78 L96 86" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M30 78 L58 34" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M58 34 L64 26" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<circle cx="63" cy="29" r="4" fill="none" stroke="#c25c76" stroke-width="3"/>
+<text x="74" y="46" font-size="7.5" fill="#d4a95a" font-weight="bold">achter-</text>
+<text x="74" y="55" font-size="7.5" fill="#d4a95a" font-weight="bold">been</text>
+</svg></div><div class="stretch-txt">Lig op je rug, trek één been omhoog met beide handen. Hou het been gestrekt.<br><span style="color:var(--deep);">Rek aan de achterkant van je bovenbeen. Blijf rustig doorademen.</span></div></div></div>
+      </div>
+      <div class="stretch-item" onclick="this.classList.toggle('open')">
+        <div class="stretch-head">
+          <div class="stretch-num">5</div>
+          <div class="stretch-name">Heupbuiger</div>
+          <div class="stretch-dur">30-45 sec / been · 2&times;</div>
+        </div>
+        <div class="stretch-body"><div class="stretch-body-inner"><div class="stretch-fig"><svg viewBox="0 0 110 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+<line x1="4" y1="90" x2="106" y2="90" stroke="#e0cdb8" stroke-width="4"/>
+<circle cx="58" cy="16" r="7" fill="#f2c4ce" stroke="#c25c76" stroke-width="2"/>
+<path d="M58 23 L56 52" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M58 28 L44 40" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M58 28 L72 40" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M56 52 L80 62" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M80 62 L80 88" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M76 88 L90 88" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M56 52 L30 76" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M30 76 L18 88" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<circle cx="30" cy="76" r="4" fill="#d4a95a"/>
+<path d="M14 88 L24 88" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<text x="18" y="64" font-size="7" fill="#d4a95a" font-weight="bold">heup</text>
+<text x="18" y="72" font-size="7" fill="#d4a95a" font-weight="bold">vooruit</text>
+</svg></div><div class="stretch-txt">Ga in een lange uitval, achterste knie op de grond. Duw je heup zacht naar voor.<br><span style="color:var(--deep);">Blijf rechtop. Je voelt het vooraan in je heup en bovenbeen.</span></div></div></div>
+      </div>
+      <div class="stretch-item" onclick="this.classList.toggle('open')">
+        <div class="stretch-head">
+          <div class="stretch-num">6</div>
+          <div class="stretch-name">Quadriceps</div>
+          <div class="stretch-dur">30 sec / been · 2&times;</div>
+        </div>
+        <div class="stretch-body"><div class="stretch-body-inner"><div class="stretch-fig"><svg viewBox="0 0 110 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+<line x1="4" y1="92" x2="106" y2="92" stroke="#e0cdb8" stroke-width="4"/>
+<rect x="96" y="14" width="7" height="78" fill="#e0cdb8" rx="2"/>
+<circle cx="46" cy="16" r="7" fill="#f2c4ce" stroke="#c25c76" stroke-width="2"/>
+<path d="M46 23 L48 54" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M46 28 L92 26" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M48 54 L46 90" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M42 90 L52 90" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M48 54 L60 74" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M60 74 L52 56" stroke="#d4a95a" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M50 54 L58 52" stroke="#c25c76" stroke-width="5" stroke-linecap="round" fill="none"/>
+<circle cx="60" cy="74" r="4" fill="#d4a95a"/>
+<text x="64" y="62" font-size="7" fill="#d4a95a" font-weight="bold">voor-</text>
+<text x="64" y="70" font-size="7" fill="#d4a95a" font-weight="bold">been</text>
+</svg></div><div class="stretch-txt">Sta op één been, trek je enkel naar je bil. Knieën naast elkaar.<br><span style="color:var(--deep);">Gebruik de muur voor je evenwicht. Knieën parallel houden.</span></div></div></div>
+      </div>
+    <div class="stretch-tip">
+      <strong style="color:var(--deep);">Altijd n&aacute; de training, nooit ervoor.</strong><br>
+      Hou elke rek 30 tot 45 seconden vast. Niet veren, niet forceren. Blijf doorademen.
+      Voel je scherpe pijn in plaats van rek? Stop en bouw rustiger op.
+    </div>
+  </div>
+
+  <!-- HEART RATE METER -->
+  <div class="hr-section">
+    <div class="section-title">Hartslag<em style="font-style:italic;color:var(--deep)"> Zones</em></div>
+    <div class="section-sub">Gepersonaliseerd op jouw leeftijd</div>
+    <div class="hr-input-wrap">
+      <input type="number" class="hr-input" id="hrLive" placeholder="bpm" min="40" max="220" oninput="updateHR(this.value)">
+      <span style="font-size:12px;color:var(--muted);font-weight:300;">Voer jouw huidige hartslag in 💓</span>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;">
+      <button class="fitness-btn active" id="fb-beginner"  onclick="switchFitness('beginner',this)">🌱 Beginner</button>
+      <button class="fitness-btn"        id="fb-gemiddeld" onclick="switchFitness('gemiddeld',this)">💪 Gemiddeld</button>
+      <button class="fitness-btn"        id="fb-gevorderd" onclick="switchFitness('gevorderd',this)">🔥 Gevorderd</button>
+    </div>
+    <div class="hr-feedback" id="hrFeedback">
+      <div class="hr-feedback-icon" id="hrIcon">💓</div>
+      <div>
+        <div class="hr-feedback-zone" id="hrZoneName">—</div>
+        <div class="hr-feedback-tip" id="hrZoneTip">—</div>
+      </div>
+    </div>
+    <div class="hr-zones" id="hrZones"></div>
+    <p style="font-size:10px;color:var(--taupe);margin-top:12px;font-weight:300;font-style:italic;">Maximale hartslag berekend op basis van jouw leeftijd (220 − leeftijd). Raadpleeg een arts bij twijfel.</p>
+  </div>
+
+  <!-- DAGELIJKSE QUOTE -->
+  <div class="daily-quote">
+    <div id="dailyQuote"><em>Laden...</em></div>
+  </div>
+
+  <!-- TIPS -->
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-icon">🌿</div>
+      <div class="tip-title">Begin rustig</div>
+      <div class="tip-text">Nieuw? Start op 6% helling en bouw wekelijks op naar 12%. Luister naar je lichaam.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">💧</div>
+      <div class="tip-title">Hydratatie</div>
+      <div class="tip-text">Drink 30 min voor de training 300ml water. Houd je flesje bij de hand tijdens het wandelen.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">🌸</div>
+      <div class="tip-title">Houding</div>
+      <div class="tip-text">Rechtop staan, schouders ontspannen. Houd de rails vast max. 30% van de tijd.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">🍓</div>
+      <div class="tip-title">Voeding</div>
+      <div class="tip-text">Eet 500 kcal minder per dag voor ~0,5 kg gewichtsverlies per week. Eiwitten zijn je beste vriend!</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">😴</div>
+      <div class="tip-title">Rust</div>
+      <div class="tip-text">Neem 2 rustdagen per week. Dag 7 en dag 14 zijn rustdagen in dit schema.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">🎵</div>
+      <div class="tip-title">Motivatie</div>
+      <div class="tip-text">Maak een energieke playlist! 30 min gaat sneller als je meezingt met je favoriete nummers.</div>
+    </div>
+  </div>
+
+  <!-- MOUNT EVEREST BEKLIMMING -->
+  <div class="everest-section">
+    <div class="everest-title">Mount Everest <em style="font-style:italic;color:var(--deep)">Beklimming</em></div>
+    <div class="everest-sub">Elke workout = 295m hoger · 8.849m = Top!</div>
+
+    <div class="everest-svg-wrap">
+      <svg id="everestSVG" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;border-radius:16px;">
+        <defs>
+          <linearGradient id="bbSky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a3a5c"/>
+            <stop offset="40%" stop-color="#2d6a9f"/>
+            <stop offset="100%" stop-color="#7eb8d4"/>
+          </linearGradient>
+          <linearGradient id="bbRock1" x1="0" y1="0" x2="0.3" y2="1">
+            <stop offset="0%" stop-color="#7a8a9a"/>
+            <stop offset="50%" stop-color="#4a5a6a"/>
+            <stop offset="100%" stop-color="#2a3540"/>
+          </linearGradient>
+          <linearGradient id="bbRock2" x1="1" y1="0" x2="0.7" y2="1">
+            <stop offset="0%" stop-color="#5a6a7a"/>
+            <stop offset="100%" stop-color="#1e2830"/>
+          </linearGradient>
+          <linearGradient id="bbSnow" x1="0.3" y1="0" x2="0.7" y2="1">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="60%" stop-color="#ddeef8"/>
+            <stop offset="100%" stop-color="#b8d4e8"/>
+          </linearGradient>
+          <linearGradient id="bbSnowSh" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#c8dff0"/>
+            <stop offset="100%" stop-color="#8ab0cc"/>
+          </linearGradient>
+          <linearGradient id="bbFog" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c8dff0" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#c8dff0" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Sky -->
+        <rect width="680" height="340" fill="url(#bbSky)"/>
+
+        <!-- Stars -->
+        <circle cx="60" cy="25" r="1" fill="white" opacity="0.8"/>
+        <circle cx="120" cy="15" r="1.2" fill="white" opacity="0.9"/>
+        <circle cx="200" cy="30" r="0.8" fill="white" opacity="0.7"/>
+        <circle cx="580" cy="20" r="1" fill="white" opacity="0.8"/>
+        <circle cx="500" cy="15" r="1.2" fill="white" opacity="0.9"/>
+        <circle cx="450" cy="35" r="0.7" fill="white" opacity="0.7"/>
+        <circle cx="30" cy="50" r="0.8" fill="white" opacity="0.6"/>
+        <circle cx="650" cy="35" r="1" fill="white" opacity="0.7"/>
+        <circle cx="620" cy="20" r="0.9" fill="white" opacity="0.8"/>
+
+        <!-- Sun glow -->
+        <ellipse cx="340" cy="48" rx="120" ry="35" fill="#f5c842" opacity="0.1"/>
+
+        <!-- Cloud ellipses -->
+        <ellipse cx="95" cy="148" rx="70" ry="16" fill="#5a8ab0" opacity="0.4"/>
+        <ellipse cx="75" cy="145" rx="48" ry="11" fill="#6a9ac0" opacity="0.3"/>
+        <ellipse cx="588" cy="135" rx="62" ry="14" fill="#5a8ab0" opacity="0.38"/>
+
+        <!-- Far background ranges -->
+        <polygon points="0,260 80,185 160,240 240,165 320,220 400,155 480,215 560,170 640,205 680,185 680,300 0,300" fill="#4a6a8a" opacity="0.35"/>
+        <polygon points="0,290 60,240 130,262 200,222 280,248 360,212 440,240 520,220 600,244 680,225 680,310 0,310" fill="#3a5570" opacity="0.5"/>
+
+        <!-- NUPTSE - simple triangle mountain -->
+        <polygon points="565,308 618,148 672,308" fill="#3a5a7a" opacity="0.75"/>
+        <polygon points="565,308 618,148 592,308" fill="#2a4060" opacity="0.65"/>
+        <polygon points="605,162 618,148 632,162 625,168 618,152 611,168" fill="#c8e0f0" opacity="0.82"/>
+        <text x="648" y="138" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#c8e0f0" font-style="italic" opacity="0.85">Nuptse</text>
+
+        <!-- LHOTSE - simple background peak, right of center -->
+        <polygon points="462,198 488,122 515,198 545,198 545,310 462,310" fill="#3a5875" opacity="0.8"/>
+        <polygon points="462,198 488,122 475,198" fill="#28404a" opacity="0.65"/>
+        <polygon points="476,135 488,122 500,135 494,143 488,126 482,143" fill="white" opacity="0.92"/>
+        <polygon points="465,158 476,135 482,143 488,126 494,143 488,155 470,162" fill="#ddeeff" opacity="0.85"/>
+        <text x="520" y="112" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#c8e0f0" font-style="italic" opacity="0.85">Lhotse</text>
+
+        <!-- EVEREST MAIN - EXACT original shapes -->
+        <polygon points="180,335 340,36 420,128 460,335" fill="url(#bbRock2)" opacity="0.95"/>
+        <polygon points="340,36 510,335 680,335 680,295 560,212" fill="url(#bbRock1)"/>
+        <polygon points="0,335 160,278 200,298 240,268 280,290 340,255 380,272 340,36 180,335" fill="#2a3a4a" opacity="0.7"/>
+
+        <!-- Rock texture -->
+        <line x1="250" y1="185" x2="310" y2="320" stroke="#1e2c3a" stroke-width="1" opacity="0.35"/>
+        <line x1="270" y1="165" x2="330" y2="308" stroke="#1e2c3a" stroke-width="0.8" opacity="0.28"/>
+        <line x1="380" y1="108" x2="450" y2="295" stroke="#5a6a7a" stroke-width="1" opacity="0.35"/>
+        <line x1="415" y1="98" x2="492" y2="278" stroke="#5a6a7a" stroke-width="0.8" opacity="0.28"/>
+
+        <!-- Snow - EXACT original -->
+        <polygon points="230,162 340,36 395,98 350,142 300,128 260,158" fill="url(#bbSnow)" opacity="0.92"/>
+        <polygon points="340,36 430,92 405,108 370,88 345,65" fill="url(#bbSnowSh)" opacity="0.85"/>
+        <polygon points="280,142 310,108 320,122 295,150" fill="white" opacity="0.45"/>
+        <polygon points="320,118 345,78 355,92 330,125" fill="white" opacity="0.38"/>
+        <polygon points="330,46 340,36 350,46 345,54 335,54" fill="white" opacity="0.95"/>
+
+        <!-- Khumbu Icefall - white triangle -->
+        <polygon points="448,258 470,232 492,258 485,270 470,240 455,270" fill="white" opacity="0.82"/>
+        <polygon points="455,268 470,248 485,268" fill="#ddeeff" opacity="0.7"/>
+
+        <!-- Fog layer -->
+        <rect x="0" y="198" width="680" height="45" fill="url(#bbFog)"/>
+
+        <!-- Foreground rocks -->
+        <polygon points="0,335 0,315 100,290 180,308 260,295 340,305 420,292 500,305 580,290 680,302 680,335" fill="#1a2530"/>
+        <polygon points="0,335 0,328 80,318 160,328 240,318 340,325 440,316 540,325 640,315 680,320 680,335" fill="#111c25"/>
+
+        <!-- ═══ SOUTH COL ROUTE - bottom right zigzag up ═══ -->
+        <!-- Base Camp to Khumbu -->
+        <polyline points="488,328 484,312 478,296 472,280 465,265 457,252"
+          fill="none" stroke="#ee2222" stroke-width="2.8" stroke-linecap="round" stroke-dasharray="6,3.5" opacity="0.95"/>
+        <!-- Khumbu zigzag -->
+        <polyline points="457,252 463,238 455,225 449,212"
+          fill="none" stroke="#ee2222" stroke-width="2.8" stroke-linecap="round" stroke-dasharray="6,3.5" opacity="0.95"/>
+        <!-- Across to Camp 2 -->
+        <polyline points="449,212 436,205 422,198 408,192 394,188"
+          fill="none" stroke="#ee2222" stroke-width="2.8" stroke-linecap="round" stroke-dasharray="6,3.5" opacity="0.95"/>
+        <!-- Up Lhotse Face to Camp 3 -->
+        <polyline points="394,188 382,175 370,160 360,145 352,132"
+          fill="none" stroke="#ee2222" stroke-width="2.8" stroke-linecap="round" stroke-dasharray="6,3.5" opacity="0.95"/>
+        <!-- Camp 3 to South Col -->
+        <polyline points="352,132 342,120 330,108 320,98 310,90"
+          fill="none" stroke="#ee2222" stroke-width="2.8" stroke-linecap="round" stroke-dasharray="6,3.5" opacity="0.95"/>
+        <!-- C4 → Hillary Step → Summit straight up snow ridge -->
+        <polyline points="310,90 308,80 306,70 305,60 305,52 306,44 308,38 316,37 328,36 340,36"
+          fill="none" stroke="#ee2222" stroke-width="2.8" stroke-linecap="round" opacity="0.95"/>
+
+        <!-- Summit flag on mountain peak -->
+        <line x1="340" y1="36" x2="340" y2="22" stroke="white" stroke-width="1.5"/>
+        <polygon points="340,22 354,26 340,30" fill="#ee2222"/>
+
+        <!-- ═══ CAMP MARKERS ═══ -->
+        <circle cx="488" cy="328" r="8" fill="#f5c842" stroke="white" stroke-width="2.5"/>
+        <text x="488" y="332" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#1a0e00" font-weight="700">BC</text>
+
+        <circle cx="457" cy="252" r="5" fill="#88ccee" stroke="white" stroke-width="1.8"/>
+
+        <circle cx="449" cy="212" r="7" fill="#7eb8d4" stroke="white" stroke-width="2.2"/>
+        <text x="449" y="216" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="white" font-weight="700">C1</text>
+
+        <circle cx="394" cy="188" r="7" fill="#e8879c" stroke="white" stroke-width="2.2"/>
+        <text x="394" y="192" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="white" font-weight="700">C2</text>
+
+        <circle cx="352" cy="132" r="7" fill="#c25c76" stroke="white" stroke-width="2.2"/>
+        <text x="352" y="136" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="white" font-weight="700">C3</text>
+
+        <circle cx="310" cy="90" r="7" fill="#9b4d6a" stroke="white" stroke-width="2.2"/>
+        <text x="310" y="94" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="white" font-weight="700">C4</text>
+
+        <circle cx="305" cy="52" r="5.5" fill="white" stroke="#ee2222" stroke-width="2.2"/>
+
+        <!-- LABELS -->
+        <rect x="352" y="14" width="110" height="15" rx="3" fill="#0a1825" opacity="0.92"/>
+        <text x="407" y="25" text-anchor="middle" font-family="sans-serif" font-size="9" fill="white" font-weight="700">Summit 8.849m</text>
+        <line x1="352" y1="21" x2="343" y2="28" stroke="white" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.7"/>
+
+        <rect x="168" y="45" width="108" height="14" rx="3" fill="#0a1825" opacity="0.88"/>
+        <text x="222" y="55" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="white" font-weight="600">Hillary Step 8.790m</text>
+        <line x1="276" y1="52" x2="305" y2="52" stroke="white" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.6"/>
+
+        <rect x="165" y="83" width="138" height="14" rx="3" fill="#0a1825" opacity="0.88"/>
+        <text x="234" y="93" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#c8a0b8" font-weight="700">Camp 4 / South Col</text>
+        <line x1="303" y1="90" x2="310" y2="90" stroke="#c8a0b8" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.7"/>
+
+        <rect x="360" y="124" width="96" height="14" rx="3" fill="#0a1825" opacity="0.88"/>
+        <text x="408" y="134" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#e8879c" font-weight="700">Camp 3  7.162m</text>
+        <line x1="360" y1="131" x2="352" y2="132" stroke="#e8879c" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.7"/>
+
+        <rect x="258" y="180" width="129" height="14" rx="3" fill="#0a1825" opacity="0.88"/>
+        <text x="322" y="190" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#e8879c" font-weight="700">Camp 2  6.400m</text>
+        <line x1="387" y1="187" x2="394" y2="188" stroke="#e8879c" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.7"/>
+
+        <rect x="460" y="204" width="96" height="14" rx="3" fill="#0a1825" opacity="0.88"/>
+        <text x="508" y="214" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#7eb8d4" font-weight="700">Camp 1  6.065m</text>
+
+        <rect x="320" y="242" width="108" height="14" rx="3" fill="#0a1825" opacity="0.85"/>
+        <text x="374" y="252" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#88ccee" font-weight="700">Khumbu Icefall</text>
+        <line x1="428" y1="249" x2="457" y2="252" stroke="#88ccee" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.6"/>
+
+        <rect x="500" y="320" width="122" height="14" rx="3" fill="#0a1825" opacity="0.9"/>
+        <text x="561" y="330" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#f5c842" font-weight="700">Base Camp  5.182m</text>
+        <!-- Base Camp label clearly above stats bar -->
+        <rect x="418" y="286" width="140" height="16" rx="4" fill="#f5c842" opacity="0.95"/>
+        <text x="488" y="297" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#1a0e00" font-weight="700">Base Camp — 5.182m</text>
+
+        <!-- Death Zone -->
+        <rect x="8" y="65" width="70" height="42" rx="4" fill="#aa1111" opacity="0.9"/>
+        <text x="43" y="79" text-anchor="middle" font-family="sans-serif" font-size="8" fill="white" font-weight="700">DEATH</text>
+        <text x="43" y="90" text-anchor="middle" font-family="sans-serif" font-size="8" fill="white" font-weight="700">ZONE</text>
+        <text x="43" y="101" text-anchor="middle" font-family="sans-serif" font-size="7" fill="rgba(255,255,255,0.85)">boven 8.000m</text>
+        <line x1="78" y1="86" x2="162" y2="88" stroke="#aa1111" stroke-width="1" stroke-dasharray="4,3" opacity="0.55"/>
+
+        <!-- Climber -->
+        <g id="bbClimber" transform="translate(488,328)">
+          <circle r="8" fill="#c25c76" stroke="white" stroke-width="2.5"/>
+          <text x="0" y="4" text-anchor="middle" font-family="sans-serif" font-size="8" fill="white" font-weight="700">BB</text>
+        </g>
+
+        <!-- Path -->
+        <polyline id="bbPath" points="488,328" fill="none" stroke="#f5c842" stroke-width="2" stroke-dasharray="5,3" opacity="0.9"/>
+
+        <!-- Stats bar -->
+        <rect x="0" y="308" width="680" height="32" fill="#050e18" opacity="0.95"/>
+        <text id="bbMetersText" x="115" y="328" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#f5c842" font-weight="700">0m geklommen</text>
+        <line x1="230" y1="312" x2="230" y2="332" stroke="#1a2a3a" stroke-width="1"/>
+        <text id="bbPctText" x="340" y="328" text-anchor="middle" font-family="sans-serif" font-size="11" fill="white">0% van Everest (8.849m)</text>
+        <line x1="450" y1="312" x2="450" y2="332" stroke="#1a2a3a" stroke-width="1"/>
+        <text id="bbRemainText" x="565" y="328" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#7eb8d4">8.849m te gaan</text>
+      </svg>
+    </div>
+
+    <div id="everestCampLabel" style="text-align:center;">
+      <span class="camp-badge" id="campBadge">Basiskamp — Start! 🏕️</span>
+    </div>
+
+    <div class="everest-stats">
+      <div class="everest-stat">
+        <div class="everest-stat-num" id="everestMeters">0m</div>
+        <div class="everest-stat-lbl">Geklommen</div>
+      </div>
+      <div class="everest-stat">
+        <div class="everest-stat-num" id="everestPct">0%</div>
+        <div class="everest-stat-lbl">Van Everest</div>
+      </div>
+      <div class="everest-stat">
+        <div class="everest-stat-num" id="everestRemain">8849m</div>
+        <div class="everest-stat-lbl">Te gaan</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STREAK IN JOURNEY -->
+  <div class="streak-journey" id="streakJourney">
+    <div class="streak-number" id="streakJourneyNum">0 🔥</div>
+    <div class="streak-label">Dagen op rij</div>
+    <div class="streak-milestones">
+      <span class="streak-milestone" id="sm3">3 dagen</span>
+      <span class="streak-milestone" id="sm7">1 week</span>
+      <span class="streak-milestone" id="sm14">2 weken</span>
+      <span class="streak-milestone" id="sm21">3 weken</span>
+      <span class="streak-milestone" id="sm30">30 dagen 🏆</span>
+    </div>
+  </div>
+
+  <!-- VOORTGANG JOURNAL -->
+  <div class="journal-section">
+    <div class="section-title">Mijn <em style="font-style:italic;color:var(--deep)">Journey</em></div>
+    <div class="section-sub">Notities · Metingen · Before & After</div>
+
+    <div class="journal-tabs">
+      <button class="journal-tab active" onclick="showJournalTab('notities', this)">📝 Notities</button>
+      <button class="journal-tab" onclick="showJournalTab('metingen', this)">📏 Metingen</button>
+      <button class="journal-tab" onclick="showJournalTab('beforeafter', this)">✨ Before & After</button>
+      <button class="journal-tab" onclick="showJournalTab('playlist', this)">🎵 Playlist</button>
+    </div>
+
+    <!-- NOTITIES TAB -->
+    <div id="tab-notities">
+      <textarea class="journal-textarea" id="journalText" placeholder="Hoe voel je je vandaag? Wat merk je aan je lichaam? Noteer je gedachten hier... 🌸"></textarea>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <button class="btn-primary" onclick="saveJournalEntry()" style="padding:10px 24px;font-size:10px;">Opslaan ✓</button>
+        <span id="journalSaved" style="font-size:11px;color:var(--green);display:none;">✓ Opgeslagen!</span>
+      </div>
+      <div id="journalEntries" style="margin-top:20px;"></div>
+    </div>
+
+    <!-- METINGEN TAB -->
+    <div id="tab-metingen" style="display:none;">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:16px;font-weight:300;">Vul je metingen in op dag 1 en dag 30 om je progressie te zien! Weeg jezelf altijd op hetzelfde moment ('s ochtends nuchter).</p>
+      <div style="display:flex;gap:8px;margin-bottom:16px;">
+        <button class="journal-tab active" id="meting-dag1-btn" onclick="showMetingTab('dag1', this)" style="font-size:10px;">Dag 1</button>
+        <button class="journal-tab" id="meting-dag30-btn" onclick="showMetingTab('dag30', this)" style="font-size:10px;">Dag 30</button>
+      </div>
+      <div id="meting-dag1-form">
+        <div class="journal-measurements">
+          <div class="measure-input-wrap">
+            <label class="measure-label">Gewicht (kg)</label>
+            <input type="number" class="measure-input" id="m1-gewicht" placeholder="65" step="0.1">
+          </div>
+          <div class="measure-input-wrap">
+            <label class="measure-label">Taille (cm)</label>
+            <input type="number" class="measure-input" id="m1-taille" placeholder="80">
+          </div>
+          <div class="measure-input-wrap">
+            <label class="measure-label">Heupen (cm)</label>
+            <input type="number" class="measure-input" id="m1-heupen" placeholder="95">
+          </div>
+          <div class="measure-input-wrap">
+            <label class="measure-label">Borst (cm)</label>
+            <input type="number" class="measure-input" id="m1-borst" placeholder="90">
+          </div>
+        </div>
+        <button class="btn-primary" onclick="saveMetingen('dag1')" style="padding:10px 24px;font-size:10px;">Dag 1 opslaan ✓</button>
+      </div>
+      <div id="meting-dag30-form" style="display:none;">
+        <div class="journal-measurements">
+          <div class="measure-input-wrap">
+            <label class="measure-label">Gewicht (kg)</label>
+            <input type="number" class="measure-input" id="m30-gewicht" placeholder="65" step="0.1">
+          </div>
+          <div class="measure-input-wrap">
+            <label class="measure-label">Taille (cm)</label>
+            <input type="number" class="measure-input" id="m30-taille" placeholder="80">
+          </div>
+          <div class="measure-input-wrap">
+            <label class="measure-label">Heupen (cm)</label>
+            <input type="number" class="measure-input" id="m30-heupen" placeholder="95">
+          </div>
+          <div class="measure-input-wrap">
+            <label class="measure-label">Borst (cm)</label>
+            <input type="number" class="measure-input" id="m30-borst" placeholder="90">
+          </div>
+        </div>
+        <button class="btn-primary" onclick="saveMetingen('dag30')" style="padding:10px 24px;font-size:10px;">Dag 30 opslaan ✓</button>
+      </div>
+    </div>
+
+
+    <!-- PLAYLIST TAB -->
+    <div id="tab-playlist" style="display:none;">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:16px;font-weight:300;">
+        Voeg jouw favoriete workout nummers toe! 🎵 Zo heb je altijd je perfecte playlist bij de hand tijdens de 12·3·30 challenge.
+      </p>
+      <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+        <input type="text" id="playlistArtist" placeholder="Artiest" class="journal-textarea"
+          style="min-height:auto;padding:10px 14px;flex:1;min-width:100px;">
+        <input type="text" id="playlistSong" placeholder="Nummer" class="journal-textarea"
+          style="min-height:auto;padding:10px 14px;flex:2;min-width:140px;">
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:20px;align-items:center;flex-wrap:wrap;">
+        <select id="playlistVibe" style="padding:10px 14px;border:1.5px solid var(--sand);border-radius:50px;font-family:'Jost',sans-serif;font-size:12px;color:var(--muted);background:var(--cream);outline:none;flex:1;">
+          <option value="🔥">🔥 Energiek</option>
+          <option value="🌸">🌸 Rustig</option>
+          <option value="💪">💪 Motiverend</option>
+          <option value="✨">✨ Feel Good</option>
+        </select>
+        <button class="btn-primary" onclick="addPlaylistSong()" style="padding:10px 20px;font-size:10px;">+ Toevoegen</button>
+      </div>
+      <div id="playlistItems"></div>
+      <div id="playlistEmpty" style="text-align:center;padding:20px;font-size:12px;color:var(--muted);font-weight:300;">
+        Nog geen nummers toegevoegd. Voeg jouw eerste workout hit toe! 🎵
+      </div>
+    </div>
+
+    <!-- BEFORE & AFTER TAB -->
+    <div id="tab-beforeafter" style="display:none;">
+      <div id="beforeAfterResults" style="margin-bottom:16px;"></div>
+      <div class="before-after-grid">
+        <div class="ba-card">
+          <h4>📸 Dag 1 Foto</h4>
+          <p>Maak een foto op dag 1 en sla hem op in je camera-rol als referentie.</p>
+          <div style="margin-top:10px;font-size:24px;">📷</div>
+        </div>
+        <div class="ba-card">
+          <h4>📸 Dag 30 Foto</h4>
+          <p>Maak een foto op dag 30 en vergelijk! Deel op Instagram met @body_bloom_be 🌸</p>
+          <div style="margin-top:10px;font-size:24px;">🌟</div>
+        </div>
+      </div>
+      <p style="font-size:10px;color:var(--taupe);font-weight:300;font-style:italic;">Tip: zelfde kleding, zelfde licht, zelfde pose voor de beste vergelijking!</p>
+    </div>
+  </div>
+
+  <!-- WEEKRAPPORT -->
+  <div style="background:var(--white);border-radius:20px;padding:28px;margin-bottom:28px;box-shadow:0 2px 20px rgba(194,92,118,.08);">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text);margin-bottom:4px;">Weekrapport <em style="font-style:italic;color:var(--deep)">PDF</em></div>
+    <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;font-weight:300;">Download jouw wekelijkse voortgang</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+      <button class="week-tab active" id="wr-week1" onclick="selectWeekReport(1,this)">Week 1</button>
+      <button class="week-tab" id="wr-week2" onclick="selectWeekReport(2,this)">Week 2</button>
+      <button class="week-tab" id="wr-week3" onclick="selectWeekReport(3,this)">Week 3</button>
+      <button class="week-tab" id="wr-week4" onclick="selectWeekReport(4,this)">Week 4</button>
+      <button class="week-tab" id="wr-week5" onclick="selectWeekReport(5,this)">Week 5</button>
+    </div>
+    <div id="weekReportPreview" style="background:var(--cream);border-radius:12px;padding:16px;margin-bottom:16px;font-size:12px;color:var(--muted);font-weight:300;">
+      Selecteer een week om het rapport te bekijken.
+    </div>
+    <button class="btn-primary" onclick="downloadWeekReport()" style="width:100%;text-align:center;display:block;">
+      ⬇ Download Weekrapport PDF
+    </button>
+  </div>
+
+  <!-- RESET -->
+  <div style="background:var(--white);border-radius:20px;padding:24px;margin-bottom:20px;box-shadow:0 2px 20px rgba(194,92,118,.08);">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--text);margin-bottom:4px;">Instellingen</div>
+    <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;font-weight:300;">Challenge</div>
+    <div style="text-align:center;">
+      <button class="btn-secondary" onclick="editSchema()" style="font-size:9px;padding:8px 18px;margin-bottom:8px;border-color:var(--deep);color:var(--deep);">✏️ Wijzig mijn schema</button>
+      <br>
+      <button class="btn-secondary" onclick="resetChallenge()" style="font-size:9px;padding:8px 18px;margin-top:8px;">↺ Challenge volledig resetten</button>
+    </div>
+  </div>
+
+</main>
+
+<!-- VASTE IG BALK -->
+<div style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,var(--mauve),var(--deep));padding:8px 20px;text-align:center;z-index:50;box-shadow:0 -2px 10px rgba(194,92,118,.2);">
+  <a href="https://www.instagram.com/body_bloom_be" target="_blank" style="color:white;font-size:11px;font-weight:300;letter-spacing:1px;text-decoration:none;">
+    📸 Volg mij op Instagram @body_bloom_be
+  </a>
+</div>
+<!-- SPACER voor vaste balk -->
+<div style="height:40px;"></div>
+
+<footer>
+  <strong>© 2026 Body Bloom by Sofia · v3.9</strong> — Alle rechten voorbehouden<br>
+  <span style="opacity:.6;margin-top:6px;display:block;letter-spacing:2px;font-size:10px;text-transform:uppercase;">Exclusief voor Body&bull;Bloom klanten</span>
+  <div style="margin-top:10px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
+    <button class="disclaimer-link" onclick="openDisclaimer()">Disclaimer</button>
+    <span style="opacity:.3;color:var(--taupe);">·</span>
+    <a href="https://www.instagram.com/body_bloom_be" target="_blank" style="color:var(--deep);font-size:11px;font-weight:300;letter-spacing:1px;text-decoration:none;">
+      📸 Volg mij op IG @body_bloom_be
+    </a>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+// ── TOEGANGSCODES ──
+// Hieronder staan alleen onomkeerbare afdrukken. Geen codes, geen namen.
+// Welke code bij welke klant hoort, staat alleen in jouw eigen lijstje.
+//
+// Codes op raken? Open de app, F12 > Console, en typ:  nieuweCode()
+
+const CODE_SALT   = 'bodybloom-12330-v3';
+const CODE_RONDEN = 250000;
+
+const KNOWN_CODES_HASHED = [
+  '07f1f2c5ee4f83b955466e48a3809c9836f6e7a0f49a05f380370e863dbc5453', // jij
+  // oude codes van je eerste klanten — laat staan tot ze een nieuwe hebben
+  'e9c5fded95c513649bdb987a6da3f88cf73cc380c8708e71c4f6f09ecf23b152', // oud 01
+  'd446a98a96a4261ec379a528d3cf717d35a7b41d87ff298b5edc5cfd9a127488', // oud 02
+  '66423619ae1efcbcb97050a82386e3310e783d5cd633db6d0990f0d471385321', // oud 03
+  '07da3b89491f87cee3b6cadeb7f3ae8aaee0fbf683fde06965939b3503f01bdc', // 01
+  'ef8388bb7ad68c83324acbf952b053bc7eead454bc55e594737c34f45e98f155', // 02
+  'db26bb518d288fb466b2bed186aa920daba6f31dc33f67f7deed0c047d3f2284', // 03
+  '19572179ef132e6228aa5873528d4b78acddadb720258a515425a1c367976fac', // 04
+  '3e2c3bbc896b04f5a3ec96198a38856f3f7038f6e1be861815b66b13ec7d2bac', // 05
+  'f72f3a43b43011b442f3fd6c7803bfb2207e48b26cef2d94d6d1cbdf6fd009f8', // 06
+  'df239c177cab3bf30cc843833df0888f942a1253211061dafcd1ad7de41db391', // 07
+  '608b592a18f5500704c52a6f545b9841d84567f42a893cd8a9e304dbe279f4d9', // 08
+  'b989753a0fb94da93785dc7d60cd72f2332ff9ce3b78450c2553baf773e3615a', // 09
+  '7e7127d3905fe1c68e8168d2f9e55d550c8830ffa2ecc1e7c36ddd8191e35311', // 10
+  'e650f1e1c9660e4ee390b3aaf92d1ee505bc981e57bc3c1c220c62a016cac765', // 11
+  'e60eaf3acb0cf141f14643680fbb23bf9394b59855da1c2cb5b7f15250243400', // 12
+  '626dfb43aaf454ffef2dce0fd3602fb7cdbc5c132efce97c0488a7e2bdd4c799', // 13
+  '8b6efb00549bf63dffa366fb045ffbe728ecf14cd6ffa51c9545af023537ce6c', // 14
+  '50512664729adf9b86dbb17a94ada0f07e2d345bfabdde799cb78d46cb6fd4fb', // 15
+  '8133a5be26a08ad09649626f50d6401b904f03d9c2e125e825c6396ae9739224', // 16
+  'c2bbf26520f3c17dafaef252936da205486885e1210414cb66b7171415ad1c61', // 17
+  'f492881587d26c4dcbd219bd9702d4a950651ac9cc6c9dd418d94dd8c655b4a1', // 18
+  'ea4d904b3a99d6738172260f80f4939d705573a698072b159e76b416e3c1b354', // 19
+  'b872a5215b288b4cc9378195a24621d8793a488e7fb7afa3d0cf9b28b25d1f97', // 20
+  '0e38878d64dc784aa1765e118f0e3ae6de46dc12e9fe20337fbef47c489b381f', // 21
+  '93f3d339d9c6abce6ac2b27582452ffd37e2cf16c5ed9a1a2af27e944c96da6b', // 22
+  '2cd50204e3b44273b7716c667c14350380686a5d20135e3120145cae9fef203e', // 23
+  '3382ba0a2fe8d447b2f893efa7b6344553c1f39d12c7a77419cca66c89957a7e', // 24
+  'b794460a9f40084b0e2291dfdb8cad4e4aae05dc2d515ed9849ce9ffbec71a19', // 25
+  '5fb214a9a5702016ef7c4762c68bd6e2bd1993af90b3b8f4ef05be776b34b7d9', // 26
+  '700b288527a789d18750eb09487043e720b79bc3fff7a1651b3fc6e26300b3bd', // 27
+  '13ff7b7b39d0494d75d34ca0adec6d0518271243be418c701f91798542c31a8c', // 28
+  '5ed714ab4f6f2121d97d8ed9010e698745b8aeb4e2e0deaaac51eb4b6488a39f', // 29
+  'b806fa49c8c335cd321f723df3909b5229d6e5ab05a84b9f7202f89b43d9d389', // 30
+  '73665fc334e0958a332a5aadeb6f8d0d911abc32ff51e18e767bef9447a0a8dc', // 31
+  '2920d27f97baa7718a0aa43d26bb17aaf010d01caa456b9cd6eacad4ec62552a', // 32
+  '4178598212500cc1191111731a6b8073d2139097c318ad039d242779064b88f1', // 33
+  'c0c0928a0693971784fb6f5cac8234e2e2fac09dc0a7b6fb8c7b3447fb248bbe', // 34
+  'fbedf2a9c9c3e5a2b6f98a9a6e7e088e6c46da37c57933c5d1560417842808dd', // 35
+  '2b9b483b44be339016c561759643737403a7103474e043a160664b3c47c7502d', // 36
+  'fc5fd82d1623060dc9c6390d5a870f94667f0005e781f39c5c9d3b221400e025', // 37
+  '57ddedd46b7d8de64609b27287e8cf3cc3ebfc40b0287d4f7c21d4eb6bd5bf66', // 38
+  '2fca36c451d0278698ea9a999ce4f0f6a4e3fce6d55e0125c7a47f9f09db2858', // 39
+  'eed2e5eb0b6da5cd0f03d256240bb56bfaf54bb7e1789c8cb182412f3fa33639', // 40
+  '30fce6cebb6f28dd1deb9cca340b870283366a35990af2bf6ab4b5485fcd4833', // 41
+  '9c5bc7b58776e48a9a751855e6b7a1dd1959666e1f48a47b47b573cdd126d3a9', // 42
+  '4e2f82ef26c55ed1f5b5d93ec53a61b7a55254268390d52e3c36c67ab44460fa', // 43
+  '971bc46a650eead58fee0eea23da25b77dd2fb9b504bed02dcf9bfef5b5d9366', // 44
+  'ff283dfc78a15eb5ce7f8712dccd0e9bc2735a282699c3788fc9d07078213997', // 45
+  '0b15238cc8f68126695e39754b126a4868ae3f3bed00b048c064bd82dfb5e93d', // 46
+  'd9e9efe652bbbf27f29e0bb8925b6ba4ea78c275a885d39890bbd89809f5ceea', // 47
+  '4a6e109dfaff3e89da6bad293eb41f29e9db565a011019ab88c71e2aa4a01eb3', // 48
+  '39406b2d94f2f79063e0c1fd12b52ec7c23ddf1601559a3269b6daba1a2ba8ae', // 49
+  '1b7b718cb0dc6eb0851a238ee9d5beb1b3d669d164bd0b6d60e2ad994ec50fc2', // 50
+  '57533c392abb5f3eab476635359cb77fddd074fb6051996d7f10f393d799e0cf', // 51
+  '387f8c49738590dd1d0f7ef880e31cd551b0700b87dc1489741600f7dbb324fa', // 52
+  'f1a1164adfdcb2882b609d6c1e0bd9bcbf5a7072dd86365c2cedb17628bc11f5', // 53
+  '27c65ffc1dfa81337aa7a210369d856f1999fbf9097c1b27c866a08ce787d3e1', // 54
+  'f4f6f70e0f0be7b2dfdddffe1ef37d0d236ea04a9100e99f6ec7a710d591c1a1', // 55
+  '1437868455c0424536c7b5e73076ed74981f5f96da3b1bc2191459bd1705c7a6', // 56
+  '4a41514f088bf005070c7b52a065ad956f0e8d015e8d8a597df0952e0e864c36', // 57
+  'f8503a356da5bece2b18a573419ee7e21688bb08e378e4b01984d7ce81595038', // 58
+  'f0d4dd4c368aee958a08f7e02f055044c82520680cc7fd8be388fa0a0a264d29', // 59
+  '2447abea8a303f315e8af7f32252b070b43843746729c464875cb9733e28b1e1', // 60
+  'db179fba3086acdb1c7e65576f932772d620b4dfe163df596700769165bf9196', // 61
+  '04a6417567d946b597b3d657ec42d53135ff4e3158de717b7948e98c57cc936a', // 62
+  'bc766ceb6a5d79c358a977dc86458ae4f94b889817bd8c9d51dd1e15627241cd', // 63
+  '4baf3054d0175cf2a45e9b9209ad1d942a8ffdce4819d6a9dc00cf02d149f042', // 64
+  '99ad33b2480cfdd48863938c53a6676df2597fe85e0446880597b8fdc84d0d93', // 65
+  '9826f0c9b8afd1894b335fa54e874e5e796a735cf79f2a84151a4959363480d3', // 66
+  '2f44769e0a804c862f623e19002274f51c050178b9b20db73066011885fcd4ef', // 67
+  'c9ec45130b8c6cba2c2bfa5adf2d03917f4cdcdad9f82cdd2ab240e0cea39ea9', // 68
+  'e4ec44dc2279a492bda35a6a52642294183075cb4f00a6da1d2a5817688785a0', // 69
+  '06e80d65e6c37e3fee0303600f4b88234251f01da112043bf8b344f80d1ee702', // 70
+  '2eaaec4c46fa7839fed11ce3305a25457a49e2c3f849e7eba988d816c51e3f81', // 71
+  '3bd0845ddb5d8d57198b177835dc1bbbe841ee32614c4ec366723b0c7f729887', // 72
+  'b1d403c5e63a6bd50c904acbd9300d9b5f3869935db6f1f7050b253997cdb737', // 73
+  '2284e0422e35a892a1b50681f592d8b2139f9226307e0be5079bd0db67bcf7a5', // 74
+  'e6b22c41fd51554e4c0d47987a059eb46cd9516cb58355d75ce3d7c21dcf39eb', // 75
+  'c1cefe31f38be8db7d2f1f2db8097246b5730c367a99185fa500ff562f2f13ff', // 76
+  'c1d940098852d76e48b93b89c9a6a6ff50b912fb0eb7c03894f5b0e41038d80c', // 77
+  '8bd4ab71e5b79c8c914d58afdefc5caae5c0f8c0d44545f48e1ae1cadd93b569', // 78
+  'ab3240f02fbcd8cc4c98f5317646d899d7c5c576ffec4c63cc499d29951402ff', // 79
+  'b691ba6d819ff15ad8d1bc7179485e34609a0666957754d173b5030e983492a6', // 80
+  '34a51765adc4c765382f4347357d8c8a5814a09d28b193155e5750dce816116e', // 81
+  'a21ab9d16228d063bb32344b1fdfac83f30e9e11e6f27c73b11afea4bc4fbc00', // 82
+  '44b212550eb58133ea95508eabb3372670e4ab6ad6f6b82a8c5b3827900b2366', // 83
+  '5cfb3df9271a4ee5a2569ec2f22f6cf1598f51b6533548fea083be63a6da324b', // 84
+  '1eacf9c1f20a6fe0a1842b5cc686d9f6f040d4b359fd225e681c06a9f458d8cc', // 85
+  'e4ca75b7de287f2c904c4980a3339ebf9154bb6bb06cfe2972c493c6b1eae39a', // 86
+  'b444e237a3a97a7cf24c4610e491b2080508f0a86c5b54425f9c4c42974b83e8', // 87
+  'd0aa8a4b5e00939899beeffdf1e7b065b5e452167a72c59657a6ffacaf4df8c2', // 88
+  '632134f7c2139710adc7ea7e1100b6b6d0ca81da4874320968dbf997ae8b926e', // 89
+  '900c0075aec3cc4b2de916e6b4ed86a80ebedad049bcc8e78e9eb0532d7ea37c', // 90
+  'b3c131b7313ccd724ace3a528e012cadc66e94d777270151b3c28329b29fff2b', // 91
+  'c7dc3c2eebd0ec317cef0fc41289b6e820167115c76ebcb103fd06374a51e52a', // 92
+  'f908fa811a3af0c76afc24cbf7ef987f62cfdd37b71776ca5ed64e4a01bac0a6', // 93
+  '73e4a0840d2a336a9a83f833260609cdf2dbc35e1bed80cfdfdea56f240dba72', // 94
+  '985a8c86175a6f93b0c52a8fe91912bb42324fa8bf42642532691d83ac70c232', // 95
+  'd8c7b0733ce9ef0e41ec2293459ee724457a49a93f8a6bacec4254e64fa435d7', // 96
+  '3db50809c90bd6085be253333476211efea02d0a3b9b364762dcd35d6deba70f', // 97
+  'e5b4cffdedcbb22ccf13659486df1bed5c8742e454cec147e3bae97769c9b463', // 98
+  'a0e1961fb895d665b65b494492354000bad14967f33e0a21a0dbc4fee3d70d80', // 99
+  'ef3f3e6f4ed41b8fc5bd521d17a5144f10614d96426e998440980922634f2cd1', // 100
+];
+
+// Trage hash: elke poging kost tijd, ook voor wie wil raden.
+async function hashCode(code) {
+  var enc = new TextEncoder();
+  var sleutel = await crypto.subtle.importKey(
+    'raw', enc.encode(code.trim().toUpperCase()),
+    { name: 'PBKDF2' }, false, ['deriveBits']
+  );
+  var bits = await crypto.subtle.deriveBits(
+    { name: 'PBKDF2', salt: enc.encode(CODE_SALT), iterations: CODE_RONDEN, hash: 'SHA-256' },
+    sleutel, 256
+  );
+  return Array.from(new Uint8Array(bits))
+    .map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+}
+
+// Extra codes maken als je lijstje op is. Geen naam nodig.
+async function nieuweCode(aantal) {
+  var n = aantal || 1;
+  var tekens = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  var codes = [], regels = [];
+  for (var i = 0; i < n; i++) {
+    var d = crypto.getRandomValues(new Uint8Array(8));
+    var s = Array.from(d).map(function(b) { return tekens[b % tekens.length]; }).join('');
+    var code = 'BB-' + s.slice(0, 4) + '-' + s.slice(4);
+    var nr = String(KNOWN_CODES_HASHED.length + i).padStart(2, '0');
+    codes.push(code);
+    regels.push("  '" + (await hashCode(code)) + "', // " + nr);
+  }
+  console.log('%c\n  ' + n + ' NIEUWE CODE(S)\n', 'font-weight:bold;color:#c25c76;font-size:14px');
+  console.log('  Voor jouw lijstje:');
+  codes.forEach(function(c, i) { console.log('    ' + String(i + 1).padStart(2) + '.  ' + c); });
+  console.log('\n  Plak in GitHub, in KNOWN_CODES_HASHED:');
+  regels.forEach(function(r) { console.log(r); });
+  console.log('');
+  return codes;
+}
+
+// Haalt het eerste deel uit een code, voor het welkomstscherm
+function naamUitCode(code) {
+  var d = String(code).trim().toUpperCase().split('-');
+  var n = d.length > 1 ? d[1] : '';
+  // Alleen tonen als het op een naam lijkt: minstens 3 letters, geen cijfers.
+  if (!/^[A-Z]{3,}$/.test(n)) return '';
+  return n.charAt(0) + n.slice(1).toLowerCase();
+}
+
+// Maakt van wat de klant typt een nette code.
+// Kleine letters, spaties of zonder streepjes: het wordt allemaal BB-XXXX-XXXX.
+function netteCode(ruw) {
+  var s = String(ruw).toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (/^BB[A-Z0-9]{8}$/.test(s)) return 'BB-' + s.slice(2, 6) + '-' + s.slice(6);
+  return '';
+}
+
+let bezigMetControle = false;
+async function checkAccessCode() {
+  if (bezigMetControle) return;
+  const ruw     = document.getElementById('accessCodeInput').value.trim().toUpperCase();
+  const errorEl = document.getElementById('accessError');
+  const knop    = document.getElementById('accessBtn');
+  if (!ruw) return;
+
+  bezigMetControle = true;
+  const knopTekst = knop ? knop.innerHTML : '';
+  if (knop) { knop.innerHTML = 'Even controleren…'; knop.disabled = true; }
+  errorEl.style.display = 'none';
+
+  // Eerst precies zoals getypt, dan in de nette vorm.
+  let input = ruw;
+  let inputHash = await hashCode(input);
+  if (!KNOWN_CODES_HASHED.includes(inputHash)) {
+    const net = netteCode(ruw);
+    if (net && net !== ruw) {
+      const netHash = await hashCode(net);
+      if (KNOWN_CODES_HASHED.includes(netHash)) { input = net; inputHash = netHash; }
+    }
+  }
+
+  if (knop) { knop.innerHTML = knopTekst; knop.disabled = false; }
+  bezigMetControle = false;
+
+  if (KNOWN_CODES_HASHED.includes(inputHash)) {
+    const expiry = Date.now() + 365 * 24 * 60 * 60 * 1000;
+    localStorage.setItem('bodybloom_access', inputHash);
+    localStorage.setItem('bodybloom_access_expiry', expiry.toString());
+    localStorage.setItem('bodybloom_access_name', naamUitCode(input));
+    document.getElementById('accessModalOverlay').classList.add('hidden');
+    showWelcomeMessage(input);
+    errorEl.style.display = 'none';
+  } else {
+    errorEl.style.display = 'block';
+    document.getElementById('accessCodeInput').style.borderColor = '#c25c76';
+    setTimeout(() => {
+      document.getElementById('accessCodeInput').style.borderColor = '';
+    }, 2000);
+  }
+}
+
+function showWelcomeMessage(code) {
+  const name = naamUitCode(code);
+  const niceName = name || 'bij Body\u2022Bloom';
+  const welcome = document.getElementById('welcomeOverlay');
+  const nameEl = document.getElementById('welcomeName');
+  if (welcome && nameEl) {
+    nameEl.textContent = niceName;
+    welcome.classList.remove('hidden');
+    setTimeout(() => {
+      welcome.classList.add('hidden');
+      if (!state.startDate) {
+        document.getElementById('modalOverlay').classList.remove('hidden');
+      } else {
+        render();
+        renderHRZones();
+      }
+    }, 3000);
+  } else {
+    if (!state.startDate) {
+      document.getElementById('modalOverlay').classList.remove('hidden');
+    } else {
+      render();
+      renderHRZones();
+    }
+  }
+}
+
+// Enter key support
+document.addEventListener('DOMContentLoaded', () => {
+  const inp = document.getElementById('accessCodeInput');
+  if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') checkAccessCode(); });
+});
+
+
+
+// ── DATA ──
+const TOTAL_DAYS = 30;
+const REST_DAYS  = [7, 14, 21, 28]; // rest days
+
+const DAY_DATA = [
+  // Week 1 — Foundations
+  { title: "Eerste stap", note: "Helling 8% als je beginner bent. Welkom!" },
+  { title: "Ritme vinden", note: "Voel je tempo aan. Rustig maar stevig." },
+  { title: "Diepere ademhaling", note: "Adem via je neus in, mond uit." },
+  { title: "Helling verhogen", note: "Vandaag 10% helling, bouw het op!" },
+  { title: "Halfweg week 1", note: "Je bent geweldig bezig! Arm-swing verhogen." },
+  { title: "Kracht en flow", note: "Voel die bilspieren! 12% helling volledig." },
+  { title: "Rustdag 🌸", note: "Stretch, wandel buiten of yoga. Verdient!" },
+  // Week 2 — Building
+  { title: "Week 2 start", note: "Volledig 12% helling vandaag. Je kan het!" },
+  { title: "Vetverbranding zone", note: "Hartslag 60-70% max. Praten moet nog lukken." },
+  { title: "Consistency queen", note: "10 dagen! Je bouwt een mooie gewoonte op." },
+  { title: "Tempo-check", note: "Probeer eens 5 km/u de laatste 5 minuten." },
+  { title: "Bergop diva", note: "12% helling voelt al meer vertrouwd. Fier!" },
+  { title: "Pre-rest push", note: "Laatste sessie voor rustdag — geef alles!" },
+  { title: "Rustdag 🌸", note: "Welverdiende rust. Morgen weer vol gas!" },
+  // Week 3 — Power
+  { title: "Halverwege!", note: "15 dagen! Je bent door de helft. 🎉" },
+  { title: "Core activeren", note: "Buik lichtjes aanspannen tijdens het wandelen." },
+  { title: "Interval bonus", note: "Min 20-25: verhoog naar 5 km/u. Daarna terug." },
+  { title: "Mentale kracht", note: "Als het moeilijk wordt, focus op 5 min tegelijk." },
+  { title: "Uithouding boosten", note: "Merk je verschil? Noteer je gevoel na training." },
+  { title: "Power sessie", note: "Je sterkste sessie tot nu toe. Hands-free!" },
+  { title: "Rustdag 🌸", note: "Rust is deel van de training. Geniet ervan." },
+  // Week 4 — Peak
+  { title: "Finale rechte!", note: "Week 4! Slechts 9 sessies te gaan." },
+  { title: "Lichter voelen?", note: "Kleding zit anders? Jij strált al!" },
+  { title: "Volle kracht", note: "30 min vlekkeloos — jij bent een pro." },
+  { title: "Doorzetten", note: "Moe? Denk aan dag 1 vs vandaag. Wat een groei!" },
+  { title: "Bijna daar", note: "4 dagen te gaan! Jij hebt dit!" },
+  { title: "Momentum", note: "Je weet nu precies hoe jouw lichaam voelt." },
+  { title: "Laatste rustdag 🌸", note: "Eén finale rustdag voor de eindsprint!" },
+  // Week 5 — Finish
+  { title: "Twee te gaan!", note: "Dag 29 — eindsprint. Jij BENT een atleet." },
+  { title: "DAG 30 — FINISH! 🏆", note: "Je hebt de 30 dagen challenge voltooid. Zet jezelf in het bloemetje!" },
+];
+
+// ── STATE ──
+let state = {
+  userName: '',
+  completed: [],  // array of day indices (0-based)
+  startDate: null,
+  currentWeek: 1
+};
+
+function loadState() {
+  const s = localStorage.getItem('bodybloom_state');
+  if (s) state = JSON.parse(s);
+}
+function saveState() {
+  localStorage.setItem('bodybloom_state', JSON.stringify(state));
+}
+
+function switchFitness(level, btn) {
+  state.fitnessLevel = level;
+  saveState();
+  document.querySelectorAll('#fb-beginner,#fb-gemiddeld,#fb-gevorderd').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const bpm = parseInt(document.getElementById('hrLive').value);
+  renderHRZones(bpm || undefined);
+  if (bpm) updateHR(bpm);
+}
+
+// ── SCHEMA LOGIC ──
+let selectedProgramOption = 'full'; // 'full', '3x', '2x'
+let selectedDays3x = [];
+let selectedDays2x = [];
+
+
+function setFitness(level, btn) {
+  state.fitnessLevel = level;
+  document.querySelectorAll('.fitness-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  saveState();
+}
+
+function selectProgramOption(opt) {
+  selectedProgramOption = opt;
+  ['full','3x','2x'].forEach(o => {
+    if (o === 'full') { var ef = document.getElementById('extra-full'); if (ef) ef.classList.add('visible'); }
+    var el = document.getElementById('opt-' + o);
+    var ex = document.getElementById('extra-' + o);
+    if (el) el.classList.toggle('selected', o === opt);
+    if (ex) ex.classList.toggle('visible', o === opt);
+  });
+}
+
+function toggleScheduleDay(day, btn, freq) {
+  var days = freq === '3x' ? selectedDays3x : selectedDays2x;
+  var needed = freq === '3x' ? 3 : 2;
+  var isActive = btn.classList.contains('active');
+  if (!isActive && days.length >= needed) {
+    var warnEl = document.getElementById('warn-' + freq);
+    if (warnEl) warnEl.textContent = 'Max. ' + needed + ' dagen selecteren!';
+    return;
+  }
+  btn.classList.toggle('active');
+  if (freq === '3x') {
+    selectedDays3x = Array.from(document.querySelectorAll('#extra-3x .day-toggle.active')).map(b => b.dataset.day);
+    var w3 = document.getElementById('warn-3x');
+    if (w3) w3.textContent = selectedDays3x.length === 3 ? '✓ Perfect! 3 dagen geselecteerd' : 'Nog ' + (3 - selectedDays3x.length) + ' dag(en) te selecteren';
+  } else {
+    selectedDays2x = Array.from(document.querySelectorAll('#extra-2x .day-toggle.active')).map(b => b.dataset.day);
+    var w2 = document.getElementById('warn-2x');
+    if (w2) w2.textContent = selectedDays2x.length === 2 ? '✓ Perfect! 2 dagen geselecteerd' : 'Nog ' + (2 - selectedDays2x.length) + ' dag(en) te selecteren';
+  }
+}
+
+
+// ── HELLING MODE TOGGLE ──
+var hellingMode3x = 'week';
+var hellingMode2x = 'week';
+
+function setHellingMode(freq, mode, btn) {
+  if (freq === '3x') { hellingMode3x = mode; }
+  else { hellingMode2x = mode; }
+
+  // Toggle buttons
+  var weekBtn = document.getElementById(freq + '-mode-week');
+  var maandBtn = document.getElementById(freq + '-mode-maand');
+  if (weekBtn) weekBtn.classList.toggle('active', mode === 'week');
+  if (maandBtn) maandBtn.classList.toggle('active', mode === 'maand');
+
+  // Toggle grids
+  var weekGrid = document.getElementById(freq + '-week-grid');
+  var maandGrid = document.getElementById(freq + '-maand-grid');
+  if (weekGrid) weekGrid.style.display = mode === 'week' ? 'block' : 'none';
+  if (maandGrid) maandGrid.style.display = mode === 'maand' ? 'block' : 'none';
+}
+
+function getHellingArray(freq) {
+  var mode = freq === '3x' ? hellingMode3x : hellingMode2x;
+  var prefix = 'h' + freq + '-';
+  var arr = [];
+  if (mode === 'week') {
+    for (var i = 1; i <= 8; i++) {
+      var el = document.getElementById(prefix + 'w' + i);
+      arr.push(el ? parseFloat(el.value) || 6 : 6);
+    }
+  } else {
+    for (var j = 1; j <= 4; j++) {
+      var el2 = document.getElementById(prefix + 'm' + j);
+      arr.push(el2 ? parseFloat(el2.value) || 6 : 6);
+    }
+    var m5 = document.getElementById(freq + '-maand5');
+    if (m5 && m5.checked) arr.push('12-40min');
+  }
+  return { mode: mode, values: arr };
+}
+
+function startChallenge() {
+  state.userName     = document.getElementById('nameInput').value.trim() || 'Jij';
+  state.userAge      = parseInt(document.getElementById('ageInput').value) || 30;
+  state.fitnessLevel = state.fitnessLevel || 'beginner';
+  state.startDate    = state.startDate || new Date().toISOString();
+
+  // Save program option
+  state.programOption = selectedProgramOption;
+
+  if (selectedProgramOption === 'full') {
+    state.freq = 6; // elke dag (6 per week)
+    state.trainingDays = ['ma','di','wo','do','vr','za'];
+    state.fullRestDay = selectedRestDayFull || '';
+    state.hellingPerWeek = { 1:6, 2:8, 3:10, 4:12 };
+  } else if (selectedProgramOption === '3x') {
+    state.freq = 3;
+    state.trainingDays = selectedDays3x;
+    state.customRestDays = selectedRestDay3x ? ['zo', selectedRestDay3x] : [];
+    var h3x = getHellingArray('3x');
+    state.hellingMode = h3x.mode;
+    state.hellingValues = h3x.values;
+  } else {
+    state.freq = 2;
+    state.trainingDays = selectedDays2x;
+    state.customRestDays = selectedRestDay2x ? ['zo', selectedRestDay2x] : [];
+    var h2x = getHellingArray('2x');
+    state.hellingMode = h2x.mode;
+    state.hellingValues = h2x.values;
+  }
+
+  saveState();
+  document.getElementById('modalOverlay').classList.add('hidden');
+  render();
+  renderHRZones();
+  showToast('Welkom ' + state.userName + '! Dag 1 begint nu 🌸');
+}
+
+// ── HEART RATE ──
+// Zone percentages shift based on fitness level:
+// Beginner:  standaard zones (lagere hartslag = al intensief)
+// Gemiddeld: zones iets hoger
+// Gevorderd: zones nog hoger (goed getraind hart = efficiënter)
+function getZonesForLevel(level) {
+  const base = {
+    beginner:  [
+      { name: 'Rust',           pct: [0,  50], color: '#A8C8A8', icon: '😴', tip: 'Rusttoestand — beweeg iets meer!' },
+      { name: 'Vetverbranding', pct: [50, 60], color: '#9B4D6A', icon: '🌸', tip: 'Ideaal voor gewichtsverlies!' },
+      { name: 'Matig',          pct: [60, 70], color: '#C25C76', icon: '✨', tip: 'Perfect voor de 12·3·30 workout!' },
+      { name: 'Cardio',         pct: [70, 80], color: '#E8879C', icon: '💪', tip: 'Goede conditietraining!' },
+      { name: 'Intensief',      pct: [80, 90], color: '#D4A95A', icon: '🔥', tip: 'Hoge intensiteit — let op jezelf!' },
+      { name: 'Maximum',        pct: [90,100], color: '#8B3A5A', icon: '⚡', tip: 'Maximale inspanning — kort houden!' },
+    ],
+    gemiddeld: [
+      { name: 'Rust',           pct: [0,  45], color: '#A8C8A8', icon: '😴', tip: 'Rusttoestand — tijd om te bewegen!' },
+      { name: 'Vetverbranding', pct: [45, 58], color: '#9B4D6A', icon: '🌸', tip: 'Ideaal voor gewichtsverlies!' },
+      { name: 'Matig',          pct: [58, 68], color: '#C25C76', icon: '✨', tip: 'Perfect voor de 12·3·30 workout!' },
+      { name: 'Cardio',         pct: [68, 78], color: '#E8879C', icon: '💪', tip: 'Sterke conditietraining!' },
+      { name: 'Intensief',      pct: [78, 88], color: '#D4A95A', icon: '🔥', tip: 'Hoge intensiteit — goed bezig!' },
+      { name: 'Maximum',        pct: [88,100], color: '#8B3A5A', icon: '⚡', tip: 'Maximale inspanning — kort houden!' },
+    ],
+    gevorderd: [
+      { name: 'Rust',           pct: [0,  40], color: '#A8C8A8', icon: '😴', tip: 'Rusttoestand — jij kan meer!' },
+      { name: 'Vetverbranding', pct: [40, 55], color: '#9B4D6A', icon: '🌸', tip: 'Ideaal voor vetverbranding!' },
+      { name: 'Matig',          pct: [55, 65], color: '#C25C76', icon: '✨', tip: 'Goed voor hersteltraining!' },
+      { name: 'Cardio',         pct: [65, 75], color: '#E8879C', icon: '💪', tip: 'Jouw comfortzone — push harder!' },
+      { name: 'Intensief',      pct: [75, 87], color: '#D4A95A', icon: '🔥', tip: 'Hier bouw jij echte kracht op!' },
+      { name: 'Maximum',        pct: [87,100], color: '#8B3A5A', icon: '⚡', tip: 'Alles geven — topprestatie!' },
+    ],
+  };
+  return base[level] || base.beginner;
+}
+
+function renderHRZones(activeBpm) {
+  const age    = state.userAge || 30;
+  const level  = state.fitnessLevel || 'beginner';
+  const maxHR  = 220 - age;
+  const zones  = document.getElementById('hrZones');
+  const HR_ZONES = getZonesForLevel(level);
+  zones.innerHTML = '';
+
+  // Level badge
+  const badges = { beginner: '🌱 Beginner', gemiddeld: '💪 Gemiddeld', gevorderd: '🔥 Gevorderd' };
+  document.querySelector('.hr-section .section-sub').textContent =
+    `${badges[level]} · Max hartslag: ${maxHR} bpm (leeftijd ${age})`;
+
+  HR_ZONES.forEach(z => {
+    const low  = Math.round(maxHR * z.pct[0] / 100);
+    const high = Math.round(maxHR * z.pct[1] / 100);
+    const isActive = activeBpm && activeBpm >= low && activeBpm < high;
+
+    const div = document.createElement('div');
+    div.className = 'hr-zone-bar' + (isActive ? ' active-zone' : '');
+    div.style.background = z.color;
+    div.innerHTML = `
+      <div class="hr-zone-name">${z.name}</div>
+      <div class="hr-zone-range">${low} – ${high}</div>
+      <div class="hr-zone-desc">bpm</div>`;
+    zones.appendChild(div);
+  });
+}
+
+function updateHR(val) {
+  const bpm = parseInt(val);
+  if (!bpm || bpm < 40) {
+    document.getElementById('hrFeedback').classList.remove('visible');
+    renderHRZones();
+    return;
+  }
+  const age      = state.userAge || 30;
+  const level    = state.fitnessLevel || 'beginner';
+  const maxHR    = 220 - age;
+  const pct      = (bpm / maxHR) * 100;
+  const HR_ZONES = getZonesForLevel(level);
+
+  let zone = HR_ZONES[0];
+  for (const z of HR_ZONES) {
+    if (pct >= z.pct[0] && pct < z.pct[1]) { zone = z; break; }
+    if (pct >= 100) { zone = HR_ZONES[HR_ZONES.length - 1]; break; }
+  }
+
+  var elHrI = document.getElementById('hrIcon');
+  var elHrN = document.getElementById('hrZoneName');
+  var elHrT = document.getElementById('hrZoneTip');
+  if (elHrI) elHrI.textContent = zone.icon;
+  if (elHrN) elHrN.textContent = bpm + ' bpm — ' + zone.name;
+  if (elHrT) elHrT.textContent = zone.tip;
+  document.getElementById('hrFeedback').classList.add('visible');
+  renderHRZones(bpm);
+}
+
+// ── RENDER ──
+function render() {
+  // Veiligheidscheck: render nooit zonder geldige toegangscode
+  const access = localStorage.getItem('bodybloom_access');
+  if (!access || !KNOWN_CODES_HASHED.includes(access)) {
+    document.getElementById('accessModalOverlay').classList.remove('hidden');
+    document.getElementById('modalOverlay').classList.add('hidden');
+    return;
+  }
+  const done = state.completed.length;
+  const streak = calcStreak();
+
+  var elDone = document.getElementById('statDone');
+  var elRemain = document.getElementById('statRemain');
+  var elCal = document.getElementById('statCal');
+  if (elDone) elDone.textContent = done;
+  var totaal = getTrainableDays();
+  if (elRemain) elRemain.textContent = Math.max(totaal - done, 0);
+  if (elCal) elCal.textContent = Math.round(done * 250);
+
+  const pct = Math.min(Math.round((done / totaal) * 100), 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  var elLeft = document.getElementById('progressLeft');
+  var elPct = document.getElementById('progressPct');
+  if (elLeft) elLeft.textContent = done + ' / ' + totaal + ' sessies';
+  if (elPct) elPct.textContent = pct + '%';
+
+  // Auto-spring naar week op basis van voltooide sessies
+  var doneCount = state.completed ? state.completed.length : 0;
+  var freq = getSessionsPerWeek();
+  var totalWeeks = getTotalWeeks();
+  var correctWeek = Math.min(Math.floor(doneCount / freq) + 1, totalWeeks);
+  if (state.currentWeek < correctWeek) {
+    state.currentWeek = correctWeek;
+  }
+
+  renderWeekTabs();
+  renderTodayCard();
+  renderGrid(state.currentWeek);
+  renderQuote();
+  renderEverest();
+  renderSchemaInfo();
+  checkStreakCelebration();
+}
+
+
+function editSchema() {
+  // Re-open setup modal without resetting progress
+  document.getElementById('modalOverlay').classList.remove('hidden');
+  // Pre-fill name and age
+  var nameEl = document.getElementById('nameInput');
+  var ageEl = document.getElementById('ageInput');
+  if (nameEl && state.userName) nameEl.value = state.userName;
+  if (ageEl && state.userAge) ageEl.value = state.userAge;
+  // Restore program option
+  if (state.programOption) selectProgramOption(state.programOption);
+}
+
+
+// ── REST DAY SELECTOR (maand program) ──
+var selectedRestDay3x = '';
+var selectedRestDayFull = '';
+var selectedRestDay2x = '';
+
+function toggleRestDay(day, btn, freq) {
+  var groupId = 'rest-days-' + freq;
+  var warnId  = 'rest-warn-'  + freq;
+  // Deselect all in group
+  document.querySelectorAll('#' + groupId + ' .day-toggle').forEach(function(b) {
+    b.classList.remove('active');
+    b.classList.remove('rest-active');
+  });
+  // Select clicked - rustdag kleur (zalm), zoals de Zo badge
+  btn.classList.add('rest-active');
+  if (freq === '3x') selectedRestDay3x = day;
+  else if (freq === '2x') selectedRestDay2x = day;
+  else selectedRestDayFull = day;
+  var warn = document.getElementById(warnId);
+  if (warn) warn.textContent = '✓ ' + day.charAt(0).toUpperCase() + day.slice(1) + ' + Zondag als rustdagen';
+}
+
+function renderSchemaInfo() {
+  var done = state.completed ? state.completed.length : 0;
+  var bar = document.getElementById('schemaInfoBar');
+  var lbl = document.getElementById('progressLabel');
+  var leftEl = document.getElementById('progressLeft');
+
+  if (!state.programOption || state.programOption === 'full') {
+    if (bar) bar.style.display = 'none';
+    if (lbl) lbl.textContent = '30 dagen · 5 weken challenge';
+    if (leftEl) leftEl.textContent = done + ' / ' + getTrainableDays() + ' sessies';
+    return;
+  }
+
+  var dagNames = { ma:'Ma', di:'Di', wo:'Wo', do:'Do', vr:'Vr', za:'Za', zo:'Zo' };
+  var days = (state.trainingDays || []).map(function(d) { return dagNames[d] || d; }).join(' · ');
+  var freq = state.freq || 3;
+  var weekNum = getCurrentWeekNum();
+  var helling = getCurrentHelling();
+
+  // Calculate total weeks needed
+  var totalWeeks = Math.ceil(30 / freq);
+
+  var badge = document.getElementById('schemaBadge');
+  var daysEl = document.getElementById('schemaDays');
+  var hellingEl = document.getElementById('schemaHelling');
+
+  if (badge) badge.textContent = freq + '× per week';
+  if (daysEl) daysEl.textContent = days || 'Kies je dagen';
+  if (hellingEl) hellingEl.textContent = 'Week ' + weekNum + ' · ' + helling + '%';
+  if (bar) bar.style.display = 'flex';
+  if (lbl) lbl.textContent = '30 sessies · ' + freq + '× per week · ±' + totalWeeks + ' weken';
+  if (leftEl) leftEl.textContent = done + ' / 30 sessies';
+}
+
+function renderTodayCard() {
+  const today = getTodayDayIndex();
+  const d = DAY_DATA[today] || DAY_DATA[TOTAL_DAYS - 1];
+  var elDayNum = document.getElementById('todayDayNum');
+  var elDayTitle = document.getElementById('todayTitle');
+  if (elDayNum) elDayNum.textContent = today + 1;
+  if (elDayTitle) elDayTitle.textContent = 'Dag ' + (today + 1) + ' — ' + d.title;
+
+  const isDone = state.completed.includes(today);
+  const isRest = REST_DAYS.includes(today + 1);
+  const btn = document.getElementById('markDoneBtn');
+
+  if (isRest) {
+    document.getElementById('todaySteps').innerHTML = `
+      <div class="step-card" style="grid-column:1/-1">
+        <div class="step-icon">🌸</div>
+        <div class="step-text">
+          <strong>Rustdag</strong>
+          <span>${d.note}</span>
+        </div>
+      </div>`;
+    btn.textContent = isDone ? '✓ Rustdag genoteerd' : 'Rustdag noteren ✓';
+  } else {
+    document.getElementById('todaySteps').innerHTML = `
+      <div class="step-card">
+        <div class="step-icon">🌸</div>
+        <div class="step-text"><strong>Opwarming</strong><span>5 min · 0% helling · 3 km/u</span></div>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">⛰️</div>
+        <div class="step-text"><strong>12% · 4,8 km/u</strong><span>30 min actief</span></div>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">✨</div>
+        <div class="step-text"><strong>Cool-down</strong><span>5 min · 0% helling · 3 km/u</span></div>
+      </div>`;
+    btn.textContent = isDone ? '✓ Dag voltooid!' : 'Dag voltooien ✓';
+  }
+  btn.style.opacity = isDone ? '.5' : '1';
+}
+
+
+// ── WEEK HELPERS ──
+function getTotalWeeks() {
+  if (!state.programOption || state.programOption === 'full') return 5;
+  var freq = state.freq || 3;
+  return Math.ceil(30 / freq);
+}
+
+function getSessionsPerWeek() {
+  if (!state.programOption || state.programOption === 'full') return 6;
+  return state.freq || 3;
+}
+
+function renderWeekTabs() {
+  var container = document.getElementById('weekTabsContainer');
+  if (!container) return;
+  var totalWeeks = getTotalWeeks();
+  container.innerHTML = '';
+  for (var w = 1; w <= totalWeeks; w++) {
+    var btn = document.createElement('button');
+    btn.className = 'week-tab' + (w === state.currentWeek ? ' active' : '');
+    btn.textContent = 'Week ' + w;
+    (function(week) {
+      btn.onclick = function() { showWeekDirect(week); };
+    })(w);
+    container.appendChild(btn);
+  }
+}
+
+function showWeekDirect(w) {
+  state.currentWeek = w;
+  saveState();
+  renderWeekTabs();
+  renderGrid(w);
+}
+
+function renderGrid(week) {
+  var isCustom = state.programOption && state.programOption !== 'full';
+  var trainingDays = state.trainingDays || [];
+
+  if (isCustom && trainingDays.length > 0) {
+    renderCustomGrid(week, trainingDays);
+  } else {
+    renderFullGrid(week);
+  }
+  renderSchemaLegend(trainingDays, isCustom);
+}
+
+
+// ── RUSTDAGEN VOLLEDIGE CHALLENGE (zondag + eventueel 2de dag) ──
+const WEEKDAG_INDEX = { ma:0, di:1, wo:2, do:3, vr:4, za:5, zo:6 };
+
+function isFullRestDay(i) {
+  if (REST_DAYS.includes(i + 1)) return true;              // vaste zondagen
+  if (!state.fullRestDay) return false;                     // geen 2de rustdag gekozen
+  var idx = WEEKDAG_INDEX[state.fullRestDay];
+  return idx !== undefined && (i % 7) === idx;
+}
+
+function getTrainableDays() {
+  if (state.programOption && state.programOption !== 'full') return 30;
+  var n = 0;
+  for (var i = 0; i < TOTAL_DAYS; i++) if (!isFullRestDay(i)) n++;
+  return n;
+}
+
+function renderFullGrid(week) {
+  var grid = document.getElementById('daysGrid');
+  grid.innerHTML = '';
+  var start = (week - 1) * 7;
+  var end   = Math.min(start + 7, TOTAL_DAYS);
+  var today = getTodayDayIndex();
+  var DAY_NAMES = ['Ma','Di','Wo','Do','Vr','Za','Zo'];
+
+  for (var i = start; i < end; i++) {
+    var d = i + 1;
+    var isDone  = state.completed.includes(i);
+    var isRest  = isFullRestDay(i);
+    var isToday = (i === today);
+    var dayName = DAY_NAMES[i % 7];
+
+    var cell = document.createElement('div');
+    cell.className = 'day-cell' +
+      (isDone  ? ' completed' : '') +
+      (isToday ? ' today'     : '') +
+      (isRest  ? ' rest'      : '');
+    cell.innerHTML =
+      '<div class="day-num">' + d + '</div>' +
+      '<div class="day-label">' + (isRest ? 'Rust' : dayName) + '</div>' +
+      (isDone ? '<div class="day-check">&#10003;</div>' : '');
+    cell.title = DAY_DATA[i] ? DAY_DATA[i].title : '';
+    if (!isRest) (function(idx){ cell.onclick = function(){ toggleDay(idx); }; })(i);
+    grid.appendChild(cell);
+  }
+}
+
+function renderCustomGrid(week, trainingDays) {
+  var grid = document.getElementById('daysGrid');
+  grid.innerHTML = '';
+
+  var ALL_WEEK = ['ma','di','wo','do','vr','za','zo'];
+  var DAY_LABELS = { ma:'Ma', di:'Di', wo:'Wo', do:'Do', vr:'Vr', za:'Za', zo:'Zo' };
+  var freq = state.freq || 3;
+  var restDays = getRestDaysForSchedule(trainingDays);
+
+  // Sessions for this week
+  var sessionStart = (week - 1) * freq; // first session index this week
+
+  // Show 7 cells (full calendar week)
+  for (var dayIdx = 0; dayIdx < 7; dayIdx++) {
+    var dayKey = ALL_WEEK[dayIdx];
+    var trainPos = trainingDays.indexOf(dayKey); // -1 if not training day
+    var isTraining = trainPos >= 0;
+    var sessionIdx = isTraining ? sessionStart + trainPos : -1;
+    var isDone  = isTraining && sessionIdx < 30 && state.completed.includes(sessionIdx);
+    var isRest  = restDays.includes(dayKey);
+    var isFree  = !isTraining && !isRest;
+    var isValidSession = isTraining && sessionIdx < 30;
+
+    var cell = document.createElement('div');
+    cell.className = 'day-cell' +
+      (isDone         ? ' completed' : '') +
+      (isRest         ? ' rest'      : '') +
+      (isFree         ? ' free-day'  : '');
+
+    var labelText = isRest ? 'Rust' : (isFree ? 'Vrij' : DAY_LABELS[dayKey]);
+    var numText   = isValidSession ? (sessionIdx + 1) : '';
+
+    cell.innerHTML =
+      '<div class="day-num">' + numText + '</div>' +
+      '<div class="day-label">' + labelText + '</div>' +
+      (isDone ? '<div class="day-check">&#10003;</div>' : '');
+
+    if (isValidSession) {
+      (function(idx){ cell.onclick = function(){ toggleDay(idx); }; })(sessionIdx);
+    }
+    grid.appendChild(cell);
+  }
+}
+
+
+// ── HELPER: get rest days for custom schedule ──
+function getRestDaysForSchedule(trainingDays) {
+  // If custom rest days are set (maand program), use those
+  if (state.customRestDays && state.customRestDays.length > 0) {
+    return state.customRestDays.filter(function(d) { return !trainingDays.includes(d); });
+  }
+  // Auto-calculate: prefer za+zo
+  var ALL_DAYS = ['ma','di','wo','do','vr','za','zo'];
+  var nonTraining = ALL_DAYS.filter(function(d) { return !trainingDays.includes(d); });
+  var weekendFree = nonTraining.filter(function(d) { return d === 'za' || d === 'zo'; });
+  var restDays = [];
+  if (weekendFree.length >= 2) {
+    restDays = ['za','zo'];
+  } else if (weekendFree.length === 1) {
+    var extra = nonTraining.filter(function(d) { return d !== 'za' && d !== 'zo'; });
+    restDays = weekendFree.concat(extra.length ? [extra[extra.length-1]] : []);
+  } else {
+    restDays = nonTraining.slice(-2);
+  }
+  return restDays;
+}
+
+function renderSchemaLegend(trainingDays, isCustom) {
+  var existing = document.getElementById('schemaLegend');
+  if (existing) existing.remove();
+  if (!isCustom || trainingDays.length === 0) return;
+
+  var DAY_NAMES_FULL = { ma:'Maandag', di:'Dinsdag', wo:'Woensdag', do:'Donderdag', vr:'Vrijdag', za:'Zaterdag', zo:'Zondag' };
+  var ALL_DAYS = ['ma','di','wo','do','vr','za','zo'];
+  var nonTraining = ALL_DAYS.filter(function(d) { return !trainingDays.includes(d); });
+
+  // Rest days via shared helper
+  var restDays = getRestDaysForSchedule(trainingDays);
+  var freeDays = nonTraining.filter(function(d) { return !restDays.includes(d); });
+
+  var legend = document.createElement('div');
+  legend.id = 'schemaLegend';
+  legend.style.cssText = 'margin-top:10px;font-size:10px;font-weight:300;letter-spacing:0.5px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;';
+  // Label rest days: 2 days = "Rust", 1 day = "Rust of Yoga"
+  var restLabel = restDays.length === 1 ? 'Rust of Yoga' : 'Rust';
+
+  legend.innerHTML =
+    '<span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#e8879c;display:inline-block;"></span> Training: ' + trainingDays.map(function(d){ return DAY_NAMES_FULL[d]||d; }).join(' · ') + '</span>' +
+    (restDays.length ? '<span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#f5e6d8;display:inline-block;border:1px solid #e0c8b8;"></span> ' + restLabel + ': ' + restDays.map(function(d){ return DAY_NAMES_FULL[d]||d; }).join(' · ') + '</span>' : '') +
+    (freeDays.length ? '<span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:50%;background:#ede7f6;display:inline-block;border:1px solid #d1c4e9;"></span> Vrij: ' + freeDays.map(function(d){ return DAY_NAMES_FULL[d]||d; }).join(' · ') + '</span>' : '');
+
+  var gridEl = document.getElementById('daysGrid');
+  if (gridEl && gridEl.parentNode) gridEl.parentNode.insertBefore(legend, gridEl.nextSibling);
+}
+
+function showWeek(w, btn) {
+  showWeekDirect(w);
+}
+
+// ── ACTIONS ──
+var toggleDayLock = false;
+function toggleDay(index) {
+  if (toggleDayLock) return;
+  toggleDayLock = true;
+  setTimeout(function(){ toggleDayLock = false; }, 500);
+  const pos = state.completed.indexOf(index);
+  if (pos === -1) {
+    state.completed.push(index);
+    showToast('Dag ' + (index + 1) + ' voltooid! 🌸');
+  } else {
+    state.completed.splice(pos, 1);
+  }
+  saveState();
+  render();
+}
+
+function markTodayDone() {
+  const today = getTodayDayIndex();
+  if (!state.completed.includes(today)) {
+    toggleDay(today);
+  }
+}
+
+function getTodayDayIndex() {
+  // Toon altijd de eerstvolgende onvoltooide dag
+  for (let i = 0; i < TOTAL_DAYS; i++) {
+    // Sla rustdagen over
+    if (isFullRestDay(i)) continue;
+    // Eerste dag die nog niet voltooid is
+    if (!state.completed.includes(i)) return i;
+  }
+  // Alles voltooid — toon laatste dag
+  return TOTAL_DAYS - 1;
+}
+
+function calcStreak() {
+  let streak = 0;
+  const today = getTodayDayIndex();
+  for (let i = today; i >= 0; i--) {
+    if (REST_DAYS.includes(i + 1) || state.completed.includes(i)) streak++;
+    else break;
+  }
+  return streak;
+}
+
+function saveStartDate() {
+  const input = document.getElementById('startDateInput');
+  if (!input.value) { showToast('Kies eerst een datum! 📅'); return; }
+  const chosen = new Date(input.value);
+  chosen.setHours(0, 0, 0, 0);
+  state.startDate = chosen.toISOString();
+  saveState();
+  render();
+  showToast('Startdatum opgeslagen! 🌸');
+}
+
+function resetChallenge() {
+  if (!confirm('Wil je de challenge opnieuw starten? Alle voortgang wordt gewist.')) return;
+  // Keep schema settings after reset!
+  state = {
+    userName: state.userName,
+    userAge: state.userAge,
+    fitnessLevel: state.fitnessLevel,
+    programOption: state.programOption,
+    freq: state.freq,
+    trainingDays: state.trainingDays,
+    hellingMode: state.hellingMode,
+    hellingValues: state.hellingValues,
+    hellingPerWeek: state.hellingPerWeek,
+    completed: [],
+    startDate: new Date().toISOString(),
+    currentWeek: 1,
+  };
+  saveState();
+  render();
+  showToast('Challenge gereset. Dag 1 opnieuw! 💪');
+}
+
+// ── TIMER ──
+const PHASES = [
+  { name: 'Opwarming',           seconds: 5 * 60 },
+  { name: '12% Helling Wandelen', seconds: 30 * 60 },
+  { name: 'Cool-down',           seconds: 5 * 60 },
+];
+
+let timerPhase   = 0;
+let timerRunning = false;
+let timerInterval = null;
+let timerEndTime  = null;  // absolute timestamp when current phase ends
+let timerSecsLeft = PHASES[0].seconds;
+
+// ── AUDIO (iOS/Safari compatible) ──
+let audioCtx = null;
+let audioUnlocked = false;
+
+function getAudioCtx() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  return audioCtx;
+}
+
+// iOS vereist dat audio gestart wordt vanuit een user gesture
+// We maken een stille buffer aan om de context te unlocken
+function unlockAudioiOS(ctx) {
+  return new Promise((resolve) => {
+    if (audioUnlocked) { resolve(); return; }
+    const buf = ctx.createBuffer(1, 1, 22050);
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.connect(ctx.destination);
+    src.start(0);
+    src.onended = () => { audioUnlocked = true; resolve(); };
+    if (ctx.state === 'suspended') {
+      ctx.resume().then(() => { audioUnlocked = true; resolve(); });
+    }
+  });
+}
+
+function vibrateAndFlash(type) {
+  // Trilsignaal (werkt op iPhone en Android)
+  if (navigator.vibrate) {
+    if (type === 'finish') {
+      navigator.vibrate([300, 100, 300, 100, 500]);
+    } else {
+      navigator.vibrate([200, 100, 200]);
+    }
+  }
+  // Visueel knipperen van timer ring
+  const ring = document.getElementById('timerSection');
+  if (ring) {
+    const flashColor = type === 'finish' ? '#6BA87A' : '#E8879C';
+    const original = ring.style.background || '';
+    let count = 0;
+    const flash = setInterval(() => {
+      ring.style.background = count % 2 === 0 ? flashColor : '';
+      count++;
+      if (count >= 6) {
+        clearInterval(flash);
+        ring.style.background = original;
+      }
+    }, 200);
+  }
+}
+
+function playBeep(type) {
+  try {
+    const ctx = getAudioCtx();
+    const doPlay = () => {
+      const configs = {
+        phase:  [{ freq:523,start:0,dur:.15},{freq:659,start:.18,dur:.15},{freq:784,start:.36,dur:.30}],
+        finish: [{ freq:523,start:0,dur:.12},{freq:659,start:.15,dur:.12},{freq:784,start:.30,dur:.12},{freq:1047,start:.45,dur:.40}],
+        beep:   [{ freq:880,start:0,dur:.20}],
+      };
+      const now = ctx.currentTime;
+      (configs[type] || configs.beep).forEach(({freq, start, dur}) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + start);
+        gain.gain.setValueAtTime(0.5, now + start);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + start + dur);
+        osc.start(now + start);
+        osc.stop(now + start + dur + 0.05);
+      });
+    };
+    if (audioUnlocked) {
+      doPlay();
+    } else {
+      unlockAudioiOS(ctx).then(doPlay);
+    }
+  } catch(e) { console.warn('Audio error:', e); }
+}
+
+function openTimer() {
+  timerPhase    = 0;
+  timerSecsLeft = PHASES[0].seconds;
+  timerEndTime  = null;
+  timerRunning  = false;
+  clearInterval(timerInterval);
+  document.getElementById('timerSection').classList.add('visible');
+  document.getElementById('timerBtn').textContent = '▶ Start';
+  renderMiniEverest();
+  updateTimerDisplay();
+  document.getElementById('timerSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+function closeTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerEndTime = null;
+  document.getElementById('timerSection').classList.remove('visible');
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning  = false;
+  timerEndTime  = null;
+  timerPhase    = 0;
+  timerSecsLeft = PHASES[0].seconds;
+  document.getElementById('timerBtn').textContent = '▶ Start';
+  updateTimerDisplay();
+}
+
+// ── NOTIFICATIES ──
+function requestNotifPermission() {
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+}
+
+function sendNotif(title, body) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    try {
+      new Notification(title, {
+        body: body,
+        icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="%23C25C76"/><text y=".9em" font-size="80" x="10">🌸</text></svg>',
+        tag: 'bodybloom-timer',
+        renotify: true,
+      });
+    } catch(e) {}
+  }
+}
+
+function phaseAlert(phaseName, type) {
+  playBeep(type);
+  vibrateAndFlash(type);
+  if (type === 'finish') {
+    sendNotif('🏆 Workout voltooid!', 'Geweldig gedaan! Cool-down is klaar. 🌸');
+    showToast('🏆 Workout voltooid! Geweldig gedaan 🌸');
+    // Auto-voltooi de dag
+    setTimeout(() => {
+      const today = getTodayDayIndex();
+      if (!state.completed.includes(today)) {
+        state.completed.push(today);
+        saveState();
+        render();
+        showToast('✅ Dag automatisch voltooid! 🌸');
+      }
+    }, 1500);
+  } else {
+    sendNotif('⏰ ' + phaseName + ' — start!', 'Body Bloom 12·3·30 Challenge');
+    showToast('📳 ' + phaseName + ' — start!');
+  }
+}
+
+function toggleTimer() {
+  // Unlock audio + vraag notificatie toestemming
+  try { getAudioCtx().resume(); } catch(e) {}
+  requestNotifPermission();
+
+  if (timerRunning) {
+    // PAUSE — save remaining seconds
+    clearInterval(timerInterval);
+    timerRunning = false;
+    timerEndTime = null;
+    document.getElementById('timerBtn').textContent = '▶ Hervat';
+  } else {
+    // START / RESUME — set absolute end time
+    timerRunning = true;
+    timerEndTime = Date.now() + timerSecsLeft * 1000;
+    // Sla timer state op in localStorage voor extra robuustheid
+    localStorage.setItem('bb_timer_end', timerEndTime.toString());
+    localStorage.setItem('bb_timer_phase', timerPhase.toString());
+    document.getElementById('timerBtn').textContent = '⏸ Pauze';
+
+    timerInterval = setInterval(() => {
+      const remaining = Math.round((timerEndTime - Date.now()) / 1000);
+
+      if (remaining <= 0) {
+        // Phase finished
+        timerPhase++;
+        if (timerPhase >= PHASES.length) {
+          // All done!
+          clearInterval(timerInterval);
+          timerRunning  = false;
+          timerSecsLeft = 0;
+          timerEndTime  = null;
+          localStorage.removeItem('bb_timer_end');
+          localStorage.removeItem('bb_timer_phase');
+          document.getElementById('timerBtn').textContent = '✓ Klaar!';
+          phaseAlert('Workout', 'finish');
+          updateTimerDisplay();
+          return;
+        }
+        // Next phase
+        timerSecsLeft = PHASES[timerPhase].seconds;
+        timerEndTime  = Date.now() + timerSecsLeft * 1000;
+        localStorage.setItem('bb_timer_end', timerEndTime.toString());
+        localStorage.setItem('bb_timer_phase', timerPhase.toString());
+        phaseAlert(PHASES[timerPhase].name, 'phase');
+      } else {
+        timerSecsLeft = remaining;
+      }
+      updateTimerDisplay();
+    }, 500); // Check every 500ms for accuracy
+  }
+}
+
+function updateTimerDisplay() {
+  const ph    = PHASES[Math.min(timerPhase, PHASES.length - 1)];
+  const total = ph.seconds;
+  const secs  = Math.max(timerSecsLeft, 0);
+  const m = Math.floor(secs / 60);
+  const s = secs % 60;
+  document.getElementById('timerDisplay').textContent = m + ':' + String(s).padStart(2, '0');
+  var elPhS = document.getElementById('timerPhaseSmall'); if (elPhS) elPhS.textContent = ph.name.toLowerCase();
+  var elPhN = document.getElementById('timerPhaseName'); if (elPhN) elPhN.textContent = ph.name;
+
+  const circ     = 2 * Math.PI * 80;
+  const progress = 1 - (secs / total);
+  const offset   = circ * (1 - progress);
+  document.getElementById('timerCircle').style.strokeDashoffset = offset;
+}
+
+// Herstel timer na terugkeer uit achtergrond
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && timerRunning && timerEndTime) {
+    const remaining = Math.round((timerEndTime - Date.now()) / 1000);
+    if (remaining <= 0) {
+      // Fase(s) gemist — spoel door
+      let leftover = Math.abs(remaining);
+      while (leftover >= 0 && timerPhase < PHASES.length) {
+        timerPhase++;
+        if (timerPhase >= PHASES.length) {
+          clearInterval(timerInterval);
+          timerRunning  = false;
+          timerSecsLeft = 0;
+          document.getElementById('timerBtn').textContent = '✓ Klaar!';
+          playBeep('finish');
+          vibrateAndFlash('finish');
+          showToast('🏆 Workout voltooid! Geweldig gedaan 🌸');
+          updateTimerDisplay();
+          return;
+        }
+        leftover -= PHASES[timerPhase].seconds;
+        if (leftover < 0) {
+          timerSecsLeft = Math.abs(leftover);
+          timerEndTime  = Date.now() + timerSecsLeft * 1000;
+          phaseAlert(PHASES[timerPhase].name, 'phase');
+          break;
+        }
+      }
+    } else {
+      timerSecsLeft = remaining;
+    }
+    updateTimerDisplay();
+  }
+});
+
+// ── SOUND ACTIVATE (iOS Safari fix) ──
+function activateSound() {
+  try {
+    const ctx = getAudioCtx();
+    // iOS: moet vanuit user gesture — resume + unlock + play
+    const resume = ctx.state === 'suspended' ? ctx.resume() : Promise.resolve();
+    resume.then(() => {
+      unlockAudioiOS(ctx).then(() => {
+        playBeep('beep');
+        const btn = document.getElementById('soundActivateBtn');
+        if (btn) {
+          btn.textContent = '🔔 Geluid actief ✓';
+          btn.style.borderColor = '#6BA87A';
+          btn.style.color = '#6BA87A';
+          btn.disabled = true;
+        }
+      });
+    });
+  } catch(e) { console.warn('Sound activate error:', e); }
+}
+
+
+// ── DISCLAIMER ──
+function openDisclaimer() {
+  document.getElementById('disclaimerPage').classList.add('visible');
+  window.scrollTo(0, 0);
+}
+function closeDisclaimer() {
+  document.getElementById('disclaimerPage').classList.remove('visible');
+}
+
+// ── MIJN DATA — EXPORT / IMPORT ──
+function exportData() {
+  const data = {
+    version: '1.0',
+    exportDate: new Date().toISOString(),
+    state: state,
+    access: localStorage.getItem('bodybloom_access'),
+    expiry: localStorage.getItem('bodybloom_access_expiry'),
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'bodybloom-backup-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Data geëxporteerd! 🌸');
+}
+
+function importData() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if (!data.state) throw new Error('Ongeldig bestand');
+        if (!confirm('Wil je jouw opgeslagen data importeren? Je huidige voortgang wordt overschreven.')) return;
+        state = data.state;
+        saveState();
+        if (data.access) localStorage.setItem('bodybloom_access', data.access);
+        if (data.expiry) localStorage.setItem('bodybloom_access_expiry', data.expiry);
+        render();
+        showToast('Data geïmporteerd! 🌸');
+      } catch(e) {
+        alert('Fout bij importeren. Controleer het bestand.');
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+
+// ── MOTIVERENDE QUOTES ──
+const QUOTES = [
+  { text: "Je bent sterker dan je denkt.", auteur: "Body Bloom" },
+  { text: "Elke stap telt. Ook de kleine.", auteur: "Body Bloom" },
+  { text: "Consistentie is de sleutel tot succes.", auteur: "Body Bloom" },
+  { text: "Jij kiest elke dag opnieuw voor jezelf.", auteur: "Body Bloom" },
+  { text: "Rust is ook training. Luister naar je lichaam.", auteur: "Body Bloom" },
+  { text: "Trots zijn op jezelf is geen luxe, het is een must.", auteur: "Body Bloom" },
+  { text: "De loopband wacht op jou. Jij bent er klaar voor.", auteur: "Body Bloom" },
+  { text: "Bloom where you are planted. 🌸", auteur: "Body Bloom" },
+  { text: "Kleine overwinningen leiden tot grote resultaten.", auteur: "Body Bloom" },
+  { text: "Je hoeft niet perfect te zijn, je hoeft alleen te beginnen.", auteur: "Body Bloom" },
+  { text: "Vandaag kies jij voor een betere versie van jezelf.", auteur: "Body Bloom" },
+  { text: "30 minuten per dag. Dat is alles. Jij kan dit.", auteur: "Body Bloom" },
+  { text: "Zweet is jouw lichaam dat straalt. 💪", auteur: "Body Bloom" },
+  { text: "Vertrouw het proces. De resultaten komen.", auteur: "Body Bloom" },
+  { text: "Je bent verder dan gisteren. Dat is genoeg.", auteur: "Body Bloom" },
+  { text: "De beste workout is de één die je effectief doet.", auteur: "Body Bloom" },
+  { text: "Jouw lichaam, jouw tempo, jouw journey. 🌸", auteur: "Body Bloom" },
+  { text: "Elke dag is een nieuwe kans om te bloeien.", auteur: "Body Bloom" },
+  { text: "12% helling. 4,8 km/u. 30 minuten. Jij bent een atleet.", auteur: "Body Bloom" },
+  { text: "Beweging is medicijn. Jij neemt elke dag je dosis.", auteur: "Body Bloom" },
+];
+
+function getDailyQuote() {
+  // Gebruik datum voor rotatie zodat het altijd werkt, ook zonder startdatum
+  const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+  const completed = state.completed ? state.completed.length : 0;
+  const idx = (dayOfYear + completed) % QUOTES.length;
+  return QUOTES[idx];
+}
+
+function renderQuote() {
+  const q = getDailyQuote();
+  const el = document.getElementById('dailyQuote');
+  if (!el) return;
+  el.innerHTML = '<em>"' + q.text + '"</em><span class="quote-author"> — ' + q.auteur + '</span>';
+}
+
+// ── STREAK BELONING ──
+const STREAK_MILESTONES = [3, 7, 14, 21, 30];
+
+function checkStreakCelebration() {
+  const streak = calcStreak();
+  const lastCelebrated = parseInt(localStorage.getItem('bb_last_streak_celebration') || '0');
+  
+  if (STREAK_MILESTONES.includes(streak) && streak > lastCelebrated) {
+    localStorage.setItem('bb_last_streak_celebration', streak.toString());
+    setTimeout(() => showStreakCelebration(streak), 500);
+  }
+}
+
+function showStreakCelebration(streak) {
+  const messages = {
+    3:  { emoji: '🌱', title: '3 dagen op rij!', msg: 'Je bent op weg! De gewoonte begint te vormen.' },
+    7:  { emoji: '🔥', title: 'Week 1 streak!', msg: 'Een volledige week! Je bent fantastisch!' },
+    14: { emoji: '💪', title: '2 weken streak!', msg: 'Halverwege en onstopbaar! Jij bent een atleet!' },
+    21: { emoji: '⭐', title: '3 weken streak!', msg: 'De gewoonte is gevormd! Jij bloeit! 🌸' },
+    30: { emoji: '🏆', title: '30 dagen challenge voltooid!', msg: 'JIJ HEBT HET GEDAAN! Wat een prestatie!' },
+  };
+  const m = messages[streak] || { emoji: '🎉', title: streak + ' dagen streak!', msg: 'Geweldig!' };
+  
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:linear-gradient(135deg,var(--mauve),var(--deep));z-index:400;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:40px;animation:fadeIn .5s ease;';
+  var reviewBtn = streak === 30 ? '<button onclick="this.parentElement.remove();showReviewPrompt();" style="margin-top:16px;background:white;color:var(--deep);border:none;border-radius:50px;padding:14px 32px;font-family:Jost,sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:500;">Deel jouw resultaat</button>' : '';
+  overlay.innerHTML =
+    '<div style="font-size:80px;margin-bottom:20px;">' + m.emoji + '</div>' +
+    '<div style="font-family:Cormorant Garamond,serif;font-size:36px;font-weight:300;color:white;margin-bottom:12px;">' + m.title + '</div>' +
+    '<div style="font-size:14px;color:rgba(255,255,255,.8);font-weight:300;line-height:1.6;margin-bottom:8px;">' + m.msg + '</div>' +
+    '<div style="font-size:28px;margin:16px 0;">&#x1F338;&#x2728;&#x1F338;</div>' +
+    reviewBtn +
+    '<button onclick="this.parentElement.remove()" style="margin-top:16px;background:transparent;border:1.5px solid rgba(255,255,255,.4);color:white;border-radius:50px;padding:10px 28px;font-family:Jost,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:300;">Verder gaan</button>';
+  document.body.appendChild(overlay);
+}
+
+// ── REVIEW / DEEL RESULTAAT ──
+function showReviewPrompt() {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(58,36,48,.85);backdrop-filter:blur(8px);z-index:400;display:flex;align-items:center;justify-content:center;padding:24px;';
+  overlay.innerHTML =
+    '<div style="background:var(--cream);border-radius:24px;padding:36px 28px;max-width:400px;width:100%;text-align:center;">' +
+    '<div style="font-size:48px;margin-bottom:16px;">&#x1F3C6;</div>' +
+    '<div style="font-family:Cormorant Garamond,serif;font-size:28px;color:var(--text);margin-bottom:8px;">Deel jouw resultaat!</div>' +
+    '<div style="font-size:12px;color:var(--muted);font-weight:300;line-height:1.7;margin-bottom:24px;">Jij hebt de 30 dagen challenge voltooid! &#x1F338;<br>Deel jouw succes op Instagram en tag @body_bloom_be.<br>Inspireer anderen om ook te beginnen!</div>' +
+    '<a href="https://www.instagram.com/body_bloom_be" target="_blank" style="display:block;background:linear-gradient(135deg,var(--rose),var(--deep));color:white;border-radius:50px;padding:14px 28px;font-family:Jost,sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;text-decoration:none;margin-bottom:12px;">Ga naar Instagram</a>' +
+    '<button onclick="this.parentElement.parentElement.remove()" style="background:transparent;border:1.5px solid var(--sand);color:var(--muted);border-radius:50px;padding:10px 28px;font-family:Jost,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:300;width:100%;">Sluiten</button>' +
+    '</div>';
+  document.body.appendChild(overlay);
+}
+
+
+// ── JOURNEY JOURNAL ──
+function showJournalTab(tab, btn) {
+  ['notities','metingen','beforeafter','playlist'].forEach(t => {
+    document.getElementById('tab-' + t).style.display = t === tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('.journal-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (tab === 'metingen') loadMetingen();
+  if (tab === 'beforeafter') renderBeforeAfter();
+  if (tab === 'playlist') renderPlaylist();
+}
+
+function showMetingTab(tab, btn) {
+  document.getElementById('meting-dag1-form').style.display = tab === 'dag1' ? 'block' : 'none';
+  document.getElementById('meting-dag30-form').style.display = tab === 'dag30' ? 'block' : 'none';
+  document.querySelectorAll('[id^="meting-dag"]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function saveJournalEntry() {
+  const text = document.getElementById('journalText').value.trim();
+  if (!text) return;
+  const entries = JSON.parse(localStorage.getItem('bb_journal') || '[]');
+  const today = getTodayDayIndex();
+  entries.unshift({
+    dag: today + 1,
+    datum: new Date().toLocaleDateString('nl-BE', { day:'numeric', month:'long', year:'numeric' }),
+    tekst: text,
+    id: Date.now()
+  });
+  localStorage.setItem('bb_journal', JSON.stringify(entries.slice(0, 50)));
+  document.getElementById('journalText').value = '';
+  const saved = document.getElementById('journalSaved');
+  saved.style.display = 'inline';
+  setTimeout(() => { saved.style.display = 'none'; }, 2000);
+  renderJournalEntries();
+}
+
+function renderJournalEntries() {
+  const entries = JSON.parse(localStorage.getItem('bb_journal') || '[]');
+  const el = document.getElementById('journalEntries');
+  if (!el) return;
+  if (entries.length === 0) {
+    el.innerHTML = '<p style="font-size:12px;color:var(--muted);font-weight:300;text-align:center;padding:20px;">Nog geen notities. Schrijf je eerste! 🌸</p>';
+    return;
+  }
+  el.innerHTML = entries.map(e =>
+    '<div class="journal-entry">' +
+    '<div class="journal-entry-date">Dag ' + e.dag + ' · ' + e.datum + '</div>' +
+    '<div class="journal-entry-text">' + e.tekst.replace(/</g,'&lt;') + '</div>' +
+    '</div>'
+  ).join('');
+}
+
+function saveMetingen(dag) {
+  const prefix = dag === 'dag1' ? 'm1' : 'm30';
+  const data = {
+    gewicht: document.getElementById(prefix + '-gewicht').value,
+    taille:  document.getElementById(prefix + '-taille').value,
+    heupen:  document.getElementById(prefix + '-heupen').value,
+    borst:   document.getElementById(prefix + '-borst').value,
+    datum:   new Date().toLocaleDateString('nl-BE'),
+  };
+  localStorage.setItem('bb_metingen_' + dag, JSON.stringify(data));
+  showToast('Metingen opgeslagen! 📏🌸');
+}
+
+function loadMetingen() {
+  ['dag1','dag30'].forEach(dag => {
+    const data = JSON.parse(localStorage.getItem('bb_metingen_' + dag) || 'null');
+    if (!data) return;
+    const prefix = dag === 'dag1' ? 'm1' : 'm30';
+    if (data.gewicht) document.getElementById(prefix + '-gewicht').value = data.gewicht;
+    if (data.taille)  document.getElementById(prefix + '-taille').value  = data.taille;
+    if (data.heupen)  document.getElementById(prefix + '-heupen').value  = data.heupen;
+    if (data.borst)   document.getElementById(prefix + '-borst').value   = data.borst;
+  });
+}
+
+function renderBeforeAfter() {
+  const d1 = JSON.parse(localStorage.getItem('bb_metingen_dag1') || 'null');
+  const d30 = JSON.parse(localStorage.getItem('bb_metingen_dag30') || 'null');
+  const el = document.getElementById('beforeAfterResults');
+  if (!el) return;
+
+  if (!d1 && !d30) {
+    el.innerHTML = '<p style="font-size:12px;color:var(--muted);text-align:center;padding:10px;">Vul eerst je metingen in op de Metingen tab! 📏</p>';
+    return;
+  }
+
+  const fields = [
+    { key: 'gewicht', label: 'Gewicht', unit: 'kg' },
+    { key: 'taille',  label: 'Taille',  unit: 'cm' },
+    { key: 'heupen',  label: 'Heupen',  unit: 'cm' },
+    { key: 'borst',   label: 'Borst',   unit: 'cm' },
+  ];
+
+  let html = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px;">';
+  fields.forEach(f => {
+    const v1 = d1 && d1[f.key] ? parseFloat(d1[f.key]) : null;
+    const v30 = d30 && d30[f.key] ? parseFloat(d30[f.key]) : null;
+    const diff = v1 && v30 ? (v30 - v1).toFixed(1) : null;
+    const color = diff && parseFloat(diff) < 0 ? '#6BA87A' : diff && parseFloat(diff) > 0 ? '#e05555' : 'var(--muted)';
+    html += '<div style="background:var(--cream);border-radius:12px;padding:14px;text-align:center;border:1.5px solid var(--sand);">';
+    html += '<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">' + f.label + '</div>';
+    html += '<div style="font-family:Cormorant Garamond,serif;font-size:20px;color:var(--deep);">' + (v1 || '—') + '<span style="font-size:12px;"> ' + f.unit + '</span></div>';
+    if (diff !== null) {
+      html += '<div style="font-size:13px;font-weight:600;color:' + color + ';margin-top:4px;">' + (parseFloat(diff) > 0 ? '+' : '') + diff + ' ' + f.unit + '</div>';
+    }
+    html += '</div>';
+  });
+  html += '</div>';
+
+  if (d1 && d30) {
+    html += '<div style="background:linear-gradient(135deg,var(--blush),var(--sand));border-radius:12px;padding:14px;text-align:center;">';
+    html += '<div style="font-family:Cormorant Garamond,serif;font-size:16px;color:var(--text);">Jouw 30 dagen transformatie 🌸</div>';
+    html += '<div style="font-size:11px;color:var(--muted);margin-top:4px;font-weight:300;">Van ' + (d1.datum||'dag 1') + ' tot ' + (d30.datum||'dag 30') + '</div>';
+    html += '</div>';
+  }
+
+  el.innerHTML = html;
+}
+
+// Load journal entries on init
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(renderJournalEntries, 500);
+});
+
+
+// ── PLAYLIST ──
+function addPlaylistSong() {
+  const artist = document.getElementById('playlistArtist').value.trim();
+  const song   = document.getElementById('playlistSong').value.trim();
+  const vibe   = document.getElementById('playlistVibe').value;
+  if (!song) { showToast('Vul een nummer in! 🎵'); return; }
+
+  const playlist = JSON.parse(localStorage.getItem('bb_playlist') || '[]');
+  playlist.push({ id: Date.now(), artist, song, vibe });
+  localStorage.setItem('bb_playlist', JSON.stringify(playlist));
+
+  document.getElementById('playlistArtist').value = '';
+  document.getElementById('playlistSong').value = '';
+  renderPlaylist();
+  showToast('Nummer toegevoegd! 🎵🌸');
+}
+
+function deletePlaylistSong(id) {
+  const playlist = JSON.parse(localStorage.getItem('bb_playlist') || '[]');
+  const updated = playlist.filter(s => s.id !== id);
+  localStorage.setItem('bb_playlist', JSON.stringify(updated));
+  renderPlaylist();
+}
+
+function renderPlaylist() {
+  const playlist = JSON.parse(localStorage.getItem('bb_playlist') || '[]');
+  const container = document.getElementById('playlistItems');
+  const empty = document.getElementById('playlistEmpty');
+  if (!container) return;
+
+  if (playlist.length === 0) {
+    container.innerHTML = '';
+    if (empty) empty.style.display = 'block';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+
+  container.innerHTML = playlist.map((s, i) =>
+    '<div class="playlist-item">' +
+    '<div class="playlist-num">' + (i + 1) + '</div>' +
+    '<div class="playlist-info">' +
+    '<div class="playlist-song">' + s.song.replace(/</g,'&lt;') + '</div>' +
+    (s.artist ? '<div class="playlist-artist">' + s.artist.replace(/</g,'&lt;') + '</div>' : '') +
+    '</div>' +
+    '<div class="playlist-vibe">' + s.vibe + '</div>' +
+    '<button class="playlist-delete" onclick="deletePlaylistSong(' + s.id + ')">✕</button>' +
+    '</div>'
+  ).join('');
+}
+
+// Load playlist on init
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(renderPlaylist, 600);
+});
+
+
+// ── WEEKRAPPORT PDF ──
+let selectedWeekReport = 1;
+
+function selectWeekReport(week, btn) {
+  selectedWeekReport = week;
+  document.querySelectorAll('[id^="wr-week"]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  updateWeekReportPreview(week);
+}
+
+function updateWeekReportPreview(week) {
+  const start = (week - 1) * 7;
+  const end = Math.min(start + 7, 30);
+  const REST_DAYS_LOCAL = [7, 14, 21, 28];
+  
+  // Count completed days this week
+  const weekDays = [];
+  for (let i = start; i < end; i++) {
+    weekDays.push({
+      dag: i + 1,
+      voltooid: state.completed.includes(i),
+      rust: REST_DAYS_LOCAL.includes(i + 1)
+    });
+  }
+  const voltooid = weekDays.filter(d => d.voltooid).length;
+  const rustdagen = weekDays.filter(d => d.rust).length;
+  const trainingen = weekDays.filter(d => !d.rust);
+  
+  // Get notes for this week
+  const entries = JSON.parse(localStorage.getItem('bb_journal') || '[]');
+  const weekNotes = entries.filter(e => e.dag >= start + 1 && e.dag <= end);
+  
+  // Get playlist
+  const playlist = JSON.parse(localStorage.getItem('bb_playlist') || '[]');
+  
+  // Get metingen
+  const m1 = JSON.parse(localStorage.getItem('bb_metingen_dag1') || 'null');
+  const m30 = JSON.parse(localStorage.getItem('bb_metingen_dag30') || 'null');
+  
+  const preview = document.getElementById('weekReportPreview');
+  preview.innerHTML = 
+    '<div style="font-family:Cormorant Garamond,serif;font-size:16px;color:var(--deep);margin-bottom:8px;">Week ' + week + ' — Dag ' + (start+1) + ' t/m ' + end + '</div>' +
+    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;">' +
+    '<div style="text-align:center;"><div style="font-size:22px;font-family:Cormorant Garamond,serif;color:var(--deep);">' + voltooid + '</div><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Voltooid</div></div>' +
+    '<div style="text-align:center;"><div style="font-size:22px;font-family:Cormorant Garamond,serif;color:var(--deep);">' + (trainingen.length - voltooid + rustdagen) + '</div><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Gemist</div></div>' +
+    '<div style="text-align:center;"><div style="font-size:22px;font-family:Cormorant Garamond,serif;color:var(--deep);">' + weekNotes.length + '</div><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Notities</div></div>' +
+    '</div>' +
+    '<div style="font-size:11px;color:var(--muted);">Playlist: ' + playlist.length + ' nummers | Metingen dag 1: ' + (m1 ? 'aanwezig' : 'niet ingevuld') + '</div>';
+}
+
+function downloadWeekReport() {
+  const week = selectedWeekReport;
+  const start = (week - 1) * 7;
+  const end = Math.min(start + 7, 30);
+  const REST_DAYS_LOCAL = [7, 14, 21, 28];
+  const userName = localStorage.getItem('bodybloom_access_name') || 'Gebruiker';
+  const datum = new Date().toLocaleDateString('nl-BE', { day:'numeric', month:'long', year:'numeric' });
+
+  const weekDays = [];
+  for (let i = start; i < end; i++) {
+    weekDays.push({ dag: i+1, voltooid: state.completed.includes(i), rust: REST_DAYS_LOCAL.includes(i+1) });
+  }
+  const voltooid = weekDays.filter(d => d.voltooid || d.rust).length;
+  const gemist   = weekDays.filter(d => !d.voltooid && !d.rust).length;
+  const score    = Math.round(voltooid / weekDays.length * 100);
+
+  const entries  = JSON.parse(localStorage.getItem('bb_journal') || '[]');
+  const weekNotes = entries.filter(function(e) { return e.dag >= start+1 && e.dag <= end; });
+  const playlist = JSON.parse(localStorage.getItem('bb_playlist') || '[]');
+  const m1  = JSON.parse(localStorage.getItem('bb_metingen_dag1')  || 'null');
+  const m30 = JSON.parse(localStorage.getItem('bb_metingen_dag30') || 'null');
+
+  // Build day grid HTML
+  var dagGrid = '';
+  weekDays.forEach(function(d) {
+    var cls = d.rust ? 'rust' : d.voltooid ? 'done' : 'miss';
+    var icon = d.rust ? 'Rust' : d.voltooid ? 'V' : '-';
+    dagGrid += '<div class="day-cell ' + cls + '"><div>Dag ' + d.dag + '</div><div style="font-size:14px;">' + icon + '</div></div>';
+  });
+
+  // Build notes HTML
+  var notesHTML = '';
+  if (weekNotes.length > 0) {
+    notesHTML = '<div class="section"><h2>Notities deze week</h2>';
+    weekNotes.forEach(function(n) {
+      notesHTML += '<div class="note"><div class="note-meta">Dag ' + n.dag + ' · ' + n.datum + '</div>';
+      notesHTML += '<div class="note-text">' + n.tekst.replace(/</g,'&lt;') + '</div></div>';
+    });
+    notesHTML += '</div>';
+  }
+
+  // Build metingen HTML
+  var metingenHTML = '';
+  if (m1) {
+    metingenHTML = '<div class="section"><h2>Metingen Dag 1</h2><div class="measure-grid">';
+    metingenHTML += '<div class="measure-item"><div class="measure-val">' + (m1.gewicht||'&mdash;') + '</div><div class="measure-lbl">Gewicht kg</div></div>';
+    metingenHTML += '<div class="measure-item"><div class="measure-val">' + (m1.taille||'&mdash;') + '</div><div class="measure-lbl">Taille cm</div></div>';
+    metingenHTML += '<div class="measure-item"><div class="measure-val">' + (m1.heupen||'&mdash;') + '</div><div class="measure-lbl">Heupen cm</div></div>';
+    metingenHTML += '<div class="measure-item"><div class="measure-val">' + (m1.borst||'&mdash;') + '</div><div class="measure-lbl">Borst cm</div></div>';
+    metingenHTML += '</div></div>';
+  }
+
+  // Build playlist HTML
+  var playlistHTML = '';
+  if (playlist.length > 0) {
+    playlistHTML = '<div class="section"><h2>Mijn Workout Playlist (' + playlist.length + ' nummers)</h2>';
+    playlist.forEach(function(s, i) {
+      playlistHTML += '<div class="playlist-item">';
+      playlistHTML += '<div class="pl-num">' + (i+1) + '</div>';
+      playlistHTML += '<div><div class="pl-song">' + s.song.replace(/</g,'&lt;') + '</div>';
+      if (s.artist) playlistHTML += '<div class="pl-artist">' + s.artist.replace(/</g,'&lt;') + '</div>';
+      playlistHTML += '</div><div style="margin-left:auto;">' + s.vibe + '</div></div>';
+    });
+    playlistHTML += '</div>';
+  }
+
+  var html = '<!DOCTYPE html><html lang="nl"><head><meta charset="UTF-8">' +
+    '<style>' +
+    '* { margin:0; padding:0; box-sizing:border-box; }' +
+    'body { font-family: Georgia, serif; background: #fdf6f0; color: #3a2430; padding: 40px; }' +
+    '.header { background: linear-gradient(135deg,#9b4d6a,#c25c76); color:white; padding:32px; border-radius:16px; margin-bottom:24px; text-align:center; }' +
+    '.header h1 { font-size:32px; font-weight:300; letter-spacing:-1px; }' +
+    '.header p { font-size:12px; opacity:.8; margin-top:6px; letter-spacing:2px; text-transform:uppercase; }' +
+    '.section { background:white; border-radius:12px; padding:20px; margin-bottom:16px; border-left:4px solid #c25c76; }' +
+    '.section h2 { font-size:16px; color:#c25c76; margin-bottom:12px; font-weight:400; }' +
+    '.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:12px; }' +
+    '.stat { text-align:center; background:#fdf6f0; border-radius:8px; padding:12px; }' +
+    '.stat-num { font-size:28px; color:#c25c76; font-weight:300; }' +
+    '.stat-lbl { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#8a6070; margin-top:2px; }' +
+    '.day-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; }' +
+    '.day-cell { text-align:center; padding:8px 4px; border-radius:8px; font-size:11px; }' +
+    '.day-cell.done { background:#c25c76; color:white; }' +
+    '.day-cell.rust { background:#f2c4ce; color:#9b4d6a; }' +
+    '.day-cell.miss { background:#f5e6d8; color:#c9a98a; }' +
+    '.note { background:#fdf6f0; border-radius:8px; padding:10px 12px; margin-bottom:8px; border-left:3px solid #e8879c; }' +
+    '.note-meta { font-size:9px; letter-spacing:1px; text-transform:uppercase; color:#8a6070; margin-bottom:4px; }' +
+    '.note-text { font-size:12px; line-height:1.6; }' +
+    '.playlist-item { display:flex; gap:10px; align-items:center; padding:8px 0; border-bottom:1px solid #f5e6d8; }' +
+    '.pl-num { font-size:16px; color:#c25c76; font-weight:300; min-width:24px; }' +
+    '.pl-song { font-size:12px; font-weight:500; }' +
+    '.pl-artist { font-size:11px; color:#8a6070; }' +
+    '.measure-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }' +
+    '.measure-item { text-align:center; background:#fdf6f0; border-radius:8px; padding:10px; }' +
+    '.measure-val { font-size:20px; color:#c25c76; font-weight:300; }' +
+    '.measure-lbl { font-size:9px; letter-spacing:1px; text-transform:uppercase; color:#8a6070; }' +
+    '.footer { text-align:center; margin-top:24px; font-size:10px; color:#c9a98a; letter-spacing:2px; text-transform:uppercase; }' +
+    '@media print { body { padding:20px; } }' +
+    '</style></head><body>' +
+    '<div class="header">' +
+    '<p>Body Bloom by Sofia &middot; 12&middot;3&middot;30 Challenge</p>' +
+    '<h1>Week ' + week + ' Rapport</h1>' +
+    '<p>Dag ' + (start+1) + ' t/m ' + end + ' &middot; ' + userName + ' &middot; ' + datum + '</p>' +
+    '</div>' +
+    '<div class="section"><h2>Voortgang deze week</h2>' +
+    '<div class="stats">' +
+    '<div class="stat"><div class="stat-num">' + voltooid + '</div><div class="stat-lbl">Afgerond</div></div>' +
+    '<div class="stat"><div class="stat-num">' + gemist + '</div><div class="stat-lbl">Gemist</div></div>' +
+    '<div class="stat"><div class="stat-num">' + score + '%</div><div class="stat-lbl">Score</div></div>' +
+    '</div>' +
+    '<div class="day-grid">' + dagGrid + '</div>' +
+    '</div>' +
+    notesHTML + metingenHTML + playlistHTML +
+    '<div class="footer">&copy; 2026 Body Bloom by Sofia &middot; 12&middot;3&middot;30 Loopband Challenge &middot; Exclusief voor Body Bloom klanten</div>' +
+    '</body></html>';
+
+  var win = window.open('', '_blank');
+  if (!win) { showToast('Pop-up geblokkeerd! Sta pop-ups toe in Safari. 🌸'); return; }
+  win.document.write(html);
+  win.document.close();
+  setTimeout(function() { win.print(); }, 600);
+}
+
+
+// ── MOUNT EVEREST CONSTANTEN ──
+const EVEREST_HEIGHT = 8849;
+const METERS_PER_WORKOUT = Math.round(EVEREST_HEIGHT / 30); // ~295m per dag
+
+const CLIMB_WAYPOINTS = [
+  {dag:0,  x:488, y:328}, // Base Camp
+  {dag:6,  x:488, y:328}, // Base Camp
+  {dag:12, x:449, y:212}, // Camp 1
+  {dag:18, x:394, y:188}, // Camp 2
+  {dag:24, x:352, y:132}, // Camp 3
+  {dag:27, x:310, y:90},  // Camp 4 South Col
+  {dag:29, x:305, y:52},  // Hillary Step
+  {dag:30, x:340, y:36},  // Summit
+];
+
+const CAMPS = [
+  { dag: 0,  label: 'Base Camp — Lace up! Jij kan dit!' },
+  { dag: 6,  label: 'Base Camp 5.182m — Op weg!' },
+  { dag: 12, label: 'Camp 1 bereikt! 6.065m' },
+  { dag: 18, label: 'Camp 2 bereikt! 6.400m' },
+  { dag: 24, label: 'Camp 3 bereikt! 7.162m' },
+  { dag: 27, label: 'South Col bereikt! 7.906m' },
+  { dag: 29, label: 'Hillary Step! 8.790m' },
+  { dag: 30, label: 'EVEREST SUMMIT! 8.849m' },
+];
+
+function getClimberPosition(done) {
+  // Find which segment we're in
+  for (let i = 0; i < CLIMB_WAYPOINTS.length - 1; i++) {
+    const from = CLIMB_WAYPOINTS[i];
+    const to   = CLIMB_WAYPOINTS[i + 1];
+    if (done >= from.dag && done <= to.dag) {
+      const pct = (done - from.dag) / (to.dag - from.dag);
+      return {
+        x: from.x + (to.x - from.x) * pct,
+        y: from.y + (to.y - from.y) * pct,
+      };
+    }
+  }
+  return CLIMB_WAYPOINTS[CLIMB_WAYPOINTS.length - 1];
+}
+
+function renderEverest() {
+  const done = state.completed.length;
+  const totaalE = getTrainableDays();
+  const meters = Math.min(Math.round(done / totaalE * EVEREST_HEIGHT), EVEREST_HEIGHT);
+  const pct = Math.min(Math.round(done / totaalE * 100), 100);
+  const remain = Math.max(EVEREST_HEIGHT - meters, 0);
+
+  // Update stats
+  const mEl = document.getElementById('everestMeters');
+  const pEl = document.getElementById('everestPct');
+  const rEl = document.getElementById('everestRemain');
+  if (mEl) mEl.textContent = meters.toLocaleString('nl-BE') + 'm';
+  if (pEl) pEl.textContent = pct + '%';
+  if (rEl) rEl.textContent = remain.toLocaleString('nl-BE') + 'm';
+
+  // Update camp badge
+  const camp = CAMPS.filter(c => done >= c.dag).pop() || CAMPS[0];
+  const badge = document.getElementById('campBadge');
+  if (badge) badge.textContent = camp.label;
+
+  // Move climber on SVG
+  const pos = getClimberPosition(done);
+  const climber = document.getElementById('bbClimber');
+  if (climber) {
+    climber.setAttribute('transform', 'translate(' + pos.x.toFixed(1) + ',' + pos.y.toFixed(1) + ')');
+  }
+
+  // Draw path
+  const pathEl = document.getElementById('bbPath');
+  if (pathEl) {
+    let pts = '488,328';
+    for (let d = 1; d <= done; d++) {
+      const p = getClimberPosition(d);
+      pts += ' ' + p.x.toFixed(1) + ',' + p.y.toFixed(1);
+    }
+    pathEl.setAttribute('points', pts);
+  }
+
+  // Update SVG stats text
+  const mSVG = document.getElementById('bbMetersText');
+  const pSVG = document.getElementById('bbPctText');
+  const rSVG = document.getElementById('bbRemainText');
+  if (mSVG) mSVG.textContent = meters.toLocaleString('nl-BE') + 'm geklommen';
+  if (pSVG) pSVG.textContent = pct + '% van Everest (8.849m)';
+  if (rSVG) rSVG.textContent = remain.toLocaleString('nl-BE') + 'm te gaan';
+
+  // Update streak in journey
+  const streak = calcStreak();
+  const snEl = document.getElementById('streakJourneyNum');
+  if (snEl) snEl.textContent = streak + ' 🔥';
+
+  // Update milestone badges
+  const milestones = [3, 7, 14, 21, 30];
+  milestones.forEach(m => {
+    const el = document.getElementById('sm' + m);
+    if (el) {
+      if (streak >= m) el.classList.add('reached');
+      else el.classList.remove('reached');
+    }
+  });
+}
+
+
+// ── MINI EVEREST IN TIMER ──
+const MINI_WAYPOINTS = [
+  {dag:0,  x:180, y:65}, // Base Camp
+  {dag:6,  x:180, y:65}, // Base Camp
+  {dag:12, x:158, y:52}, // Camp 1
+  {dag:18, x:140, y:40}, // Camp 2
+  {dag:24, x:128, y:28}, // Camp 3
+  {dag:27, x:118, y:18}, // South Col
+  {dag:29, x:112, y:11}, // Hillary Step
+  {dag:30, x:106, y:5},  // Summit
+];
+
+function getMiniClimberPos(done) {
+  for (var i = 0; i < MINI_WAYPOINTS.length - 1; i++) {
+    var from = MINI_WAYPOINTS[i];
+    var to   = MINI_WAYPOINTS[i + 1];
+    if (done >= from.dag && done <= to.dag) {
+      var pct = (done - from.dag) / (to.dag - from.dag);
+      return {
+        x: from.x + (to.x - from.x) * pct,
+        y: from.y + (to.y - from.y) * pct,
+      };
+    }
+  }
+  return MINI_WAYPOINTS[MINI_WAYPOINTS.length - 1];
+}
+
+function renderMiniEverest() {
+  var done    = state.completed ? state.completed.length : 0;
+  var meters  = done * METERS_PER_WORKOUT;
+  var pct     = Math.min(Math.round(done / 30 * 100), 100);
+  var camp    = CAMPS.filter(function(c) { return done >= c.dag; }).pop() || CAMPS[0];
+  var campShort = camp.label.replace('bereikt!','').replace('Lace up!','Start').replace('EVEREST TOP! Jij hebt het gedaan!','TOP!').trim();
+
+  var elM = document.getElementById('miniMeters');
+  var elC = document.getElementById('miniCamp');
+  var elP = document.getElementById('miniPct');
+  if (elM) elM.textContent = meters.toLocaleString('nl-BE') + 'm';
+  if (elC) elC.textContent = campShort;
+  if (elP) elP.textContent = pct + '%';
+
+  // Move climber
+  var pos = getMiniClimberPos(done);
+  var climber = document.getElementById('miniClimber');
+  if (climber) climber.setAttribute('transform', 'translate(' + pos.x.toFixed(1) + ',' + pos.y.toFixed(1) + ')');
+
+  // Draw path
+  var pathEl = document.getElementById('miniPath');
+  if (pathEl) {
+    var pts = '180,65';
+    for (var d = 1; d <= done; d++) {
+      var p = getMiniClimberPos(d);
+      pts += ' ' + p.x.toFixed(1) + ',' + p.y.toFixed(1);
+    }
+    pathEl.setAttribute('points', pts);
+  }
+}
+
+
+function getCurrentHelling() {
+  var done = state.completed ? state.completed.length : 0;
+  var freq = state.freq || 3;
+
+  // Full challenge - always fixed progression
+  if (!state.programOption || state.programOption === 'full') {
+    var week = Math.floor(done / 6) + 1;
+    if (week <= 1) return 6;
+    if (week === 2) return 8;
+    if (week === 3) return 10;
+    return 12;
+  }
+
+  // Custom: use hellingValues array
+  if (state.hellingValues && state.hellingValues.length > 0) {
+    var mode = state.hellingMode || 'week';
+    var idx = 0;
+    if (mode === 'week') {
+      idx = Math.floor(done / freq); // week index
+    } else {
+      // maand: 3x/week = ~13 sess/maand, 2x/week = ~9 sess/maand
+      var sessPerMaand = freq === 3 ? 13 : 9;
+      idx = Math.floor(done / sessPerMaand);
+    }
+    idx = Math.min(idx, state.hellingValues.length - 1);
+    var val = state.hellingValues[idx];
+    if (val === '12-40min') return 12; // 40 min variant
+    return val || 12;
+  }
+
+  return 12;
+}
+
+function getCurrentWeekNum() {
+  var done = state.completed ? state.completed.length : 0;
+  var sessPerWeek = state.freq || 3;
+  return Math.floor(done / sessPerWeek) + 1;
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── INIT ──
+loadState();
+
+// ── TOEGANG UIT DE LINK ──
+// Een link als  ...app/#code=BB-XXXX-XXXX  logt de klant meteen in.
+// Ze hoeft nooit iets te typen. Ook niet als haar telefoon de app vergeten is.
+function codeUitLink() {
+  var bronnen = [window.location.hash.slice(1), window.location.search.slice(1)];
+  for (var i = 0; i < bronnen.length; i++) {
+    var m = /(?:^|&)(?:code|c)=([^&]+)/i.exec(bronnen[i]);
+    if (m) return decodeURIComponent(m[1]).trim().toUpperCase();
+  }
+  return '';
+}
+
+// Haalt de code weer uit de adresbalk, zodat hij niet zichtbaar blijft staan.
+function wisLinkCode() {
+  try {
+    var zoek = window.location.search
+      .replace(/(?:^\?|&)(?:code|c)=[^&]*/gi, '')
+      .replace(/^&/, '?');
+    if (zoek === '?') zoek = '';
+    history.replaceState(null, '', window.location.pathname + zoek);
+  } catch (e) {}
+}
+
+function bewaarToegang(hash, naam) {
+  var jaar = Date.now() + 365 * 24 * 60 * 60 * 1000;
+  localStorage.setItem('bodybloom_access', hash);
+  localStorage.setItem('bodybloom_access_expiry', jaar.toString());
+  if (naam !== undefined) localStorage.setItem('bodybloom_access_name', naam);
+}
+
+// ── INIT ──
+window.addEventListener('DOMContentLoaded', async function() {
+  // Render quote direct bij laden — onafhankelijk van toegangscode
+  setTimeout(renderQuote, 100);
+  const savedAccess = localStorage.getItem('bodybloom_access');
+  const expiry = parseInt(localStorage.getItem('bodybloom_access_expiry') || '0');
+  const notExpired = expiry > Date.now();
+  let accessOK = savedAccess && KNOWN_CODES_HASHED.includes(savedAccess) && notExpired;
+  if (!notExpired && savedAccess) {
+    // Code vervallen — wis opgeslagen code
+    localStorage.removeItem('bodybloom_access');
+    localStorage.removeItem('bodybloom_access_expiry');
+  }
+
+  // Verberg altijd beide modals eerst
+  document.getElementById('accessModalOverlay').classList.add('hidden');
+  document.getElementById('modalOverlay').classList.add('hidden');
+
+  // Staat er een code in de link? Dan meteen binnen, zonder typen.
+  const linkCode = codeUitLink();
+  if (!accessOK && linkCode) {
+    try {
+      const linkHash = await hashCode(linkCode);
+      if (KNOWN_CODES_HASHED.includes(linkHash)) {
+        bewaarToegang(linkHash, naamUitCode(linkCode));
+        accessOK = true;
+      }
+    } catch (e) {}
+  }
+  if (linkCode) wisLinkCode();
+
+  if (!accessOK) {
+    // Geen geldige code — toon toegangsscherm
+    document.getElementById('accessModalOverlay').classList.remove('hidden');
+    return;
+  }
+
+  // Toegang in orde — zet de teller weer op een vol jaar vanaf vandaag.
+  // Wie de app blijft gebruiken, wordt dus nooit buitengesloten.
+  bewaarToegang(localStorage.getItem('bodybloom_access'));
+
+  // Code OK — ga verder
+  if (state.startDate) {
+    render();
+    renderHRZones();
+    const d = new Date(state.startDate);
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth()+1).padStart(2,'0');
+    const dd = String(d.getDate()).padStart(2,'0');
+    const inp = document.getElementById('startDateInput');
+    if (inp) inp.value = yyyy+'-'+mm+'-'+dd;
+    const lvl = state.fitnessLevel || 'beginner';
+    const fbtn = document.getElementById('fb-' + lvl);
+    if (fbtn) {
+      document.querySelectorAll('#fb-beginner,#fb-gemiddeld,#fb-gevorderd').forEach(b => b.classList.remove('active'));
+      fbtn.classList.add('active');
+    }
+  } else {
+    document.getElementById('modalOverlay').classList.remove('hidden');
+  }
+});
+
+// ── PWA INSTALL ──
+let deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('pwaBanner').style.display = 'block';
+});
+
+function installPWA() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((result) => {
+      if (result.outcome === 'accepted') {
+        showToast('App geïnstalleerd! 🌸');
+      }
+      deferredPrompt = null;
+      document.getElementById('pwaBanner').style.display = 'none';
+    });
+  }
+}
+
+window.addEventListener('appinstalled', () => {
+  showToast('Body Bloom app geïnstalleerd! 💪🌸');
+  document.getElementById('pwaBanner').style.display = 'none';
+});
+
+// ── iOS INSTALL TIP ──
+function isIOS() {
+  return /iphone|ipad|ipod/i.test(navigator.userAgent);
+}
+function isInStandaloneMode() {
+  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+}
+
+// Toon iOS installatie tip na 3 seconden
+if (isIOS() && !isInStandaloneMode()) {
+  setTimeout(function() {
+    var tip = document.createElement('div');
+    tip.id = 'iosTip';
+    tip.innerHTML = '<div style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#3a2430;color:white;padding:14px 20px;border-radius:16px;font-size:12px;text-align:center;z-index:100;max-width:280px;">' +
+      '<strong>Installeer op iPhone:</strong><br>' +
+      'Tik op Delen en kies Zet op beginscherm' +
+      '<br><button onclick="var t=document.getElementById(\"iosTip\");if(t)t.remove()" style="margin-top:10px;background:#c25c76;color:white;border:none;border-radius:50px;padding:6px 16px;cursor:pointer;">Begrepen</button>' +
+      '</div>';
+    document.body.appendChild(tip);
+    setTimeout(function() { var t=document.getElementById('iosTip'); if(t) t.remove(); }, 12000);
+  }, 3000);
+}
+
+</script>
+</body>
+</html>
