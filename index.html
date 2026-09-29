@@ -1184,7 +1184,7 @@
   <div class="modal" style="max-height:88vh;overflow-y:auto;padding:28px 24px;">
     <div class="modal-logo">Body Bloom by Sofia</div>
     <h2>Welkom bij jouw<br><em style="color:var(--deep)">12·3·30 Challenge</em></h2>
-    <p style="font-size:9px;color:var(--taupe);text-align:center;margin-top:-8px;margin-bottom:14px;letter-spacing:1px;">v4.0</p>
+    <p style="font-size:9px;color:var(--taupe);text-align:center;margin-top:-8px;margin-bottom:14px;letter-spacing:1px;">v4.1</p>
 
     <div class="modal-input-wrap">
       <input type="text" class="modal-input" id="nameInput" placeholder="Jouw voornaam (optioneel)" maxlength="30">
@@ -2132,12 +2132,10 @@
   <div style="background:var(--white);border-radius:20px;padding:28px;margin-bottom:28px;box-shadow:0 2px 20px rgba(194,92,118,.08);">
     <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text);margin-bottom:4px;">Weekrapport <em style="font-style:italic;color:var(--deep)">PDF</em></div>
     <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;font-weight:300;">Download jouw wekelijkse voortgang</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
-      <button class="week-tab active" id="wr-week1" onclick="selectWeekReport(1,this)">Week 1</button>
-      <button class="week-tab" id="wr-week2" onclick="selectWeekReport(2,this)">Week 2</button>
-      <button class="week-tab" id="wr-week3" onclick="selectWeekReport(3,this)">Week 3</button>
-      <button class="week-tab" id="wr-week4" onclick="selectWeekReport(4,this)">Week 4</button>
-      <button class="week-tab" id="wr-week5" onclick="selectWeekReport(5,this)">Week 5</button>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;">
+      <button class="week-tab" id="wrPrev" type="button" onclick="wijzigRapportWeek(-1)" aria-label="Vorige week" style="min-width:48px;font-size:18px;">&lsaquo;</button>
+      <div id="wrWeekLabel" style="font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--deep);text-align:center;">Week 1</div>
+      <button class="week-tab" id="wrNext" type="button" onclick="wijzigRapportWeek(1)" aria-label="Volgende week" style="min-width:48px;font-size:18px;">&rsaquo;</button>
     </div>
     <div id="weekReportPreview" style="background:var(--cream);border-radius:12px;padding:16px;margin-bottom:16px;font-size:12px;color:var(--muted);font-weight:300;">
       Selecteer een week om het rapport te bekijken.
@@ -2170,7 +2168,7 @@
 <div style="height:40px;"></div>
 
 <footer>
-  <strong>© 2026 Body Bloom by Sofia · v4.0</strong> — Alle rechten voorbehouden<br>
+  <strong>© 2026 Body Bloom by Sofia · v4.1</strong> — Alle rechten voorbehouden<br>
   <span style="opacity:.6;margin-top:6px;display:block;letter-spacing:2px;font-size:10px;text-transform:uppercase;">Exclusief voor Body&bull;Bloom klanten</span>
   <div style="margin-top:10px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
     <button class="disclaimer-link" onclick="openDisclaimer()">Disclaimer</button>
@@ -2758,6 +2756,7 @@ function render() {
 
   renderWeekTabs();
   renderTodayCard();
+  try { toonRapportWeek(); } catch (e) {}
   renderGrid(state.currentWeek);
   renderQuote();
   renderEverest();
@@ -2840,11 +2839,19 @@ function renderTodayCard() {
   const d = DAY_DATA[today] || DAY_DATA[TOTAL_DAYS - 1];
   var elDayNum = document.getElementById('todayDayNum');
   var elDayTitle = document.getElementById('todayTitle');
+  const maat = isMaatProgramma();
   if (elDayNum) elDayNum.textContent = today + 1;
-  if (elDayTitle) elDayTitle.textContent = 'Dag ' + (today + 1) + ' — ' + d.title;
+  if (elDayTitle) {
+    if (maat) {
+      var titel = REST_DAYS.includes(today + 1) ? 'Blijf in je ritme' : d.title;
+      elDayTitle.textContent = 'Sessie ' + (today + 1) + ' — ' + titel;
+    } else {
+      elDayTitle.textContent = 'Dag ' + (today + 1) + ' — ' + d.title;
+    }
+  }
 
   const isDone = state.completed.includes(today);
-  const isRest = REST_DAYS.includes(today + 1);
+  const isRest = !maat && isFullRestDay(today);
   const btn = document.getElementById('markDoneBtn');
 
   if (isRest) {
@@ -2924,6 +2931,11 @@ function renderGrid(week) {
   renderSchemaLegend(trainingDays, isCustom);
 }
 
+
+// Programma op maat (2x of 3x per week) of de volledige challenge?
+function isMaatProgramma() {
+  return !!(state.programOption && state.programOption !== 'full' && (state.trainingDays || []).length);
+}
 
 // ── RUSTDAGEN VOLLEDIGE CHALLENGE (zondag + eventueel 2de dag) ──
 const WEEKDAG_INDEX = { ma:0, di:1, wo:2, do:3, vr:4, za:5, zo:6 };
@@ -3098,8 +3110,8 @@ function markTodayDone() {
 function getTodayDayIndex() {
   // Toon altijd de eerstvolgende onvoltooide dag
   for (let i = 0; i < TOTAL_DAYS; i++) {
-    // Sla rustdagen over
-    if (isFullRestDay(i)) continue;
+    // Sla rustdagen over (alleen bij de volledige challenge; bij 2x/3x telt elke sessie)
+    if (!isMaatProgramma() && isFullRestDay(i)) continue;
     // Eerste dag die nog niet voltooid is
     if (!state.completed.includes(i)) return i;
   }
@@ -3642,7 +3654,7 @@ function renderJournalEntries() {
   }
   el.innerHTML = entries.map(e =>
     '<div class="journal-entry">' +
-    '<div class="journal-entry-date">Dag ' + e.dag + ' · ' + e.datum + '</div>' +
+    '<div class="journal-entry-date">' + (isMaatProgramma() ? 'Sessie ' : 'Dag ') + e.dag + ' · ' + e.datum + '</div>' +
     '<div class="journal-entry-text">' + e.tekst.replace(/</g,'&lt;') + '</div>' +
     '</div>'
   ).join('');
@@ -3789,74 +3801,105 @@ function selectWeekReport(week, btn) {
   updateWeekReportPreview(week);
 }
 
-function updateWeekReportPreview(week) {
-  const start = (week - 1) * 7;
-  const end = Math.min(start + 7, 30);
-  const REST_DAYS_LOCAL = [7, 14, 21, 28];
-  
-  // Count completed days this week
-  const weekDays = [];
-  for (let i = start; i < end; i++) {
-    weekDays.push({
-      dag: i + 1,
-      voltooid: state.completed.includes(i),
-      rust: REST_DAYS_LOCAL.includes(i + 1)
-    });
+// Eén plek die per week uitrekent wat er gepland was en wat af is.
+// Rekent exact zoals het rooster: volledige challenge per dag, 2x/3x per sessie.
+function weekOverzicht(week) {
+  var cellen = [], gepland = 0, afgerond = 0;
+  if (!isMaatProgramma()) {
+    var start = (week - 1) * 7, end = Math.min(start + 7, TOTAL_DAYS);
+    for (var i = start; i < end; i++) {
+      var rust = isFullRestDay(i);
+      var klaar = !rust && state.completed.includes(i);
+      if (!rust) { gepland++; if (klaar) afgerond++; }
+      cellen.push({ boven: 'Dag ' + (i + 1), onder: rust ? 'Rust' : (klaar ? '&#10003;' : '&#9675;'), soort: rust ? 'rust' : (klaar ? 'done' : 'open') });
+    }
+    return { cellen: cellen, gepland: gepland, afgerond: afgerond,
+             bereik: 'Dag ' + (start + 1) + ' t/m ' + end, van: start + 1, tot: end };
   }
-  const voltooid = weekDays.filter(d => d.voltooid).length;
-  const rustdagen = weekDays.filter(d => d.rust).length;
-  const trainingen = weekDays.filter(d => !d.rust);
-  
-  // Get notes for this week
-  const entries = JSON.parse(localStorage.getItem('bb_journal') || '[]');
-  const weekNotes = entries.filter(e => e.dag >= start + 1 && e.dag <= end);
-  
-  // Get playlist
-  const playlist = JSON.parse(localStorage.getItem('bb_playlist') || '[]');
-  
-  // Get metingen
-  const m1 = JSON.parse(localStorage.getItem('bb_metingen_dag1') || 'null');
-  const m30 = JSON.parse(localStorage.getItem('bb_metingen_dag30') || 'null');
-  
-  const preview = document.getElementById('weekReportPreview');
-  preview.innerHTML = 
-    '<div style="font-family:Cormorant Garamond,serif;font-size:16px;color:var(--deep);margin-bottom:8px;">Week ' + week + ' — Dag ' + (start+1) + ' t/m ' + end + '</div>' +
-    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;">' +
-    '<div style="text-align:center;"><div style="font-size:22px;font-family:Cormorant Garamond,serif;color:var(--deep);">' + voltooid + '</div><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Voltooid</div></div>' +
-    '<div style="text-align:center;"><div style="font-size:22px;font-family:Cormorant Garamond,serif;color:var(--deep);">' + (trainingen.length - voltooid + rustdagen) + '</div><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Gemist</div></div>' +
-    '<div style="text-align:center;"><div style="font-size:22px;font-family:Cormorant Garamond,serif;color:var(--deep);">' + weekNotes.length + '</div><div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">Notities</div></div>' +
-    '</div>' +
-    '<div style="font-size:11px;color:var(--muted);">Playlist: ' + playlist.length + ' nummers | Metingen dag 1: ' + (m1 ? 'aanwezig' : 'niet ingevuld') + '</div>';
+  var td = state.trainingDays, freq = state.freq || 3;
+  var rustDagen = getRestDaysForSchedule(td);
+  var rustLabel = rustDagen.length === 1 ? 'Rust/Yoga' : 'Rust';
+  var ALLE = ['ma','di','wo','do','vr','za','zo'];
+  var KORT = { ma:'Ma', di:'Di', wo:'Wo', do:'Do', vr:'Vr', za:'Za', zo:'Zo' };
+  var s0 = (week - 1) * freq;
+  ALLE.forEach(function(k) {
+    var pos = td.indexOf(k);
+    if (pos >= 0) {
+      var idx = s0 + pos;
+      if (idx >= TOTAL_DAYS) { cellen.push({ boven: KORT[k], onder: '', soort: 'leeg' }); return; }
+      var klaar = state.completed.includes(idx);
+      gepland++; if (klaar) afgerond++;
+      cellen.push({ boven: KORT[k], onder: klaar ? '&#10003;' : '&#9675;', sub: 'Sessie ' + (idx + 1), soort: klaar ? 'done' : 'open' });
+    } else if (rustDagen.includes(k)) {
+      cellen.push({ boven: KORT[k], onder: rustLabel, soort: 'rust' });
+    } else {
+      cellen.push({ boven: KORT[k], onder: 'Vrij', soort: 'vrij' });
+    }
+  });
+  var eind = Math.min(s0 + freq, TOTAL_DAYS);
+  return { cellen: cellen, gepland: gepland, afgerond: afgerond,
+           bereik: 'Sessie ' + (s0 + 1) + ' t/m ' + eind, van: s0 + 1, tot: eind };
+}
+
+let rapportWeekZelfGekozen = false;
+function wijzigRapportWeek(stap) {
+  rapportWeekZelfGekozen = true;
+  selectedWeekReport = Math.min(Math.max(1, selectedWeekReport + stap), getTotalWeeks());
+  toonRapportWeek();
+}
+
+function toonRapportWeek() {
+  var max = getTotalWeeks();
+  if (!rapportWeekZelfGekozen) selectedWeekReport = state.currentWeek || 1;
+  selectedWeekReport = Math.min(Math.max(1, selectedWeekReport), max);
+  var lbl = document.getElementById('wrWeekLabel');
+  if (lbl) lbl.innerHTML = 'Week ' + selectedWeekReport + ' <span style="font-size:13px;color:var(--muted);">van ' + max + '</span>';
+  var vorige = document.getElementById('wrPrev'), volgende = document.getElementById('wrNext');
+  if (vorige) { vorige.disabled = selectedWeekReport <= 1; vorige.style.opacity = vorige.disabled ? '.3' : '1'; }
+  if (volgende) { volgende.disabled = selectedWeekReport >= max; volgende.style.opacity = volgende.disabled ? '.3' : '1'; }
+  updateWeekReportPreview(selectedWeekReport);
+}
+
+function updateWeekReportPreview(week) {
+  var o = weekOverzicht(week);
+  var entries = JSON.parse(localStorage.getItem('bb_journal') || '[]');
+  var notities = entries.filter(function(e) { return e.dag >= o.van && e.dag <= o.tot; }).length;
+  var preview = document.getElementById('weekReportPreview');
+  if (!preview) return;
+  var blok = function(getal, tekst) {
+    return '<div style="text-align:center;"><div style="font-size:22px;font-family:Cormorant Garamond,serif;color:var(--deep);">' + getal + '</div>' +
+           '<div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);">' + tekst + '</div></div>';
+  };
+  preview.innerHTML =
+    '<div style="font-family:Cormorant Garamond,serif;font-size:16px;color:var(--deep);margin-bottom:8px;">' + o.bereik + '</div>' +
+    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">' +
+      blok(o.afgerond + ' / ' + o.gepland, 'Afgerond') +
+      blok(Math.max(o.gepland - o.afgerond, 0), 'Nog te doen') +
+      blok(notities, 'Notities') +
+    '</div>';
 }
 
 function downloadWeekReport() {
   const week = selectedWeekReport;
-  const start = (week - 1) * 7;
-  const end = Math.min(start + 7, 30);
-  const REST_DAYS_LOCAL = [7, 14, 21, 28];
   const userName = localStorage.getItem('bodybloom_access_name') || '';
   const datum = new Date().toLocaleDateString('nl-BE', { day:'numeric', month:'long', year:'numeric' });
 
-  const weekDays = [];
-  for (let i = start; i < end; i++) {
-    weekDays.push({ dag: i+1, voltooid: state.completed.includes(i), rust: REST_DAYS_LOCAL.includes(i+1) });
-  }
-  const voltooid = weekDays.filter(d => d.voltooid || d.rust).length;
-  const gemist   = weekDays.filter(d => !d.voltooid && !d.rust).length;
-  const score    = Math.round(voltooid / weekDays.length * 100);
+  const o = weekOverzicht(week);
+  const voltooid = o.afgerond;
+  const nogTeDoen = Math.max(o.gepland - o.afgerond, 0);
+  const score    = o.gepland ? Math.round(o.afgerond / o.gepland * 100) : 0;
 
   const entries  = JSON.parse(localStorage.getItem('bb_journal') || '[]');
-  const weekNotes = entries.filter(function(e) { return e.dag >= start+1 && e.dag <= end; });
+  const weekNotes = entries.filter(function(e) { return e.dag >= o.van && e.dag <= o.tot; });
   const playlist = JSON.parse(localStorage.getItem('bb_playlist') || '[]');
   const m1  = JSON.parse(localStorage.getItem('bb_metingen_dag1')  || 'null');
-  const m30 = JSON.parse(localStorage.getItem('bb_metingen_dag30') || 'null');
 
-  // Build day grid HTML
+  // Dagen van de week, zoals in het rooster
   var dagGrid = '';
-  weekDays.forEach(function(d) {
-    var cls = d.rust ? 'rust' : d.voltooid ? 'done' : 'miss';
-    var icon = d.rust ? 'Rust' : d.voltooid ? 'V' : '-';
-    dagGrid += '<div class="day-cell ' + cls + '"><div>Dag ' + d.dag + '</div><div style="font-size:14px;">' + icon + '</div></div>';
+  o.cellen.forEach(function(c) {
+    dagGrid += '<div class="day-cell ' + c.soort + '"><div>' + c.boven + '</div>' +
+               '<div class="dc-onder">' + c.onder + '</div>' +
+               (c.sub ? '<div class="dc-sub">' + c.sub + '</div>' : '') + '</div>';
   });
 
   // Build notes HTML
@@ -3864,7 +3907,7 @@ function downloadWeekReport() {
   if (weekNotes.length > 0) {
     notesHTML = '<div class="section"><h2>Notities deze week</h2>';
     weekNotes.forEach(function(n) {
-      notesHTML += '<div class="note"><div class="note-meta">Dag ' + n.dag + ' · ' + n.datum + '</div>';
+      notesHTML += '<div class="note"><div class="note-meta">' + (isMaatProgramma() ? 'Sessie ' : 'Dag ') + n.dag + ' · ' + n.datum + '</div>';
       notesHTML += '<div class="note-text">' + n.tekst.replace(/</g,'&lt;') + '</div></div>';
     });
     notesHTML += '</div>';
@@ -3909,10 +3952,13 @@ function downloadWeekReport() {
     R + '.stat-num { font-size:26px; color:#c25c76; font-weight:300; }' +
     R + '.stat-lbl { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:#8a6070; margin-top:2px; }' +
     R + '.day-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:4px; }' +
-    R + '.day-cell { text-align:center; padding:8px 1px; border-radius:8px; font-size:10px; overflow:hidden; }' + R + '.day-cell div:last-child { font-size:12px !important; }' +
+    R + '.day-cell { text-align:center; padding:8px 1px; border-radius:8px; font-size:10px; overflow:hidden; }' + R + '.dc-onder { font-size:12px; margin-top:2px; }' +
     R + '.day-cell.done { background:#c25c76; color:white; }' +
     R + '.day-cell.rust { background:#f2c4ce; color:#9b4d6a; }' +
-    R + '.day-cell.miss { background:#f5e6d8; color:#c9a98a; }' +
+    R + '.day-cell.open { background:#f5e6d8; color:#b08a6a; }' +
+    R + '.day-cell.vrij { background:#f0ebfa; color:#9575cd; }' +
+    R + '.day-cell.leeg { background:transparent; color:#d8c8bc; }' +
+    R + '.dc-sub { font-size:8px; opacity:.8; margin-top:2px; }' +
     R + '.note { background:#fdf6f0; border-radius:8px; padding:10px 12px; margin-bottom:8px; border-left:3px solid #e8879c; }' +
     R + '.note-meta { font-size:9px; letter-spacing:1px; text-transform:uppercase; color:#8a6070; margin-bottom:4px; }' +
     R + '.note-text { font-size:12px; line-height:1.6; }' +
@@ -3937,19 +3983,19 @@ function downloadWeekReport() {
     '  #bbRapportOverlay { position:static; overflow:visible; background:white; }' +
     '  #bbRapportOverlay .bbr-balk { display:none !important; }' +
     '  #bbRapport { max-width:none; padding:0; }' +
-    '  #bbRapport .header, #bbRapport .day-cell, #bbRapport .stat { -webkit-print-color-adjust:exact; print-color-adjust:exact; }' +
+      '  #bbRapport .header, #bbRapport .day-cell, #bbRapport .stat, #bbRapport .measure-item { -webkit-print-color-adjust:exact; print-color-adjust:exact; }' +
     '}';
 
   var inhoud =
     '<div class="header">' +
     '<p>Body Bloom by Sofia &middot; 12&middot;3&middot;30 Challenge</p>' +
     '<h1>Week ' + week + ' Rapport</h1>' +
-    '<p>Dag ' + (start+1) + ' t/m ' + end + ' &middot; ' + (userName ? userName.replace(/</g,'&lt;') + ' &middot; ' : '') + datum + '</p>' +
+    '<p>' + o.bereik + ' &middot; ' + (userName ? userName.replace(/</g,'&lt;') + ' &middot; ' : '') + datum + '</p>' +
     '</div>' +
     '<div class="section"><h2>Voortgang deze week</h2>' +
     '<div class="stats">' +
     '<div class="stat"><div class="stat-num">' + voltooid + '</div><div class="stat-lbl">Afgerond</div></div>' +
-    '<div class="stat"><div class="stat-num">' + gemist + '</div><div class="stat-lbl">Gemist</div></div>' +
+    '<div class="stat"><div class="stat-num">' + nogTeDoen + '</div><div class="stat-lbl">Nog te doen</div></div>' +
     '<div class="stat"><div class="stat-num">' + score + '%</div><div class="stat-lbl">Score</div></div>' +
     '</div>' +
     '<div class="day-grid">' + dagGrid + '</div>' +
